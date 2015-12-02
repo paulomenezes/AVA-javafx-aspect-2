@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.TelaLogin">
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Pane prefHeight="269.0" prefWidth="367.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="67.0" layoutY="36.0" prefHeight="49.0" prefWidth="247.0" text="AVA" textAlignment="CENTER">
+                    <font>
+                        <Font size="40.0" />
+                    </font>
+                </Label>
+                <Label layoutX="28.0" layoutY="106.0" text="CPF" />
+                <TextField fx:id="campoCPF" layoutX="67.0" layoutY="101.0" prefHeight="26.0" prefWidth="247.0" />
+                <Label layoutX="17.0" layoutY="140.0" text="Senha" />
+                <PasswordField fx:id="campoSenha" layoutX="67.0" layoutY="135.0" prefHeight="26.0" prefWidth="183.0" />
+                <Button fx:id="botaoEntrar" layoutX="257.0" layoutY="135.0" mnemonicParsing="false" onAction="#botaoEntrarAction" prefHeight="26.0" prefWidth="57.0" text="Entrar" />
+                <Button fx:id="botaoEsqueciSenha" layoutX="67.0" layoutY="170.0" mnemonicParsing="false" onAction="#botaoEsqueciSenhaAction" text="Esqueci a senha" />
+                <Button fx:id="botaoCriarConta" layoutX="230.0" layoutY="170.0" mnemonicParsing="false" onAction="#botaoCriarContaAction" text="Criar conta" />
+            </children>
+        </Pane>
+    </children>
+</GridPane>

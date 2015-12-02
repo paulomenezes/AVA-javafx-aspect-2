@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?scenebuilder-stylesheet vista.css?>
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<StackPane fx:id="vista1" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ufrpe.ava.gui.controladores.PainelInicio">
+  <children>
+    <Pane layoutY="29.0" prefHeight="98.0" prefWidth="597.0" style="-fx-background-color: #EEE;">
+      <opaqueInsets>
+        <Insets />
+      </opaqueInsets>
+      <children>
+        <Label alignment="CENTER" layoutX="29.0" layoutY="20.0" prefHeight="36.0" prefWidth="80.0" text="1">
+          <font>
+            <Font size="30.0" />
+          </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="29.0" layoutY="64.0" prefHeight="16.0" prefWidth="80.0" text="Professores" textAlignment="CENTER" />
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="151.0" layoutY="63.0" prefHeight="16.0" prefWidth="80.0" text="Alunos" textAlignment="CENTER" />
+        <Label alignment="CENTER" layoutX="151.0" layoutY="19.0" prefHeight="36.0" prefWidth="80.0" text="1">
+          <font>
+            <Font size="30.0" />
+          </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="272.0" layoutY="19.0" prefHeight="36.0" prefWidth="80.0" text="1">
+          <font>
+            <Font size="30.0" />
+          </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="272.0" layoutY="63.0" prefHeight="16.0" prefWidth="80.0" text="Cursos" textAlignment="CENTER" />
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="388.0" layoutY="63.0" prefHeight="16.0" prefWidth="80.0" text="Pesquisas" textAlignment="CENTER" />
+        <Label alignment="CENTER" layoutX="388.0" layoutY="19.0" prefHeight="36.0" prefWidth="80.0" text="1">
+          <font>
+            <Font size="30.0" />
+          </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="503.0" layoutY="63.0" prefHeight="16.0" prefWidth="80.0" text="Artigos" textAlignment="CENTER" />
+        <Label alignment="CENTER" layoutX="503.0" layoutY="19.0" prefHeight="36.0" prefWidth="80.0" text="1">
+          <font>
+            <Font size="30.0" />
+          </font>
+        </Label>
+      </children>
+    </Pane>
+  </children>
+</StackPane>

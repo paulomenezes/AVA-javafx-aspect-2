@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?scenebuilder-stylesheet vista.css?>
+
+<VBox prefHeight="400" prefWidth="640" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ufrpe.ava.gui.controladores.TelaInicio">
+  <children>
+    <MenuBar prefHeight="29.0" prefWidth="597.0">
+      <menus>
+        <Menu mnemonicParsing="false" text="Arquivo">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#menuInicioAction" text="Inicio" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#menuSairAction" text="Sair" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Cadastros">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#menuUsuarioAction" text="Usuários" />
+            <MenuItem mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
+            <MenuItem mnemonicParsing="false" text="Disciplinas" />
+            <MenuItem mnemonicParsing="false" text="Matrículas" />
+            <MenuItem mnemonicParsing="false" text="Pesquisa" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Relatórios">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Desempenho Alunos" />
+            <MenuItem mnemonicParsing="false" text="Professores" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Ajuda">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Sobre" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+    <StackPane fx:id="vistaHolder" VBox.vgrow="ALWAYS" />
+  </children>
+</VBox>

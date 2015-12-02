@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" prefHeight="327.0" prefWidth="433.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.TelaCadastro">
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <children>
+        <Pane prefHeight="305.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-20.0" layoutY="14.0" prefHeight="26.0" prefWidth="367.0" text="Cadastro" textAlignment="CENTER">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <Label layoutX="25.0" layoutY="50.0" text="CPF" />
+                <TextField fx:id="campoCPF" layoutX="64.0" layoutY="45.0" prefHeight="26.0" prefWidth="283.0" />
+                <Label layoutX="14.0" layoutY="84.0" text="Senha" />
+                <PasswordField fx:id="campoSenha" layoutX="64.0" layoutY="79.0" prefHeight="26.0" prefWidth="134.0" />
+                <PasswordField fx:id="campoReSenha" layoutX="206.0" layoutY="79.0" prefHeight="26.0" prefWidth="141.0" promptText="Repita a senha" />
+                <TextField fx:id="campoNome" layoutX="64.0" layoutY="113.0" prefHeight="26.0" prefWidth="283.0" />
+                <TextField fx:id="campoEmail" layoutX="64.0" layoutY="148.0" prefHeight="26.0" prefWidth="283.0" />
+                <Button fx:id="botaoVoltar" layoutX="253.0" layoutY="248.0" mnemonicParsing="false" onAction="#botaoVoltarAction" text="Voltar" />
+                <Button fx:id="botaoCriarConta" layoutX="312.0" layoutY="248.0" mnemonicParsing="false" onAction="#botaoCriarContaAction" text="Criar conta" />
+                <Label layoutX="14.0" layoutY="118.0" text="Nome" />
+                <Label layoutX="12.0" layoutY="152.0" text="E-mail" />
+                <CheckBox fx:id="professorCheck" layoutX="10.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#clickProfessorCheck" text="Professor" />
+                <CheckBox fx:id="alunoCheck" layoutX="9.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#clickAlunoCheck" text="Aluno" />
+                <TextField fx:id="codDpto" layoutX="192.0" layoutY="184.0" prefHeight="25.0" prefWidth="33.0" />
+                <TextField fx:id="codCurso" layoutX="192.0" layoutY="213.0" prefHeight="25.0" prefWidth="32.0" />
+                <Label layoutX="103.0" layoutY="188.0" text="Codigo depto" />
+                <Label layoutX="103.0" layoutY="217.0" text="Codigo curso" />
+                <CheckBox fx:id="graduacaoCheck" disable="true" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#clickGraduacaoCheck" text="graduação" />
+                <CheckBox fx:id="posGradCheck" disable="true" layoutX="9.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#clickPosGradCheck" text="pós-graduação" />
+            </children>
+        </Pane>
+    </children>
+</GridPane>
