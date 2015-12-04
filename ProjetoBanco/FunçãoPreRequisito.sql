@@ -1,5 +1,5 @@
 -- FUNÇÕES DE MYSQL --
-
+USE ava;
 delimiter |
 create function verificarSePreRequisitoCumprido (idCurso int, idDisciplina int, idAluno int) returns boolean not deterministic
 	begin
@@ -44,7 +44,7 @@ create function verificarSePreRequisitoCumpridoOferta (idCurso int, idDisciplina
 			if (idC = idCurso and idD = idDisciplina) then
 				set alunoPassado = verificarSePreRequisitoCumpridoHistorico(idAluno, idO);
                 if (alunoPassado = true) then 
-					set done = 0;
+					set done = 1;
                 end if;
             end if;
 			until done
@@ -71,7 +71,7 @@ create function verificarSePreRequisitoCumpridoHistorico (idAluno int, idOferta 
 					if idC = true then
 						set passadoCondicao = true;
 					end if;
-					set done = 0;
+					set done = 1;
 			end if;
 			until done
 		end repeat;
