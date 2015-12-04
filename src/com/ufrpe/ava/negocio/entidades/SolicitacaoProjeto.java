@@ -1,6 +1,6 @@
 package com.ufrpe.ava.negocio.entidades;
 
-public class SolicitacaoProjeto extends Entidade{
+public class SolicitacaoProjeto {
 	private int codSolicitacao;
 	private Aluno aluno;
 	private ProjetoPesquisa projeto;

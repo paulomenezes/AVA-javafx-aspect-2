@@ -2,7 +2,7 @@ package com.ufrpe.ava.negocio.entidades;
 
 import java.util.ArrayList;
 
-public class Disciplina extends Entidade{
+public class Disciplina {
 	private int codDisciplina;
 	private String nome;
 	private int cargaHoraria;

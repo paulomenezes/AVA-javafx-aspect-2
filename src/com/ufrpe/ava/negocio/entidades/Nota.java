@@ -2,7 +2,7 @@ package com.ufrpe.ava.negocio.entidades;
 
 import java.util.Arrays;
 
-public class Nota extends Entidade{
+public class Nota {
 	private int[] notas = new int[4];//1�,2�,3�, final
 	private String situacao;
 	private Aluno aluno;

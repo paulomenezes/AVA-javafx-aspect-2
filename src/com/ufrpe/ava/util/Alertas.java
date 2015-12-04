@@ -25,4 +25,8 @@ public class Alertas {
     public static void falhaCadastro(String nome) {
         alerta("Falha", "Houve uma falha ao inserir o " + nome, Alert.AlertType.ERROR);
     }
+
+    public static void falhaEdicao(String nome) {
+        alerta("Falha", "Houve uma falha ao atualizar o " + nome, Alert.AlertType.ERROR);
+    }
 }

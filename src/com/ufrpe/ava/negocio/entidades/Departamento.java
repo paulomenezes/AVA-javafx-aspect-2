@@ -3,7 +3,7 @@ package com.ufrpe.ava.negocio.entidades;
 /**
  * Created by paulomenezes on 20/11/15.
  */
-public class Departamento extends Entidade {
+public class Departamento {
     private String nome;
 
     private int idDepartamento;

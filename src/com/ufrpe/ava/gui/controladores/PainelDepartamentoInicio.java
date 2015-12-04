@@ -34,8 +34,6 @@ public class PainelDepartamentoInicio extends Tela {
     @FXML
     private TableColumn<Departamento, String> nome;
 
-    private Departamento linhaSelecionada = null;
-
     @FXML
     private void initialize() {
         List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
@@ -52,10 +50,13 @@ public class PainelDepartamentoInicio extends Tela {
             tabela.getColumns().addAll(id, nome);
 
             tabela.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
-                botaoAtualizar.setDisable(false);
-                botaoRemover.setDisable(false);
-
-                linhaSelecionada = newValue;
+                if (tabela.getSelectionModel().getSelectedItem() != null) {
+                    botaoAtualizar.setDisable(false);
+                    botaoRemover.setDisable(false);
+                } else {
+                    botaoAtualizar.setDisable(true);
+                    botaoRemover.setDisable(true);
+                }
             });
         } else {
             System.out.println("Nenhum departamento adicionado.");
@@ -63,17 +64,28 @@ public class PainelDepartamentoInicio extends Tela {
     }
 
     public void botaoInserirAction() {
+        PainelDepartamentoAdicionar.departamento = null;
         Navegacao.carregarPainel("painelDepartamentoAdicionar");
     }
 
     public void botaoAtualizarAction() {
+        if (tabela.getSelectionModel().getSelectedItem() != null) {
+            try {
+                PainelDepartamentoAdicionar.departamento = tabela.getSelectionModel().getSelectedItem();
+                Navegacao.carregarPainel("painelDepartamentoAdicionar");
+            } catch (Exception e) {
 
+            }
+        } else {
+            botaoAtualizar.setDisable(true);
+            botaoRemover.setDisable(true);
+        }
     }
 
     public void botaoRemoverAction() {
-        if (linhaSelecionada != null) {
+        if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
-                if (this.avaFachada.removerDepartamento(linhaSelecionada)) {
+                if (this.avaFachada.removerDepartamento(tabela.getSelectionModel().getSelectedItem())) {
                     tabela.getColumns().clear();
 
                     List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();

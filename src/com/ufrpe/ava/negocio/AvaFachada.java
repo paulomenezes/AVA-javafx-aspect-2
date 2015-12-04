@@ -4,6 +4,7 @@ import com.ufrpe.ava.excecoes.ObjetoJaExistenteExcepitions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
+import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
@@ -51,8 +52,16 @@ public class AvaFachada implements IAvaFachada {
         return controladorCurso.cadastrarDepartamento(nome);
     }
 
+    @Override
+    public Departamento editarDepartamento(int id, String nome) throws Exception {
+        return controladorCurso.editarDepartamento(id, nome);
+    }
+
     public ArrayList<Departamento> selecionarDepartamentos() {
         return controladorCurso.selecionarDepartamentos();
+    }
+    public ArrayList<Curso> selecionarCursos() {
+        return controladorCurso.selecionarCursos();
     }
 
     public boolean removerDepartamento(Departamento departamento) throws Exception {

@@ -1,6 +1,6 @@
 package com.ufrpe.ava.negocio.entidades;
 
-public class Artigo extends Entidade{
+public class Artigo {
 	private String nome; //tem de adicionar essa coluna na tabela para fazer sentido
 	private String tema;
 	private String objetivo;

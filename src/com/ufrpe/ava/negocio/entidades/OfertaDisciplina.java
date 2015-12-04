@@ -3,7 +3,7 @@ package com.ufrpe.ava.negocio.entidades;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OfertaDisciplina extends Entidade{
+public class OfertaDisciplina {
 	private int codOferta;
 	private int quantAlunos;
 	private Disciplina disciplina;

@@ -3,7 +3,7 @@ package com.ufrpe.ava.negocio.entidades;
 	/**
 	 * Created by paulomenezes on 20/11/15.
 	 */
-	public class Usuario extends Entidade {
+	public class Usuario {
 	    private String cpf;
 	    private String nome;
 	    private String email;
