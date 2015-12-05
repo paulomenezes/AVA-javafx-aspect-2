@@ -15,7 +15,7 @@ import java.sql.Statement;
 /**
  * Created by paulomenezes on 01/12/15.
  */
-public aspect Cadastros extends ConexaoMySQL {
+public aspect Insercoes extends ConexaoMySQL {
     pointcut cadastrarDepartamento(String nome):
         call(* ControladorCurso.cadastrarDepartamento(String)) && args(nome);
 

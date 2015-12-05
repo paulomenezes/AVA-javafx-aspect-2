@@ -9,7 +9,7 @@ import com.ufrpe.ava.negocio.entidades.Departamento;
 /**
  * Created by paulomenezes on 03/12/15.
  */
-public aspect Alteracoes extends ConexaoMySQL {
+public aspect Atualizacoes extends ConexaoMySQL {
     pointcut editarDepartamento(int id, String nome):
             call(* ControladorCurso.editarDepartamento(int, String)) && args(id, nome);
 
