@@ -37,7 +37,7 @@ public class Alertas {
     
     public static void tabelaVazia(){
     	
-    	alerta("Atenção","Nada foi cadastrado até o momneto",Alert.AlertType.INFORMATION);
+    	alerta("Atenção","Nada foi cadastrado até o momento",Alert.AlertType.INFORMATION);
     }
     
     public static void ObjetoNaoExiste(String s){

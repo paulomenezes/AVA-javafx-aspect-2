@@ -19,7 +19,7 @@ public aspect Remocoes extends ConexaoMySQL {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM departamento WHERE idDepartamento = ?");
             statement.setInt(1, departamento.getIdDepartamento());
             statement.executeUpdate();
-
             connection.commit();      
+       
     }
 }
