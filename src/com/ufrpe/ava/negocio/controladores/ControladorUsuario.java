@@ -37,7 +37,7 @@ public class ControladorUsuario {
     }
 
     private void cadastrarUsuario(Usuario usuario) throws Exception {
-
+    	//INSERIDO PELO ASPECTO INSERÇOES
     }
 
 }

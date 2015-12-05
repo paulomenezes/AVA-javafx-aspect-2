@@ -13,14 +13,14 @@ USE `ava` ;
 -- Table `ava`.`usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`usuario` (
-
-  `idUsuario`	INT AUTO_INCREMENT NOT NULL, 	
+	
   `cpf` VARCHAR(14) NOT NULL UNIQUE ,
   `nome` VARCHAR(40) NOT NULL COMMENT '',
   `foto` LONGBLOB NULL DEFAULT NULL COMMENT '',
   `email` VARCHAR(40) NOT NULL COMMENT '',
   `senha` VARCHAR(20) NOT NULL COMMENT '',
-  PRIMARY KEY (`idUsuario`,cpf))
+	tipo  INT(2) NOT NULL,		
+  PRIMARY KEY (cpf))
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -112,11 +112,12 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`aluno`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
-  `idAluno` INT NOT NULL,
+  `cpfAluno` VARCHAR(14) NOT NULL UNIQUE ,
   `idCurso` INT(4) NULL DEFAULT NULL COMMENT '',
-  PRIMARY KEY (`idAluno`),
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`usuario` (`idUsuario`)
+	tipo	INT(2) NOT NULL,
+  PRIMARY KEY (`cpfAluno`),
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`usuario` (`cpf`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (`idCurso`)
@@ -126,6 +127,21 @@ CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+
+-- -----------------------------------------------------
+-- Table `ava`.`professor`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ava`.`professor` (
+  `cpfProfessor` VARCHAR(14) NOT NULL,
+   idDepartamento INT(4) NOT NULL,
+   PRIMARY KEY(cpfProfessor),
+   FOREIGN KEY(cpfProfessor)
+   REFERENCES ava.usuario(cpf),
+   FOREIGN KEY(idDepartamento)
+   REFERENCES ava.departamento(idDepartamento)
+  )
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `ava`.`projetoPesquisa`
@@ -146,12 +162,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`projetoAluno` (
   `idProjeto` INT NOT NULL COMMENT '',
-  `idAluno` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`idProjeto`, `idAluno`),
+  `cpfAluno`  VARCHAR(14) NOT NULL,
+  PRIMARY KEY (`idProjeto`, `cpfAluno`),
 	FOREIGN KEY (`idProjeto`)
     REFERENCES `ava`.`projetoPesquisa`(`idProjeto`),
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`aluno` (`idAluno`)
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`aluno` (`cpfAluno`)
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -160,13 +176,13 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.projetoProfessor`
 -- -------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`projetoProfessor` (
-  `idProfessor` INT NOT NULL COMMENT '',
-  `idProjeto` INT AUTO_INCREMENT NOT NULL COMMENT '',
-  PRIMARY KEY (`idProjeto`, `idProfessor`),
+  `cpfProfessor` VARCHAR(14) NOT NULL,
+  `idProjeto` INT NOT NULL ,
+  PRIMARY KEY (`idProjeto`, `cpfProfessor`),
 	FOREIGN KEY (`idProjeto`)
     REFERENCES `ava`.`projetoPesquisa`(`idProjeto`),
-    FOREIGN KEY (`idProfessor`)
-    REFERENCES `ava`.`professor` (`idProfessor`)
+    FOREIGN KEY (`cpfProfessor`)
+    REFERENCES `ava`.`professor` (`cpfProfessor`)
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -225,34 +241,15 @@ CREATE TABLE IF NOT EXISTS `ava`.`aviso` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-
--- -----------------------------------------------------
--- Table `ava`.`professor`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ava`.`professor` (
-  `idProfessor` INT NOT NULL COMMENT '',
-  `idDepartamento` INT NOT NULL COMMENT '',
-	PRIMARY KEY (`idProfessor`),
-    FOREIGN KEY (`idProfessor`)
-    REFERENCES `ava`.`usuario` (`idUsuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (`idDepartamento`)
-    REFERENCES `ava`.`departamento` (`idDepartamento`)
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
 -- -----------------------------------------------------
 -- Table `ava`.`coordenador`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`coordenador` (
-  `idCoordenador` INT NOT NULL,
+  `cpfCoordenador` VARCHAR(14) NOT NULL,
   `idCurso` INT NOT NULL COMMENT '',
-	PRIMARY KEY (`idCoordenador`),
-    FOREIGN KEY (`idCoordenador`)
-    REFERENCES `ava`.`professor` (`idProfessor`)
+	PRIMARY KEY (`cpfCoordenador`),
+    FOREIGN KEY (`cpfCoordenador`)
+    REFERENCES `ava`.`professor` (`cpfProfessor`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (`idCurso`)
@@ -283,13 +280,13 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`historico`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`historico` (
-  `idAluno` INT NOT NULL COMMENT '',
+  `cpfAluno` VARCHAR(14) NOT NULL,
    `idOferta` INT NOT NULL,
    `condicao` BOOL,
   `media` FLOAT  DEFAULT NULL COMMENT '',
-	PRIMARY KEY (`idAluno`, `idOferta`),
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`aluno` (`idAluno`)
+	PRIMARY KEY (`cpfAluno`, `idOferta`),
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`aluno` (`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (`idOferta`)
@@ -304,11 +301,11 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`disponibizarAviso` (
   `idAviso` INT(11) NOT NULL COMMENT '',
-  `idUsuario` INT NOT NULL,
+  `cpfUsuario` VARCHAR(14) NOT NULL ,
   `idOferta` INT NOT NULL COMMENT '',
-	PRIMARY KEY (`idUsuario`, `idOferta`, `idAviso`),
-    FOREIGN KEY (`idUsuario`)
-    REFERENCES `ava`.`usuario` (`idUsuario`)
+	PRIMARY KEY (`cpfUsuario`, `idOferta`, `idAviso`),
+    FOREIGN KEY (`cpfUsuario`)
+    REFERENCES `ava`.`usuario` (`cpf`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `disponibaviso_ibfk_3`
@@ -330,14 +327,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`forum` (
   `idForum` INT AUTO_INCREMENT NOT NULL COMMENT '',
-  `idCriador` INT DEFAULT NULL,
+  `cpfCriador` VARCHAR(14) NOT NULL,
   `titulo` VARCHAR(25) NOT NULL COMMENT '',
   `descricao` TEXT NOT NULL COMMENT '',
   PRIMARY KEY (`idForum`),
-    FOREIGN KEY (`idCriador`)
-    REFERENCES `ava`.`usuario` (`idUsuario`)
-    ON DELETE SET NULL
-    ON UPDATE SET NULL)
+    FOREIGN KEY (`cpfCriador`)
+    REFERENCES `ava`.`usuario` (`cpf`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -347,15 +342,15 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`forumUsuarioParticipar` (
   `idForum` INT NOT NULL COMMENT '',
-  `idUsuario` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`idForum`, `idUsuario`),
+  `cpfUsuario` VARCHAR(14) NOT NULL,
+  PRIMARY KEY (`idForum`, `cpfUsuario`),
     FOREIGN KEY (`idForum`)
     REFERENCES `ava`.`forum` (`idForum`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `forumusuarioparticipar_ibfk_2`
-    FOREIGN KEY (`idUsuario`)
-    REFERENCES `ava`.`usuario` (`idUsuario`)
+    FOREIGN KEY (`cpfUsuario`)
+    REFERENCES `ava`.`usuario` (`cpf`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -367,15 +362,15 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`ministrarOferta` (
   `idOferta` INT NOT NULL COMMENT '',
-  `idProfessor` INT NOT NULL COMMENT '',
-	PRIMARY KEY (`idOferta`, `idProfessor`),
+  `cpfProfessor` VARCHAR(14) NOT NULL,
+	PRIMARY KEY (`idOferta`, `cpfProfessor`),
     FOREIGN KEY (`idOferta`)
     REFERENCES `ava`.`ofertaDisciplina` (`idOferta`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `ministraroferta_ibfk_2`
-    FOREIGN KEY (`idProfessor`)
-    REFERENCES `ava`.`professor` (`idProfessor`)
+    FOREIGN KEY (`cpfProfessor`)
+    REFERENCES `ava`.`professor` (`cpfProfessor`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -388,14 +383,14 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`materialDisciplina` (
   `idMaterial` INT AUTO_INCREMENT NOT NULL COMMENT '',
   `idOferta` INT NOT NULL COMMENT '',
-  `idProfessor` INT NOT NULL COMMENT '',
+  `cpfProfessor` VARCHAR(14) NOT NULL,
   `fonte` VARCHAR(20) NOT NULL COMMENT '',
   `tipo` VARCHAR(20) NOT NULL COMMENT '',
   `arquivo` LONGBLOB NULL DEFAULT NULL COMMENT '',
   
-	PRIMARY KEY (`idMaterial`,`idOferta`, `idProfessor`),
-    FOREIGN KEY (`idOferta` , `idProfessor`)
-    REFERENCES `ava`.`ministrarOferta` (`idOferta` , `idProfessor`)
+	PRIMARY KEY (`idMaterial`,`idOferta`, `cpfProfessor`),
+    FOREIGN KEY (`idOferta` , `cpfProfessor`)
+    REFERENCES `ava`.`ministrarOferta` (`idOferta` , `cpfProfessor`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -406,14 +401,14 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`matricular`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`matricular` (
-  `idAluno` INT NOT NULL COMMENT '',
+  `cpfAluno` VARCHAR(14) NOT NULL,
   `idOferta` INT NOT NULL COMMENT '',
   `dataMatricula` DATE DEFAULT NULL COMMENT '',
   `numeroProtocolo` VARCHAR(20) NOT NULL COMMENT '',
  
-	PRIMARY KEY (`idAluno`, `idOferta`),
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`aluno` (`idAluno`)
+	PRIMARY KEY (`cpfAluno`, `idOferta`),
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`aluno` (`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `matricular_ibfk_2`
@@ -430,17 +425,17 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`nota` (
   `idNota` INT NOT NULL AUTO_INCREMENT COMMENT '',
-  `idAluno` INT NOT NULL COMMENT '',
+  `cpfAluno` VARCHAR(14) NOT NULL,
   `idOferta` INT(4) NOT NULL COMMENT '',
   `nota1` INT(2) NOT NULL COMMENT '',
   `nota2` INT(2) NOT NULL COMMENT '',
   `nota3` INT(2) NULL COMMENT '',
   `notaFinal` INT(2) NULL COMMENT '', -- mediaFinal
   
-  PRIMARY KEY (`idNota`,`idAluno`,`idOferta`),
+  PRIMARY KEY (`idNota`,`cpfAluno`,`idOferta`),
   CONSTRAINT `nota_ibfk_1`
-    FOREIGN KEY (`idAluno` , `idOferta`)
-    REFERENCES `ava`.`matricular` (`idAluno` , `idOferta`)
+    FOREIGN KEY (`cpfAluno` , `idOferta`)
+    REFERENCES `ava`.`matricular` (`cpfAluno` , `idOferta`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -452,15 +447,15 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`participarProjeto` (
   `idProjeto` INT NOT NULL COMMENT '',
-  `idAluno` INT NOT NULL COMMENT '',
-  PRIMARY KEY (`idProjeto`, `idAluno`),
+  `cpfAluno` VARCHAR(14) NOT NULL ,
+  PRIMARY KEY (`idProjeto`, `cpfAluno`),
     FOREIGN KEY (`idProjeto`)
     REFERENCES `ava`.`projetoPesquisa` (`idProjeto`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `participarprojeto_ibfk_2`
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`aluno` (`idAluno`)
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`aluno` (`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
@@ -497,11 +492,11 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`realizarAtividade` (
 	`idRealizarAt` INT NOT NULL AUTO_INCREMENT,
 	`idAtividade` INT NOT NULL COMMENT '',
-	`idAluno` INT NOT NULL COMMENT '',
+	`cpfAluno` VARCHAR(14) NOT NULL,
     `nota` INT(2) NULL DEFAULT NULL COMMENT '',
-  PRIMARY KEY (`idRealizarAt`,`idAtividade`,`idAluno`),
-    FOREIGN KEY (`idAluno`)
-    REFERENCES `ava`.`aluno` (`idAluno`)
+  PRIMARY KEY (`idRealizarAt`,`idAtividade`,`cpfAluno`),
+    FOREIGN KEY (`cpfAluno`)
+    REFERENCES `ava`.`aluno` (`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (`idAtividade`)
@@ -532,11 +527,11 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`solicitacaoProjeto`(
 	`idSolicitacao` INT NOT NULL AUTO_INCREMENT,
-    `idAluno`		  INT NOT NULL,
+    `cpfAluno`		VARCHAR(14) NOT NULL,
     `idProjeto`     INT NOT NULL,
-    `estado` 		  BOOL NOT NULL,
-    PRIMARY KEY(`idSolicitacao`,`idAluno`,`idProjeto`),
-    FOREIGN KEY(`idAluno`) REFERENCES `ava`.`aluno`(`idAluno`)
+    `estado` 		BOOL NOT NULL,
+    PRIMARY KEY(`idSolicitacao`,`cpfAluno`,`idProjeto`),
+    FOREIGN KEY(`cpfAluno`) REFERENCES `ava`.`aluno`(`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY(`idProjeto`) REFERENCES `ava`.`projetoPesquisa`(`idProjeto`)

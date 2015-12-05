@@ -1,8 +1,5 @@
 package com.ufrpe.ava.negocio.entidades;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Curso {
 	private int idCurso;
 
