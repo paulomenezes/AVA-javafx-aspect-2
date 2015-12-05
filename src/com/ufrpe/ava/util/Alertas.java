@@ -44,4 +44,9 @@ public class Alertas {
     	
     	alerta("Atenção",s,Alert.AlertType.INFORMATION);
     }
+    
+    public static void ObjetoJaExiste(String s){
+    	
+    	alerta("Atenção",s,Alert.AlertType.INFORMATION);
+    }
 }

@@ -16,11 +16,11 @@ public interface IAvaFachada {
 
  /*FUNCOES USUARIOS ------------------------------------------------------------------------------------*/
 	
-    void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, String tipo, int grad)
-            throws Exception;
+    void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, int tipo, int grad)
+    		throws SQLException;
 
     void cadastrarProfessor(String nome, String cpf, String email, String senha, int idDepartamento, int grad)
-            throws Exception;
+    		throws SQLException;
     
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;
 

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.entidades.Aluno;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Professor;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -37,9 +38,25 @@ public aspect Insercoes extends ConexaoMySQL {
 		
 		if(usuario instanceof Aluno){
 		
-			statement = connection.prepareStatement("INSERT INTO aluno(idAluno, idCurso, tipoAluno)VALUES(?,?,?)");
+			statement = connection.prepareStatement("INSERT INTO aluno(cpfAluno, idCurso, tipo)VALUES(?,?,?)");
+			statement.setString(1, usuario.getCPF());
+			statement.setInt(2, ((Aluno) usuario).getCurso());
+			statement.setInt(3, ((Aluno) usuario).getTipoAluno());
+			statement.execute();
+			connection.commit();
+			
 		
+		}else if(usuario instanceof Professor){
+			
+			statement.close();
+			statement = connection.prepareStatement("INSERT INTO professor(cpfProfessor, idDepartamento)VALUES(?,?)");
+			statement.setString(1, usuario.getCPF());
+			statement.setInt(2, ((Professor) usuario).getIdDpto());
+			statement.execute();
+			connection.commit();
 		}
+		
+		
 	}
 	
 	

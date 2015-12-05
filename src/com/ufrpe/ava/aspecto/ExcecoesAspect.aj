@@ -14,6 +14,9 @@ public aspect ExcecoesAspect {
 	pointcut loginExcecao() : call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.buscarLogin(..));
 	pointcut conexaoFalha() : execution(* ConexaoMySQL.getConnection());
 	
+	pointcut insercaoProfessor() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarProfessor(..));
+	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
+	
 	
 	
 	after()throwing (SQLException e) : selecionarTabelas() || removerExcecao() || loginExcecao(){
@@ -37,4 +40,8 @@ public aspect ExcecoesAspect {
 		Alertas.ObjetoNaoExiste(e.getMessage());
 	}
 	
+	after()throwing(SQLException e): insercaoProfessor() || inserirAluno(){
+		
+		Alertas.ObjetoJaExiste("Usuario já existe");
+	}
 }

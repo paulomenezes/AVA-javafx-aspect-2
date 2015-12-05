@@ -1,16 +1,16 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.ufrpe.ava.AVA;
-import com.ufrpe.ava.excecoes.ObjetoJaExistenteExcepitions;
-import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.util.Validacao;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
-
-import java.util.ArrayList;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -121,29 +121,21 @@ public class TelaCadastro extends Tela {
                     try {
                         this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
                                 campoSenha.getText(), Integer.parseInt(codDpto.getText()), 1);
-                    } catch (ObjetoNaoExistenteExcepitions e) {
-                        System.out.println(e.getMessage());
-                    } catch (ObjetoJaExistenteExcepitions e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception e) {
+                    } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
                 } else {
-                    String tipoAluno;
+                    int tipoAluno;
                     if (graduacaoCheck.isSelected()) {
-                        tipoAluno = graduacaoCheck.getText();
+                        tipoAluno = 1;
                     } else {
-                        tipoAluno = posGradCheck.getText();
+                        tipoAluno = 2;
                     }
 
                     try {
                         this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
                                 campoSenha.getText(), Integer.parseInt(codCurso.getText()), tipoAluno, 2);
-                    } catch (ObjetoNaoExistenteExcepitions e) {
-                        System.out.println(e.getMessage());
-                    } catch (ObjetoJaExistenteExcepitions e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception e) {
+                    } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
                 }

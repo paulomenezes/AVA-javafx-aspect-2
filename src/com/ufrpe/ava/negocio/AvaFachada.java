@@ -38,15 +38,15 @@ public class AvaFachada implements IAvaFachada {
     }
 
     @Override
-    public void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, String tipo, int grad)
-            throws Exception {
+    public void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, int tipo, int grad)
+    		throws SQLException {
 
         controladorUsuario.cadastrarAluno(nome, cpf, email, senha, codCurso, tipo, grad);
     }
 
     @Override
     public void cadastrarProfessor(String nome, String cpf, String email, String senha, int idDepartamento, int grad)
-            throws Exception {
+    		throws SQLException {
 
         controladorUsuario.cadastrarProfessor(nome, cpf, email, senha, idDepartamento, grad);
     }
