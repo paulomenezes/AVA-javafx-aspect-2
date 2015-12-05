@@ -1,15 +1,15 @@
 package com.ufrpe.ava;
 
+import java.io.IOException;
+
 import com.ufrpe.ava.gui.controladores.TelaInicio;
 import com.ufrpe.ava.util.Navegacao;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class AVA extends Application {
     public static Stage sStage;

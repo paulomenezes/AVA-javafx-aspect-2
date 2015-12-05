@@ -1,31 +1,22 @@
 package com.ufrpe.ava.negocio.controladores;
 
-import com.ufrpe.ava.excecoes.ObjetoJaExistenteExcepitions;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.entidades.Aluno;
 import com.ufrpe.ava.negocio.entidades.Professor;
 import com.ufrpe.ava.negocio.entidades.Usuario;
-
-import java.util.ArrayList;
 
 /**
  * Created by paulomenezes on 01/12/15.
  */
 public class ControladorUsuario {
 
-    public Usuario buscarLogin(String cpf, String senha) throws ObjetoNaoExistenteExcepitions {
-        Usuario usuario = buscarUsuario(cpf, senha);
-
-        if (usuario == null) {
-            throw new ObjetoNaoExistenteExcepitions("Usuário", cpf);
-        }
-
-        return usuario;
+    public Usuario buscarLogin(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions {
+    	return null;
     }
 
-    private Usuario buscarUsuario(String cpf, String senha){
-        return null;
-    }
 
     public ArrayList<Usuario> selecionarTudo() {
         return null;
@@ -49,7 +40,4 @@ public class ControladorUsuario {
 
     }
 
-    private boolean buscaPorCodigo(int codigo, String nomeTabela) {
-        return true;
-    }
 }

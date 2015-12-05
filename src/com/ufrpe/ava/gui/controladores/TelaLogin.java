@@ -1,16 +1,17 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
+import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Validacao;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class TelaLogin extends Tela {
     @FXML
@@ -31,12 +32,17 @@ public class TelaLogin extends Tela {
         listaValidacao.add(campoSenha.getText());
 
         if (Validacao.validarCampos(listaValidacao)) {
-            try {
-                this.usuarioAtivo = this.avaFachada.buscarLogin(campoCPF.getText(), campoSenha.getText());
-                AVA.carregar("inicio");
-            } catch (ObjetoNaoExistenteExcepitions e) {
-                System.out.println(e.getMessage());
-            }
+        	if(Validacao.validarCPF(campoCPF.getText())){
+	            try {
+	                this.usuarioAtivo = this.avaFachada.buscarLogin(campoCPF.getText(), campoSenha.getText());
+	                AVA.carregar("inicio");
+	            } catch (ObjetoNaoExistenteExcepitions | SQLException e) {
+	                System.out.println(e.getMessage());
+	            }
+        	}else{
+        		
+        		Alertas.campoInvalido("CPF");
+        	}
 
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);

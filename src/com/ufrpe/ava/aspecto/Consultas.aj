@@ -1,13 +1,14 @@
 package com.ufrpe.ava.aspecto;
 
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Usuario;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -16,8 +17,8 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarDepartamentos(): execution(* ControladorCurso.selecionarDepartamentos());
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
 
-    ArrayList<Departamento> around(): selecionarDepartamentos() {
-        try {
+    ArrayList<Departamento> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDepartamentos() {
+    	
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM departamento");
             ResultSet resultSet = statement.executeQuery();
 
@@ -29,16 +30,17 @@ public aspect Consultas extends ConexaoMySQL {
 
                 lista.add(usuario);
             }
+            
+            if(lista.isEmpty()){
+            	
+            	throw new ListaCadastroVaziaExceptions();
+            }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
-    ArrayList<Curso> around(): selecionarCursos() {
-        try {
+    ArrayList<Curso> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarCursos() {
+
             PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
             ResultSet resultSet = statement.executeQuery();
 
@@ -58,11 +60,13 @@ public aspect Consultas extends ConexaoMySQL {
 
                 lista.add(curso);
             }
-
-            return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+            
+                if(lista.isEmpty()){
+                	throw new ListaCadastroVaziaExceptions();
+                }
+                
+                return lista;
     }
+    
+    
 }

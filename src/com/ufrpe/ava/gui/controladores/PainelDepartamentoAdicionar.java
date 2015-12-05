@@ -1,10 +1,12 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.sql.SQLException;
+
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -28,24 +30,26 @@ public class PainelDepartamentoAdicionar extends Tela {
     }
 
     public void botaoSalvarAction() {
-        try {
-            if (departamento != null) {
-                if (this.avaFachada.editarDepartamento(departamento.getIdDepartamento(), campoNome.getText()) != null) {
+     	
+    	
+            if (departamento != null && ! campoNome.getText().isEmpty()) {
+            	
+            	try{
+            		
+            		this.avaFachada.editarDepartamento(departamento.getIdDepartamento(), campoNome.getText());
                     Navegacao.carregarPainel("painelDepartamentoInicio");
-                } else {
-                    Alertas.falhaEdicao("departamento");
+                
+            	}catch(SQLException e){
+                    System.out.println(e.getMessage());
                     Navegacao.carregarPainel("painelDepartamentoInicio");
-                }
-            } else {
-                if (this.avaFachada.cadastrarDepartamento(campoNome.getText()) != null) {
-                    Navegacao.carregarPainel("painelDepartamentoInicio");
-                } else {
-                    Alertas.falhaCadastro("departamento");
-                    Navegacao.carregarPainel("painelDepartamentoInicio");
-                }
+            	}
+            	
+            }else{
+            	
+            	Alertas.campoObrigatorio("campoNome");
+            	 Navegacao.carregarPainel("painelDepartamentoInicio");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            
+       
     }
 }

@@ -1,14 +1,15 @@
 package com.ufrpe.ava.negocio;
 
-import com.ufrpe.ava.excecoes.ObjetoJaExistenteExcepitions;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.Usuario;
-
-import java.util.ArrayList;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -21,10 +22,13 @@ public class AvaFachada implements IAvaFachada {
         controladorUsuario = new ControladorUsuario();
         controladorCurso = new ControladorCurso();
     }
+    
 
+    /*FUNCOES USUARIOS ------------------------------------------------------------------------------------*/
+    
     @Override
-    public Usuario buscarLogin(String cpf, String senha) throws ObjetoNaoExistenteExcepitions {
-        Usuario usuario = controladorUsuario.buscarLogin(cpf, senha);
+    public Usuario buscarLogin(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions {
+    	Usuario usuario = controladorUsuario.buscarLogin(cpf, senha);
         return usuario;
     }
 
@@ -47,24 +51,34 @@ public class AvaFachada implements IAvaFachada {
         controladorUsuario.cadastrarProfessor(nome, cpf, email, senha, idDepartamento, grad);
     }
 
+    
+    /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/
+    
     @Override
     public Departamento cadastrarDepartamento(String nome) throws Exception {
         return controladorCurso.cadastrarDepartamento(nome);
     }
 
     @Override
-    public Departamento editarDepartamento(int id, String nome) throws Exception {
-        return controladorCurso.editarDepartamento(id, nome);
+    public void editarDepartamento(int id, String nome) throws SQLException {
+        controladorCurso.editarDepartamento(id, nome);
     }
 
-    public ArrayList<Departamento> selecionarDepartamentos() {
+    public ArrayList<Departamento> selecionarDepartamentos() throws SQLException, ListaCadastroVaziaExceptions {
         return controladorCurso.selecionarDepartamentos();
     }
-    public ArrayList<Curso> selecionarCursos() {
+    
+    public void removerDepartamento(Departamento departamento) throws SQLException {
+        controladorCurso.removerDepartamento(departamento);
+   }
+    
+    
+    
+    /*FUNCOES CURSOS ------------------------------------------------------------------------------------*/
+    
+    public ArrayList<Curso> selecionarCursos()throws SQLException,ListaCadastroVaziaExceptions {
         return controladorCurso.selecionarCursos();
     }
 
-    public boolean removerDepartamento(Departamento departamento) throws Exception {
-        return controladorCurso.removerDepartamento(departamento);
-    }
+   
 }

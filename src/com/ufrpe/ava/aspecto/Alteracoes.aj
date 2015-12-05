@@ -1,11 +1,10 @@
 package com.ufrpe.ava.aspecto;
 
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.controladores.ControladorCurso;
-
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.SQLException;
+
+import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
 
 /**
  * Created by paulomenezes on 03/12/15.
@@ -14,9 +13,8 @@ public aspect Alteracoes extends ConexaoMySQL {
     pointcut editarDepartamento(int id, String nome):
             call(* ControladorCurso.editarDepartamento(int, String)) && args(id, nome);
 
-    Departamento around(int id, String nome) throws Exception: editarDepartamento(id, nome) {
+    void around(int id, String nome) throws SQLException: editarDepartamento(id, nome) {
 
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("UPDATE departamento SET nome = ? WHERE idDepartamento = ?");
             statement.setString(1, nome);
@@ -31,11 +29,5 @@ public aspect Alteracoes extends ConexaoMySQL {
             departamento.setNome(nome);
 
             connection.commit();
-
-            return departamento;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

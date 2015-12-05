@@ -1,15 +1,15 @@
 package com.ufrpe.ava.aspecto;
 
-import com.ufrpe.ava.negocio.entidades.Usuario;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
+import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -24,18 +24,26 @@ public aspect Autenticacao extends ConexaoMySQL {
     pointcut validarEmail(String email) : call(* *.validarEmail(..)) && args(email);
 
     pointcut loginUsuario(String cpf, String senha):
-            call(* ControladorUsuario.buscarUsuario(String, String)) && args(cpf, senha);
+            call(* ControladorUsuario.buscarLogin(String, String)) && args(cpf, senha);
+    
+    
 
-    Usuario around(String cpf, String senha): loginUsuario(cpf, senha) {
-        try {
+    Usuario around(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions: loginUsuario(cpf, senha) {
+   
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE cpf = ? and senha = ?");
             statement.setString(1, cpf);
             statement.setString(2, senha);
 
             ResultSet resultSet = statement.executeQuery();
-
+            Usuario usuario = new Usuario();
+            
+            if(!resultSet.next()){
+            	
+            	throw  new ObjetoNaoExistenteExcepitions(cpf," ");
+            }
+            
             while (resultSet.next()) {
-                Usuario usuario = new Usuario();
+            	
                 //usuario.setId(resultSet.getInt("id"));
                 usuario.setNome(resultSet.getString("nome"));
                 usuario.setCPF(resultSet.getString("cpf"));
@@ -43,16 +51,10 @@ public aspect Autenticacao extends ConexaoMySQL {
                 usuario.setEmail(resultSet.getString("email"));
                 usuario.setFoto(resultSet.getString("foto"));
 
-                System.out.println(usuario.getNome());
-
-                return usuario;
+                System.out.println(usuario.getNome()); 
             }
-
-            return null;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+            
+            return usuario;
     }
 
     boolean around(ArrayList<String>campos): validarCampos(campos) {

@@ -1,16 +1,18 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Usuario;
 import com.ufrpe.ava.util.Navegacao;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.util.List;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -36,9 +38,12 @@ public class PainelDepartamentoInicio extends Tela {
 
     @FXML
     private void initialize() {
-        List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
+    	
 
-        if (departamentos != null) {
+        try{
+        	
+        	List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
+
             tabela.setItems(FXCollections.observableArrayList(departamentos));
 
             id = new TableColumn<>("ID");
@@ -58,9 +63,12 @@ public class PainelDepartamentoInicio extends Tela {
                     botaoRemover.setDisable(true);
                 }
             });
-        } else {
-            System.out.println("Nenhum departamento adicionado.");
-        }
+        }catch(ListaCadastroVaziaExceptions e){
+        	System.out.println(e.getMessage());
+        }catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+       
     }
 
     public void botaoInserirAction() {
@@ -85,7 +93,8 @@ public class PainelDepartamentoInicio extends Tela {
     public void botaoRemoverAction() {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
-                if (this.avaFachada.removerDepartamento(tabela.getSelectionModel().getSelectedItem())) {
+                
+            	this.avaFachada.removerDepartamento(tabela.getSelectionModel().getSelectedItem());
                     tabela.getColumns().clear();
 
                     List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
@@ -95,15 +104,21 @@ public class PainelDepartamentoInicio extends Tela {
 
                     botaoAtualizar.setDisable(true);
                     botaoRemover.setDisable(true);
-                } else {
 
-                }
-            } catch (Exception e) {
-
+                
+            } catch(ListaCadastroVaziaExceptions e){
+            	
+            	System.out.println(e.getMessage());
+            
+            } catch(SQLException e){
+            	
+            	e.getMessage();
             }
+            
         } else {
             botaoAtualizar.setDisable(true);
             botaoRemover.setDisable(true);
         }
     }
+    
 }
