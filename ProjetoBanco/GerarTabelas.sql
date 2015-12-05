@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS `ava`.`usuario` (
   `foto` LONGBLOB NULL DEFAULT NULL COMMENT '',
   `email` VARCHAR(40) NOT NULL COMMENT '',
   `senha` VARCHAR(20) NOT NULL COMMENT '',
-	tipo  INT(2) NOT NULL,		
-  PRIMARY KEY (cpf))
+	`tipo`  INT(2) NOT NULL DEFAULT 0,		
+  PRIMARY KEY (`cpf`))
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -114,7 +114,6 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
   `cpfAluno` VARCHAR(14) NOT NULL UNIQUE ,
   `idCurso` INT(4) NULL DEFAULT NULL COMMENT '',
-	tipo	INT(2) NOT NULL,
   PRIMARY KEY (`cpfAluno`),
     FOREIGN KEY (`cpfAluno`)
     REFERENCES `ava`.`usuario` (`cpf`)
@@ -133,12 +132,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`professor` (
   `cpfProfessor` VARCHAR(14) NOT NULL,
-   idDepartamento INT(4) NOT NULL,
-   PRIMARY KEY(cpfProfessor),
-   FOREIGN KEY(cpfProfessor)
-   REFERENCES ava.usuario(cpf),
-   FOREIGN KEY(idDepartamento)
-   REFERENCES ava.departamento(idDepartamento)
+   `idDepartamento` INT(4) NOT NULL,
+   PRIMARY KEY(`cpfProfessor`),
+   FOREIGN KEY(`cpfProfessor`)
+   REFERENCES ava.usuario(`cpf`),
+   FOREIGN KEY(`idDepartamento`)
+   REFERENCES ava.departamento(`idDepartamento`)
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -158,17 +157,22 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `ava`.`projetoAluno`
+-- Table `ava`.`participarprojeto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ava`.`projetoAluno` (
+CREATE TABLE IF NOT EXISTS `ava`.`participarProjeto` (
+  `cpfAluno` VARCHAR(14) NOT NULL ,
   `idProjeto` INT NOT NULL COMMENT '',
-  `cpfAluno`  VARCHAR(14) NOT NULL,
-  PRIMARY KEY (`idProjeto`, `cpfAluno`),
-	FOREIGN KEY (`idProjeto`)
-    REFERENCES `ava`.`projetoPesquisa`(`idProjeto`),
+  PRIMARY KEY (`cpfAluno`,`idProjeto`),
     FOREIGN KEY (`cpfAluno`)
     REFERENCES `ava`.`aluno` (`cpfAluno`)
-  )
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `participarprojeto_ibfk_2`
+	FOREIGN KEY (`idProjeto`)
+    REFERENCES `ava`.`projetoPesquisa` (`idProjeto`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -282,7 +286,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`historico` (
   `cpfAluno` VARCHAR(14) NOT NULL,
    `idOferta` INT NOT NULL,
-   `condicao` BOOL,
+   `condicao` VARCHAR(25) DEFAULT NULL,
   `media` FLOAT  DEFAULT NULL COMMENT '',
 	PRIMARY KEY (`cpfAluno`, `idOferta`),
     FOREIGN KEY (`cpfAluno`)
@@ -297,9 +301,9 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
--- Table `ava`.`disponibaviso`
+-- Table `ava`.`disponibilizarAviso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ava`.`disponibizarAviso` (
+CREATE TABLE IF NOT EXISTS `ava`.`disponibilizarAviso` (
   `idAviso` INT(11) NOT NULL COMMENT '',
   `cpfUsuario` VARCHAR(14) NOT NULL ,
   `idOferta` INT NOT NULL COMMENT '',
@@ -436,26 +440,6 @@ CREATE TABLE IF NOT EXISTS `ava`.`nota` (
   CONSTRAINT `nota_ibfk_1`
     FOREIGN KEY (`cpfAluno` , `idOferta`)
     REFERENCES `ava`.`matricular` (`cpfAluno` , `idOferta`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `ava`.`participarprojeto`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ava`.`participarProjeto` (
-  `idProjeto` INT NOT NULL COMMENT '',
-  `cpfAluno` VARCHAR(14) NOT NULL ,
-  PRIMARY KEY (`idProjeto`, `cpfAluno`),
-    FOREIGN KEY (`idProjeto`)
-    REFERENCES `ava`.`projetoPesquisa` (`idProjeto`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `participarprojeto_ibfk_2`
-    FOREIGN KEY (`cpfAluno`)
-    REFERENCES `ava`.`aluno` (`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB

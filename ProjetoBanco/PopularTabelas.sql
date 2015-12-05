@@ -2,22 +2,25 @@ USE AVA;
 
 SET foreign_key_checks = 0;
 
-INSERT INTO usuario(cpf,nome,foto,email,senha)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234'),
-('134676398-09','Silvia Poppovick',NULL,'silviapoppovick@gmail.com','1234'),('898929087-61','Guilherme Melo',NULL,'guilherme.beberibe@gmail.com','1234'),
-('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234'),('237812134-89','Maria José',NULL,'maria@gmail.com','1234'), 
-('237453713-89','Eliel José dos Santos',NULL,'eliel.santos1@hotmail.com','1234'), ('563812908-89','Josefina Câmara',NULL,'josy.camara@gmail.com','1234'),
-('153672890-03','Paulo Leonardo',NULL,'paulo.leonado@gmail.com','1234'),
-('893546244-12','Miguel Falabem',NULL,'miguel.calado_eh_um_poeta@gmail.com','1234'),('782451173-93','Cristina Rocha',NULL,'crisitna.rocha@casosdefamilia.com','1234'), 
-('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234'), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234');
+INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234',1),
+('134676398-09','Silvia Poppovick',NULL,'silviapoppovick@gmail.com','1234',2),('898929087-61','Guilherme Melo',NULL,'guilherme.beberibe@gmail.com','1234',1),
+('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234',1),('237812134-89','Maria José',NULL,'maria@gmail.com','1234',2), 
+('237453713-89','Eliel José dos Santos',NULL,'eliel.santos1@hotmail.com','1234',2), ('563812908-89','Josefina Câmara',NULL,'josy.camara@gmail.com','1234',2),
+('153672890-03','Paulo Leonardo',NULL,'paulo.leonado@gmail.com','1234',2),
+('893546244-12','Miguel Falabem',NULL,'miguel.calado_eh_um_poeta@gmail.com','1234',1),('782451173-93','Cristina Rocha',NULL,'crisitna.rocha@casosdefamilia.com','1234',2), 
+('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234',1), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234',2),
+('357832989-36','Bileu do Nascimento Pedrosa',NULL,'bileu.perronha@hotmail.com','1234',1);
 
 INSERT INTO  departamento(nome,idDepartamento)VALUES('DQ',1),('DF',2),('DM',3),('DEINFO',4),('DLin',5), 
 ('DEdF', 6);
 
-INSERT INTO aluno(idAluno, idCurso)VALUES(1,1), (3,2),(4,4),(8,3),(9,1),(11, 4),(10,3);
+INSERT INTO aluno(cpfAluno, idCurso)VALUES('190564714-73',1), ('345278459-19',2),('898929087-61',4),
+('893546244-12',1),('356289457-36', 3),('357832989-36',4);
 
-INSERT INTO professor(idProfessor,idDepartamento)VALUES(12,2),(8,5),(7,3),(10,1),(2,4),(6,6),(5,5);
+INSERT INTO professor(cpfProfessor,idDepartamento)VALUES('124673424-09',2),('893546244-12',5),
+('153672890-03',3),('782451173-93',1),('134676398-09',4),('563812908-89',6),('237453713-89',5);
 
-INSERT INTO coordenador(idCoordenador,idCurso)VALUES(12,1),(8,2),(7,3),(1,4),(10,5), (2,6), (6,7);
+INSERT INTO coordenador(cpfCoordenador,idCurso)VALUES('124673424-09',1),('153672890-03',2),('563812908-89',3),('190564714-73',4),('782451173-93',5), ('134676398-09',6), ('237453713-89',7);
 
 INSERT INTO curso(idDepartamento, nome, qtdAlunos, tipo)VALUES(2,'Física', NULL, 'Graduação'),
 (3,'Matemática', NULL, 'Graduação'),(5,'Inglês', NULL, 'Pós-Graduação'),(4,'Ciência da Computação', NULL, 'Graduação'),
@@ -68,30 +71,46 @@ INSERT INTO prerequisito(idCurso, dependente,requisito) VALUES(1,1,1),(1,2,1), (
 (4,7,1),(4,8,24),(4,8,7),(4,13,2),(4,23,23),(4,24,23),(5,5,5),(5,6,6),(5,12,12),(5,13,20),(5,13,21),(5,14,13), 
 (5,17,17), (5,18,18),(5,19,19),(5,20,19),(5,21,21),(6,9,9),(6,11,11),(6,18,18),(6,22,11), (7,15,15);
 
-INSERT INTO ministrarOferta(idOferta, idProfessor)VALUES(1,7),(2,7),(5,8),(7,12),(8,8),(19,5),(22,5),(56,2),
-(34,12),(35,2),(33,10),(25,8),(37,7),(44,10),(45,2),(38,6),(52,12),(53,2),(43,12),(46,2),(54,10),(55,12),(12,8),(3,7);
+INSERT INTO ministrarOferta(idOferta, cpfProfessor)VALUES(1,'563812908-89'),(2,'563812908-89'),
+(5,'153672890-03'),(7,'124673424-09'),(8,'153672890-03'),(19,'237812134-89'),
+(22,5),(56,'134676398-09'),(34,'124673424-09'),(35,'134676398-09'),(33,'782451173-93'),(25,'153672890-03'),
+(37,'237453713-89'),(44,'782451173-93'),(45,'134676398-09'),(38,'237453713-89'),(52,'124673424-09'),(53,'782451173-93'),(43,'124673424-09'),
+(46,'134676398-09'),(54,'782451173-93'),(55,'237812134-89'),(12,'153672890-03'),(3,'563812908-89');
 
-INSERT INTO matricular(idAluno, idOferta, dataMatricula, numeroProtocolo)VALUES(1,1,NULL,12),(1,4,NULL,11),
-(1,5,NULL,13),(1,6,NULL,9),(3,5,NULL,2),(3,4,NULL,3),(3,45,NULL,123),(4,4,NULL,21),(4,13,NULL,34),(4,5,NULL,90),
-(9,8,NULL,278),(8,8,NULL,134),(3,9,NULL,33),(8,4,NULL,27),(9,45,NULL,109),(9,4,NULL,103),(11,33,NULL,35),(11,6,NULL,132);
+INSERT INTO matricular(cpfAluno, idOferta, dataMatricula, numeroProtocolo)VALUES('190564714-73',1,NULL,12),('190564714-73',4,NULL,11),
+('190564714-73',5,NULL,13),('190564714-73',6,NULL,9),('898929087-61',5,NULL,2),('898929087-61',4,NULL,3),
+('898929087-61',45,NULL,123),
+('345278459-19',4,NULL,21),('345278459-19',13,NULL,34),('345278459-19',5,NULL,90),
+('893546244-12',8,NULL,278),('356289457-36',8,NULL,134),('898929087-61',9,NULL,33),('356289457-36',4,NULL,27),('893546244-12',45,NULL,109),
+('893546244-12',4,NULL,103),('356289457-36',33,NULL,35),('356289457-36',6,NULL,132);
 
-INSERT INTO nota(idAluno, idOferta, nota1, nota2, nota3, notaFinal)VALUES(1,1,3,7,9, NULL),(1,4,9,9,NULL,NULL),
-(1,5,3,5,7, NULL),(1,6,9,9,NULL,NULL),(3,5,8,4,7,NULL),(3,4,2,4.5,6.7,5),(3,45,5.5,6,7.5, 7.5),(4,4,5,8,9, NULL),
-(4,13,7.5,7.5,8, NULL),(4,5, 5.0,5.0,3,2),(8,5, 9, 6, 8.5, NULL),(8,8, 4.5,5.5,9, NULL),(8,5,5,9,NULL,NULL),
-(8,4,3.5,4.5,7.0, 7),(9,45,7,7,NULL,NULL),(9,4,5,6.5,8.5, NULL), (11,33, 7,6,7, NULL),(11,6,5.0,3.5,9.5, NULL);
+INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)VALUES('190564714-73',1,3,7,9, NULL),('190564714-73',4,9,9,NULL,NULL),
+('190564714-73',5,3,5,7, NULL),('190564714-73',6,9,9,NULL,NULL),('898929087-61',5,8,4,7,NULL),('898929087-61',4,2,4.5,6.7,5),
+('898929087-61',45,5.5,6,7.5, 7.5),
+('345278459-19',4,5,8,9, NULL),('345278459-19',13,7.5,7.5,8, NULL),('345278459-19',5, 5.0,5.0,3,2),
+('893546244-12',8, 9, 6, 8.5, NULL),('356289457-36',8, 4.5,5.5,9, NULL),('898929087-61',9,5,9,NULL,NULL),
+('356289457-36',4,3.5,4.5,7.0, 7),('893546244-12',45,7,7,NULL,NULL),('893546244-12',4,5,6.5,8.5, NULL),
+('356289457-36',33, 7,6,7, NULL),('356289457-36',6,5.0,3.5,9.5, NULL);
 
-INSERT INTO historico(idAluno, idOferta, condicao, media)VALUES(1,1,NULL,NULL),(1,4,NULL,NULL),
-(1,5,NULL,NULL),(1,6,NULL,NULL),(3,5,NULL,NULL),(3,4,NULL,NULL),(3,45,NULL,NULL),(4,4,NULL,NULL),(4,13,NULL,NULL),(4,5,NULL,NULL),
-(9,8,NULL,NULL),(8,8,NULL,NULL),(3,9,NULL,NULL),(8,4,NULL,NULL),(9,45,NULL,NULL),(9,4,NULL,NULL),(11,33,NULL,35),(11,6,NULL,NULL);
+INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',1,NULL,NULL),('190564714-73',4,NULL,NULL),
+('190564714-73',5,NULL,NULL),('190564714-73',6,NULL,NULL),('898929087-61',5,NULL,NULL),('898929087-61',4,NULL,NULL),
+('898929087-61',45,NULL,NULL),
+('345278459-19',4,NULL,NULL),('345278459-19',13,NULL,NULL),('345278459-19',5,NULL,NULL),
+('893546244-12',8,NULL,NULL),('356289457-36',8,NULL,NULL),('898929087-61',9,NULL,NULL),('356289457-36',4,NULL,NULL),
+('893546244-12',45,NULL,NULL),('893546244-12',4,NULL,NULL),('356289457-36',33,NULL,35),('356289457-36',6,NULL,NULL);
 
 
 INSERT INTO projetopesquisa(nome, modalidade, organizacao)VALUES('proj1','PIBIC', 'CNPq'),('proj2','PIBID', 'CNPq'),
 ('proj3','PIBID', 'CNPq'),('proj4','PICME', 'FACEPE'),('proj5','PICME', 'FACEPE');
 
-INSERT INTO projetoProfessor(idProfessor, idProjeto) VALUES(8,1),(12,2),(12,1),(7,3),(6,5),(8,5);
-INSERT INTO projetoAluno(idProjeto, idAluno) VALUES(1,3),(1,4),(2,9),(1,1),(3,10),(4,10),(5,9);
-INSERT INTO solicitacaoProjeto(idAluno, idProjeto, estado)VALUES(11,1,false),(11,3,false),
-(11,5,true),(4,3,false),(4,3,true);
+INSERT INTO projetoProfessor(cpfProfessor, idProjeto) VALUES('153672890-03',1),('124673424-09',2),('124673424-09',1),
+('563812908-89',3),('237453713-89',5),('153672890-03',5);
+
+INSERT INTO participarProjeto(cpfAluno, idProjeto) VALUES('898929087-61',1),('345278459-19',1),('893546244-12',2),
+('190564714-73',1),('782451173-93',3),('782451173-93',4),('893546244-12',5);
+
+INSERT INTO solicitacaoProjeto(cpfAluno, idProjeto, estado)VALUES(11,1,false),(11,3,false),
+(11,5,true),('345278459-19',3,false),('345278459-19',3,true);
 
 
 INSERT INTO artigo(idProjeto, nome, tema, objetivo, area)VALUES(1,'Mecânica Quântica','GH','Nada','Física'),
