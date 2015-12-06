@@ -1,5 +1,5 @@
 -- FUNÇÕES DE MYSQL --
-USE ava;
+
 delimiter |
 create function verificarSePreRequisitoCumprido (idCurso int, idDisciplina int, idAluno int) returns boolean not deterministic
 	begin
@@ -35,6 +35,7 @@ create function verificarSePreRequisitoCumpridoOferta (idCurso int, idDisciplina
 		declare idD int; -- disciplinaLinha
         declare idO int; -- ofertaLinha
         declare alunoPassado boolean default false;
+        declare cond varchar(25);
 		declare ofertaCursor cursor for select idCurso, idDisciplina, idOferta from ofertaDisciplina; -- ajeitar lá na tabela, está prerequEsito
 		declare continue handler for not found set done = 1;
         
@@ -42,8 +43,9 @@ create function verificarSePreRequisitoCumpridoOferta (idCurso int, idDisciplina
 		repeat
 			fetch ofertaCursor into idC, idD, idO;
 			if (idC = idCurso and idD = idDisciplina) then
-				set alunoPassado = verificarSePreRequisitoCumpridoHistorico(idAluno, idO);
-                if (alunoPassado = true) then 
+				set cond = verificarSePreRequisitoCumpridoHistorico(idAluno, idO);
+				if (cond = 'aprovado') then
+                 	set alunoPassado = true; 
 					set done = 1;
                 end if;
             end if;
@@ -54,13 +56,13 @@ create function verificarSePreRequisitoCumpridoOferta (idCurso int, idDisciplina
 	end
 |
 
-create function verificarSePreRequisitoCumpridoHistorico (idAluno int, idOferta int) returns boolean not deterministic-- ver o histórico
+create function verificarSePreRequisitoCumpridoHistorico (idAluno int, idOferta int) returns varchar(25) not deterministic-- ver o histórico
 	begin
 		declare done int default 0;
 		declare idA int; -- alunoLinha
 		declare idO int; -- ofertaLinha
 		declare idC boolean; -- condiçãoLinha
-        declare passadoCondicao boolean default false;
+        declare passadoCondicao varchar(25) default 'reprovado';
 		declare historicoCursor cursor for select idAluno, idOferta, condicao from historico; 
 		declare continue handler for not found set done = 1;
 
@@ -68,8 +70,8 @@ create function verificarSePreRequisitoCumpridoHistorico (idAluno int, idOferta 
 		repeat
 			fetch historicoCursor into idA, idO, idC;
 			if (idA = idAluno and idO = idOferta) then 
-					if idC = true then
-						set passadoCondicao = true;
+					if (idC = 'aprovado' or idC = 'aprovado por média') then
+						set passadoCondicao = 'aprovado';
 					end if;
 					set done = 1;
 			end if;
