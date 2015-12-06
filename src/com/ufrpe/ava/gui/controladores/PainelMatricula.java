@@ -2,11 +2,16 @@ package com.ufrpe.ava.gui.controladores;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Matricular;
+import com.ufrpe.ava.util.Alertas;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ListView;
+import javafx.scene.text.Font;
 
 public class PainelMatricula  extends Tela implements Initializable{
 
@@ -31,21 +37,27 @@ public class PainelMatricula  extends Tela implements Initializable{
 	private ListView <CheckBox> listaMatricula;
 
 
+	private ObservableList<CheckBox> data;
+	
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		ObservableList<CheckBox> data = FXCollections.observableArrayList();
+		data = FXCollections.observableArrayList();
 		
 		ArrayList<DisciplinaDisponivel> lista = new ArrayList<>();
 		
 		
 		try {
-			
 				lista = avaFachada.disciplinasDisponiveis("123");
 				
 				for (DisciplinaDisponivel d : lista) {
 					
-					data.add(new CheckBox(d.toString()));
+					CheckBox box = new CheckBox(d.toString());
+					box.setFont(new Font("Serif", 15));
+					box.setId(Integer.toString(d.getIdOferta()));
+					
+					data.add(box);
 				}
 			
 			
@@ -60,5 +72,55 @@ public class PainelMatricula  extends Tela implements Initializable{
 		}
 	}
 	
+	
+	public void botaoMatricularAction(){
+		
+		int cont = 0;
+		
+		ArrayList<Matricular> matriculas = new ArrayList<>();
+		
+		for (CheckBox c: data) {
+			
+			if(c.isSelected()){
+				
+				Matricular matricula = new Matricular();
+				
+				matricula.setCpfAluno("123");
+				
+				LocalDate hoje = LocalDate.now();
+				matricula.setDataMatricula(hoje.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+				matricula.setIdOferta(Integer.parseInt(c.getId()));
+				matricula.setNumProtocolo(Integer.toString(new Random().nextInt(1000)));
+				
+				matriculas.add(matricula);
+				cont ++;
+			}
+		}
+		
+		
+		if(cont>=3 && cont<=10 ){
+			
+			
+			for (Matricular matricular : matriculas) {
+					
+				try {
+					avaFachada.matricularAluno(matricular);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					System.out.println(e.getMessage());
+				}
+			}
+			
+		}else{
+			
+			Alertas.selecaoOfertasIndevido();
+		}
+		
+	}
+	
+	
+	public void botaoRetornarAction(){
+		
+	}
 	
 }

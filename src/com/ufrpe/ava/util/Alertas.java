@@ -49,4 +49,9 @@ public class Alertas {
     	
     	alerta("Atenção",s,Alert.AlertType.INFORMATION);
     }
+    
+    public static void selecaoOfertasIndevido(){
+    	
+    	alerta("Atenção","Selecione no minimo 3 Ofertas ou \n no Máximo 10 Ofertas",Alert.AlertType.WARNING);
+    }
 }

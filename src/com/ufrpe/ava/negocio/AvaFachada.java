@@ -10,6 +10,7 @@ import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -52,6 +53,10 @@ public class AvaFachada implements IAvaFachada {
         controladorUsuario.cadastrarProfessor(nome, cpf, email, senha, idDepartamento, grad);
     }
 
+    @Override
+	public void matricularAluno(Matricular m) throws SQLException {
+    	controladorUsuario.matricularAluno(m);
+    }
     
     /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/
     
@@ -88,5 +93,7 @@ public class AvaFachada implements IAvaFachada {
     	return controladorCurso.disciplinasDisponiveis(cpf);
     	
     }
-    
+
+
+	
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.entidades.Aluno;
+import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.negocio.entidades.Professor;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
@@ -40,4 +41,8 @@ public class ControladorUsuario {
     	//INSERIDO PELO ASPECTO INSERÇOES
     }
 
+    public void matricularAluno(Matricular m) throws SQLException{
+    	
+    	//INSERIDO PELO ASPECTO INSERÇÕES
+    }
 }

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.entidades.Aluno;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.negocio.entidades.Professor;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
@@ -15,14 +16,19 @@ import com.ufrpe.ava.negocio.entidades.Usuario;
  * Created by paulomenezes on 01/12/15.
  */
 public aspect Insercoes extends ConexaoMySQL {
-    
+   
+	// IRSERCAO POINTCUTS --------------------------------------------------------------------------------------------------------//
+	
 	pointcut cadastrarDepartamento(String nome):
         call(* ControladorCurso.cadastrarDepartamento(String)) && args(nome);
     
 	pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
+	
+	pointcut matricularAluno(Matricular matricula) : 
+		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..))&& args(matricula)  ;
     
 	
-	// IRSERCAO USUARIOS --------------------------------------------------------------------------------------------------------//
+	// IRSERCAO RELACIONADA  A USUARIOS --------------------------------------------------------------------------------------------------------//
 	
 	void around(Usuario usuario)throws SQLException: insercaoUsuario(usuario){
 		
@@ -56,13 +62,23 @@ public aspect Insercoes extends ConexaoMySQL {
 			connection.commit();
 		}
 		
-		
 	}
 	
 	
-	
-	
-	
+	void around(Matricular matricula) throws SQLException : matricularAluno(matricula){
+		
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
+        
+		statement.setString(1,matricula.getCpfAluno());
+        statement.setInt(2,matricula.getIdOferta());
+        statement.setString(3,matricula.getDataMatricula());
+        statement.setString(4, matricula.getNumProtocolo());
+        
+        statement.execute();
+		  
+	}
+
+	// IRSERCAO DEPARTAMENTO --------------------------------------------------------------------------------------------------------//
 
     Departamento around(String nome) throws Exception: cadastrarDepartamento(nome) {
 

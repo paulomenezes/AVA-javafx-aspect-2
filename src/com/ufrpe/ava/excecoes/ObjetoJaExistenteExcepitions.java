@@ -6,6 +6,7 @@ import java.util.Date;
 /**
  * Created by paulomenezes on 01/12/15.
  */
+@SuppressWarnings("serial")
 public class ObjetoJaExistenteExcepitions extends Exception {
 
     private String nome;
@@ -15,7 +16,7 @@ public class ObjetoJaExistenteExcepitions extends Exception {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm");
 
     public ObjetoJaExistenteExcepitions(String nome,String especificacao){
-        super(nome + " " + especificacao + " Já está cadastrado no sistema \nPor favor tentar outro " + nome);
+        super(nome + " " + especificacao + " Já está cadastrado no sistema \nPor favor tentar outra opção.");
 
         this.setNome(nome);
         this.setEspecificacao(especificacao);

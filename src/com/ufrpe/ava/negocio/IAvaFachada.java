@@ -9,6 +9,7 @@ import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -28,6 +29,7 @@ public interface IAvaFachada {
 
     List<Usuario> selecionarTudo();
 
+    void matricularAluno(Matricular m) throws SQLException;
 
 
 /*FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/  

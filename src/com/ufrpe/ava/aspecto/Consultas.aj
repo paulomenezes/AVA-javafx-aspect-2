@@ -26,7 +26,7 @@ public aspect Consultas extends ConexaoMySQL {
     
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
     	
-    	PreparedStatement statement = connection.prepareStatement(" SELECT R.nome, R.cargaHoraria,R.nome_professor FROM alunoHistorico AS A JOIN requisitos AS R ON A.idOferta = R.requisito WHERE A.cpfAluno = ? ");
+    	PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM alunoHistorico AS A JOIN requisitos AS R ON A.idOferta = R.requisito WHERE A.cpfAluno = ? ");
     	statement.setString(1, cpf);
     	ResultSet resultSet = statement.executeQuery();
         ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
@@ -35,7 +35,7 @@ public aspect Consultas extends ConexaoMySQL {
         while(resultSet.next()){
         	
         	DisciplinaDisponivel d = new DisciplinaDisponivel();
-        	
+        	d.setIdOferta(resultSet.getInt("idOferta"));
         	d.setNome(resultSet.getString("nome"));
         	d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
         	d.setNomeProfessor(resultSet.getString("nome_professor"));

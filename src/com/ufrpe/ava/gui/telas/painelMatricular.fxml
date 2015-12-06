@@ -8,7 +8,7 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="295.0" prefWidth="409.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.PainelMatricula">
    <children>
       <ListView fx:id="listaMatricula" blendMode="BLUE" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="394.0" />
-      <Button fx:id="botaoMatricular" layoutX="326.0" layoutY="256.0" mnemonicParsing="false" text="Matricular" />
-      <Button fx:id="botaoRetornar" layoutX="255.0" layoutY="256.0" mnemonicParsing="false" text="Retornar" />
+      <Button fx:id="botaoMatricular" layoutX="326.0" layoutY="256.0" mnemonicParsing="false" onAction="#botaoMatricularAction" text="Matricular" />
+      <Button fx:id="botaoRetornar" layoutX="255.0" layoutY="256.0" mnemonicParsing="false"  onAction="#botaoRetornarAction" text="Retornar" />
    </children>
 </Pane>

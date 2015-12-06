@@ -2,15 +2,17 @@ package com.ufrpe.ava.negocio.entidades;
 
 public class DisciplinaDisponivel {
 
+	private int idOferta;
 	private String nome;
 	private  int cargaHoraria;
 	private String nomeProfessor;
 	
-	public DisciplinaDisponivel(String nome, int cargaHoraria,String nomeProfessor) {
+	public DisciplinaDisponivel(String nome, int cargaHoraria,String nomeProfessor,int idOferta) {
 		
 		this.nome = nome;
 		this.cargaHoraria = cargaHoraria;
 		this.nomeProfessor = nomeProfessor; 
+		this.idOferta = idOferta;
 	}
 	
 	public DisciplinaDisponivel(){
@@ -44,8 +46,16 @@ public class DisciplinaDisponivel {
 	@Override
 	public String toString() {
 		
-		return "Nome da Disciplina : " + nome + "\n"+  "CargaHoraria : " + cargaHoraria +" horas"+ "\n Nome do professor : "
+		return "Cod - "+ idOferta + " - Nome da Disciplina : " + nome + "\n"+  "CargaHoraria : " + cargaHoraria +" horas"+ "\n Nome do professor : "
 				+ nomeProfessor;
+	}
+
+	public int getIdOferta() {
+		return idOferta;
+	}
+
+	public void setIdOferta(int idOferta) {
+		this.idOferta = idOferta;
 	}
 	
 	

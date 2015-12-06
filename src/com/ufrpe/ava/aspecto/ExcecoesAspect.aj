@@ -8,18 +8,24 @@ import com.ufrpe.ava.util.Alertas;
 
 public aspect ExcecoesAspect {
 
-	
-	pointcut selecionarTabelas() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
-	pointcut removerExcecao() : call(* *.remover*(..));
+	// POINTCUTS ---------------------------------------------------------------------------------------------------------------- 
+	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
+	pointcut matriculaDisponivel() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.disciplinasDisponiveis(..));
 	pointcut loginExcecao() : call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.buscarLogin(..));
+	
+	
+	pointcut removerExcecao() : call(* *.remover*(..));
 	pointcut conexaoFalha() : execution(* ConexaoMySQL.getConnection());
 	
 	pointcut insercaoProfessor() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarProfessor(..));
 	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
+	pointcut matricularAluno() : 
+		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..));
+    
 	
+	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
-	
-	after()throwing (SQLException e) : selecionarTabelas() || removerExcecao() || loginExcecao(){
+	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel(){
 		
 		Alertas.falhaConexaoBanco();
 		
@@ -30,7 +36,7 @@ public aspect ExcecoesAspect {
 		Alertas.falhaConexaoBanco();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): selecionarTabelas(){
+	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso() || matriculaDisponivel(){
 		
 		Alertas.tabelaVazia();
 	}
@@ -43,5 +49,10 @@ public aspect ExcecoesAspect {
 	after()throwing(SQLException e): insercaoProfessor() || inserirAluno(){
 		
 		Alertas.ObjetoJaExiste("Usuario já existe");
+	}
+	
+	after()throwing(SQLException e) : matricularAluno(){
+		
+		Alertas.ObjetoJaExiste("Essa Matricula já foi feita");
 	}
 }
