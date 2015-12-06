@@ -3,7 +3,7 @@ package com.ufrpe.ava.negocio.entidades;
 import java.util.ArrayList;
 
 public class Disciplina {
-	private int codDisciplina;
+	private int idDisciplina;
 	private String nome;
 	private int cargaHoraria;
 	private int creditos;
@@ -12,10 +12,10 @@ public class Disciplina {
 	private ArrayList<Disciplina> preRequisitos = new ArrayList<Disciplina>();
 	
 	public int getCodDisciplina() {
-		return codDisciplina;
+		return idDisciplina;
 	}
-	public void setCodDisciplina(int codDisciplina) {
-		this.codDisciplina = codDisciplina;
+	public void setCodDisciplina(int idDisciplina) {
+		this.idDisciplina = iddDisciplina;
 	}
 	public String getNome() {
 		return nome;

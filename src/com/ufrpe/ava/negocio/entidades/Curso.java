@@ -2,13 +2,9 @@ package com.ufrpe.ava.negocio.entidades;
 
 public class Curso {
 	private int idCurso;
-
 	private String nome;
-
     private int limiteAluno;
-
     private int quantAlunos;
-
 	private Departamento idDepartamento;
 
     public int getIdCurso() {

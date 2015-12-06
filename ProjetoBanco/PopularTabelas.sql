@@ -3,19 +3,19 @@ USE AVA;
 SET foreign_key_checks = 0;
 
 INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234',1),
-('134676398-09','Silvia Poppovick',NULL,'silviapoppovick@gmail.com','1234',2),('898929087-61','Guilherme Melo',NULL,'guilherme.beberibe@gmail.com','1234',1),
-('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234',1),('237812134-89','Maria José',NULL,'maria@gmail.com','1234',2), 
-('237453713-89','Eliel José dos Santos',NULL,'eliel.santos1@hotmail.com','1234',2), ('563812908-89','Josefina Câmara',NULL,'josy.camara@gmail.com','1234',2),
-('153672890-03','Paulo Leonardo',NULL,'paulo.leonado@gmail.com','1234',2),
+('134676398-09','Silvia Poppovick',NULL,'silviapoppovick@gmail.com','1234',0),('898929087-61','Guilherme Melo',NULL,'guilherme.beberibe@gmail.com','1234',1),
+('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234',2),('237812134-89','Maria José',NULL,'maria@gmail.com','1234',0), 
+('237453713-89','Eliel José dos Santos',NULL,'eliel.santos1@hotmail.com','1234',0), ('563812908-89','Josefina Câmara',NULL,'josy.camara@gmail.com','1234',0),
+('153672890-03','Paulo Leonardo',NULL,'paulo.leonado@gmail.com','1234',0),
 ('893546244-12','Miguel Falabem',NULL,'miguel.calado_eh_um_poeta@gmail.com','1234',1),('782451173-93','Cristina Rocha',NULL,'crisitna.rocha@casosdefamilia.com','1234',2), 
-('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234',1), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234',2),
-('357832989-36','Bileu do Nascimento Pedrosa',NULL,'bileu.perronha@hotmail.com','1234',1);
+('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234',2), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234',0),
+('357832989-36','Bileu do Nascimento Pedrosa',NULL,'bileu.perronha@hotmail.com','1234',3);
 
 INSERT INTO  departamento(nome,idDepartamento)VALUES('DQ',1),('DF',2),('DM',3),('DEINFO',4),('DLin',5), 
 ('DEdF', 6);
 
-INSERT INTO aluno(cpfAluno, idCurso)VALUES('190564714-73',1), ('345278459-19',2),('898929087-61',4),
-('893546244-12',1),('356289457-36', 3),('357832989-36',4);
+INSERT INTO aluno(cpfAluno, idCurso, tipo)VALUES('190564714-73',1,1), ('345278459-19',2,2),('898929087-61',4,1),
+('893546244-12',1,1),('356289457-36', 3,2),('357832989-36',4,3);
 
 INSERT INTO professor(cpfProfessor,idDepartamento)VALUES('124673424-09',2),('893546244-12',5),
 ('153672890-03',3),('782451173-93',1),('134676398-09',4),('563812908-89',6),('237453713-89',5);
@@ -100,8 +100,9 @@ INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',
 ('893546244-12',45,NULL,NULL),('893546244-12',4,NULL,NULL),('356289457-36',33,NULL,35),('356289457-36',6,NULL,NULL);
 
 
-INSERT INTO projetopesquisa(nome, modalidade, organizacao)VALUES('proj1','PIBIC', 'CNPq'),('proj2','PIBID', 'CNPq'),
-('proj3','PIBID', 'CNPq'),('proj4','PICME', 'FACEPE'),('proj5','PICME', 'FACEPE');
+INSERT INTO projetopesquisa(nome, modalidade, organizacao, valorBolsa, nVagas)VALUES('proj1','PIBIC', 'CNPq','R$ 400,00',3),
+('proj2','PIBID', 'CNPq', 'R$ 800,00',2),('proj3','PIBID', 'CNPq','350,00', 1),
+('proj4','PICME', 'FACEPE', 'R$ 230,00', 2),('proj5','PICME', 'FACEPE','', 1);
 
 INSERT INTO projetoProfessor(cpfProfessor, idProjeto) VALUES('153672890-03',1),('124673424-09',2),('124673424-09',1),
 ('563812908-89',3),('237453713-89',5),('153672890-03',5);
@@ -117,16 +118,19 @@ INSERT INTO artigo(idProjeto, nome, tema, objetivo, area)VALUES(1,'Mecânica Qu�
 (2,'Formas de Elucidar a Física','GH', 'Deboinha','Física'),(3,'Computação Quântica','GH','Só na mamata','Computação'),
 (4, 'Mecânica Celeste','GH', 'Fazer nada','Matemática'),(5,'Triângulo de Newton','GH', 'Dormir', 'Matemática');
 
+INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+VALUES('134676398-09','Bem-vindo','Seja bem-vindo à Rural',0,NULL,NULL,NULL, NULL),('237453713-89', 'Confira seu novo email','O novo email da Rural é mais seguro e melhor adaptado às suas necessidades',0,NULL,NULL, NULL, NULL),
+('134676398-09', 'Um novo site','Agora, a UFRPE possui um novo sites. Mais moderno e mais dinâmico, bem-vindo à Rural do futuro',0, NULL,NULL, NULL, NULL),
+('357832989-36', 'Um feliz Natal','A Rural deseja um feliz Natal a todxs que estão fazendo as finais nesse fim de ano',1,NULL,NULL, NULL, NULL),
+('898929087-61','Encontro','Nos vemos lá praça do CEGOE hoje (09-12) às 19h',1, NULL,NULL, NULL, '345278459-19');
+
 
 -- INSERT INTO atividade(tipo,nome,codOferta,descricao,dataEntrega)VALUES('1','1',1,NULL,NULL),('2','2',2,NULL,NULL),
 -- ('3','3',3,NULL,NULL),('4','4',5,NULL,NULL),('5','5',5,NULL,NULL);
 
 -- INSERT INTO realizaratividade(atividadeNome,cpfAluno,nota)VALUES('1','10',6),('1','12',6),('2','10',6),('3','13',6),('3','14',6);
 
--- INSERT INTO aviso(titulo,dataEnvio,prioridade,horaEnvio,idAviso)VALUES('menssagem1',NULL,2,NULL,1),('menssagem2',NULL,2,NULL,2),
--- ('menssagem3',NULL,2,NULL,3),('menssagem4',NULL,2,NULL,4),('menssagem5',NULL,2,NULL,5);
-
--- INSERT INTO disponibaviso(cpfUsuario,codOferta,idAviso)VALUES('10',1,1),('11',2,2),('11',3,3),('13',3,3),('14',4,4);
+-- INSERT INTO disponibilizaraviso(cpfUsuario,codOferta,idAviso)VALUES('10',1,1),('11',2,2),('11',3,3),('13',3,3),('14',4,4);
 
 -- INSERT INTO forum(codForum, titulo, descricao, codCriador)VALUES(1,'problema1','problema1','10'),(2,'problema2','problema2','10'),
 -- (3,'problema1','problema1','14'),(4,'problema1','problema1','14'),(5,'problema5','problema5','11');

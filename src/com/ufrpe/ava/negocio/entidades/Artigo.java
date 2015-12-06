@@ -1,6 +1,7 @@
 package com.ufrpe.ava.negocio.entidades;
 
 public class Artigo {
+	private int idArtigo;
 	private String nome; //tem de adicionar essa coluna na tabela para fazer sentido
 	private String tema;
 	private String objetivo;
@@ -73,6 +74,12 @@ public class Artigo {
 		} else if (!tema.equals(other.tema))
 			return false;
 		return true;
+	}
+	public int getIdArtigo() {
+		return idArtigo;
+	}
+	public void setIdArtigo(int idArtigo) {
+		this.idArtigo = idArtigo;
 	}
 	
 	

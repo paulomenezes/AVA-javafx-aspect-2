@@ -86,22 +86,23 @@ create procedure atualizarNAlunosOfertaQuandoNull (in idO int)
 	end
 	|
     
-    
-delimiter ;
-call atualizarNAlunosCursoQuandoNull(1);
-call atualizarNAlunosCursoQuandoNull(2);
-call atualizarNAlunosCursoQuandoNull(3);
-call atualizarNAlunosCursoQuandoNull(4);
-call atualizarNAlunosCursoQuandoNull(5);
-call atualizarNAlunosCursoQuandoNull(6);
-call atualizarNAlunosCursoQuandoNull(7);
-call atualizarNAlunosCursoQuandoNull(8);
-call atualizarNAlunosCursoQuandoNull(9);
 
-call atualizarNAlunosOfertaQuandoNull(1);
-call atualizarNAlunosOfertaQuandoNull(2);
-call atualizarNAlunosOfertaQuandoNull(3);
-call atualizarNAlunosOfertaQuandoNull(4);
-call atualizarNAlunosOfertaQuandoNull(5);
-call atualizarNAlunosOfertaQuandoNull(6);
-call atualizarNAlunosOfertaQuandoNull(7);
+create procedure atualizarAlunos () 
+begin
+	declare done int default 0;
+    declare nOfertaCurso int default 1;
+    declare continue handler for not found set done = 1;
+    
+	repeat
+		call atualizarNAlunosCursoQuandoNull(nOfertaCurso);
+        set nOfertaCurso = nOfertaCurso + 1;
+        if nOfertaCurso = 200 then 
+			set done = 1;
+        end if;
+        until done
+	end repeat;
+end
+|
+
+delimiter ;
+call atualizarAlunos();

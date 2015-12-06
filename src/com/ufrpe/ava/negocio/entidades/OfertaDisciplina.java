@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OfertaDisciplina {
-	private int codOferta;
+	private int idOferta;
 	private int quantAlunos;
 	private Disciplina disciplina;
 	private int ano;
@@ -18,10 +18,10 @@ public class OfertaDisciplina {
 	
 	
 	public int getCodOferta() {
-		return codOferta;
+		return idOferta;
 	}
-	public void setCodOferta(int codOferta) {
-		this.codOferta = codOferta;
+	public void setCodOferta(int idOferta) {
+		this.idOferta = idOferta;
 	}
 	public int getQuantAlunos() {
 		return quantAlunos;

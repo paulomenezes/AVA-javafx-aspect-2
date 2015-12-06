@@ -1,15 +1,15 @@
 package com.ufrpe.ava.negocio.entidades;
 
 public class SolicitacaoProjeto {
-	private int codSolicitacao;
+	private int idSolicitacao;
 	private Aluno aluno;
 	private ProjetoPesquisa projeto;
 	private boolean estado;
 	public int getCodSolicitacao() {
-		return codSolicitacao;
+		return idSolicitacao;
 	}
-	public void setCodSolicitacao(int codSolicitacao) {
-		this.codSolicitacao = codSolicitacao;
+	public void setCodSolicitacao(int idSolicitacao) {
+		this.idSolicitacao = idSolicitacao;
 	}
 	public Aluno getAluno() {
 		return aluno;

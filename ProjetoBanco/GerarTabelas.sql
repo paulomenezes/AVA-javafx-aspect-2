@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`usuario` (
   `foto` LONGBLOB NULL DEFAULT NULL COMMENT '',
   `email` VARCHAR(40) NOT NULL COMMENT '',
   `senha` VARCHAR(20) NOT NULL COMMENT '',
-	`tipo`  INT(2) NOT NULL DEFAULT 0,		
+   `tipo`  INT(2) NOT NULL DEFAULT 0,		
   PRIMARY KEY (`cpf`))
 DEFAULT CHARACTER SET = utf8;
 
@@ -114,6 +114,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
   `cpfAluno` VARCHAR(14) NOT NULL UNIQUE ,
   `idCurso` INT(4) NULL DEFAULT NULL COMMENT '',
+  `tipo`  INT(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`cpfAluno`),
     FOREIGN KEY (`cpfAluno`)
     REFERENCES `ava`.`usuario` (`cpf`)
@@ -122,7 +123,8 @@ CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
     FOREIGN KEY (`idCurso`)
     REFERENCES `ava`.`curso` (`idCurso`)
     ON DELETE SET NULL
-    ON UPDATE SET NULL)
+    ON UPDATE SET NULL
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -150,6 +152,8 @@ CREATE TABLE IF NOT EXISTS `ava`.`projetoPesquisa` (
   `nome` VARCHAR(20) NOT NULL COMMENT '',
   `modalidade` VARCHAR(10) NOT NULL COMMENT '',
   `organizacao` VARCHAR(20) NOT NULL COMMENT '',
+`valorBolsa` VARCHAR(10) NOT NULL COMMENT '',
+`nVagas` INT(2) NOT NULL COMMENT '',
   PRIMARY KEY (`idProjeto`)
 )
 ENGINE = InnoDB
@@ -233,14 +237,29 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`aviso`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`aviso` (
-  `idAviso` INT(11) NOT NULL,
-  `titulo` VARCHAR(26) NOT NULL COMMENT '',
-  `descricao` TEXT DEFAULT NULL,
-  `prioridade` INT(11) NOT NULL COMMENT '',
+  `idAviso` INT AUTO_INCREMENT NOT NULL COMMENT '',
+  `idRemetente` VARCHAR(14) NOT NULL COMMENT '',
+  `titulo` VARCHAR(40) NOT NULL COMMENT '',
+  `descricao` TEXT DEFAULT NULL COMMENT '',
+  `prioridade` INT(3) DEFAULT NULL COMMENT '', -- -1: baixa, 0: média, 1:alta
   `dataEnvio` DATE NULL DEFAULT NULL COMMENT '',
-  `horaEnvio` TIME NULL DEFAULT NULL,
+  `horaEnvio` TIME NULL DEFAULT NULL COMMENT '',
+  `idDestinatarioO` INT(10) DEFAULT NULL COMMENT '', -- direcionado a uma oferta de disciplina
+  `idDestinatarioU` VARCHAR(14) DEFAULT NULL COMMENT '', -- direcionado a uma pessoa
   
-  PRIMARY KEY (`idAviso`)
+  PRIMARY KEY (`idAviso`, `idRemetente`),
+    FOREIGN KEY (`idRemetente`)
+    REFERENCES `ava`.`usuario` (`cpf`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (`idDestinatarioO`)
+    REFERENCES `ava`.`ofertadisciplina` (`idOferta`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+    FOREIGN KEY (`idDestinatarioU`)
+    REFERENCES `ava`.`usuario` (`cpf`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
   )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -265,7 +284,7 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `ava`.`diadisciplina`
+-- Table `ava`.`diaHoraOfertadisciplina`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`diaHoraOfertaDisciplina` (
   `idOferta` INT NOT NULL COMMENT '',
@@ -303,27 +322,27 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `ava`.`disponibilizarAviso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ava`.`disponibilizarAviso` (
-  `idAviso` INT(11) NOT NULL COMMENT '',
-  `cpfUsuario` VARCHAR(14) NOT NULL ,
-  `idOferta` INT NOT NULL COMMENT '',
-	PRIMARY KEY (`cpfUsuario`, `idOferta`, `idAviso`),
-    FOREIGN KEY (`cpfUsuario`)
-    REFERENCES `ava`.`usuario` (`cpf`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `disponibaviso_ibfk_3`
-    FOREIGN KEY (`idOferta`)
-    REFERENCES `ava`.`ofertaDisciplina` (`idOferta`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `disponibaviso_ibfk_4`
-    FOREIGN KEY (`idAviso`)
-    REFERENCES `ava`.`aviso` (`idAviso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+-- CREATE TABLE IF NOT EXISTS `ava`.`disponibilizarAviso` (
+  -- `idAviso` INT(11) NOT NULL COMMENT '',
+  -- `cpfUsuario` VARCHAR(14) NOT NULL ,
+  -- `idOferta` INT NOT NULL COMMENT '',
+	-- PRIMARY KEY (`cpfUsuario`, `idOferta`, `idAviso`),
+--    FOREIGN KEY (`cpfUsuario`)
+  --  REFERENCES `ava`.`usuario` (`cpf`)
+   -- ON DELETE CASCADE
+    -- ON UPDATE CASCADE,
+  -- CONSTRAINT `disponibaviso_ibfk_3`
+    -- FOREIGN KEY (`idOferta`)
+    -- REFERENCES `ava`.`ofertaDisciplina` (`idOferta`)
+    -- ON DELETE CASCADE
+    -- ON UPDATE CASCADE,
+  -- CONSTRAINT `disponibaviso_ibfk_4`
+    -- FOREIGN KEY (`idAviso`)
+    -- REFERENCES `ava`.`aviso` (`idAviso`)
+    -- ON DELETE CASCADE
+    -- ON UPDATE CASCADE)
+-- ENGINE = InnoDB
+-- DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------

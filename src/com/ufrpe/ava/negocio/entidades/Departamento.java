@@ -5,7 +5,6 @@ package com.ufrpe.ava.negocio.entidades;
  */
 public class Departamento {
     private String nome;
-
     private int idDepartamento;
 
     public String getNome() {
