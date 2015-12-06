@@ -14,8 +14,8 @@ INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogé
 INSERT INTO  departamento(nome,idDepartamento)VALUES('DQ',1),('DF',2),('DM',3),('DEINFO',4),('DLin',5), 
 ('DEdF', 6);
 
-INSERT INTO aluno(cpfAluno, idCurso, tipo)VALUES('190564714-73',1,1), ('345278459-19',2,2),('898929087-61',4,1),
-('893546244-12',1,1),('356289457-36', 3,2),('357832989-36',4,3);
+INSERT INTO aluno(cpfAluno, idCurso)VALUES('190564714-73',1), ('345278459-19',2),('898929087-61',4),
+('893546244-12',1),('356289457-36', 3),('357832989-36',4);
 
 INSERT INTO professor(cpfProfessor,idDepartamento)VALUES('124673424-09',2),('893546244-12',5),
 ('153672890-03',3),('782451173-93',1),('134676398-09',4),('563812908-89',6),('237453713-89',5);

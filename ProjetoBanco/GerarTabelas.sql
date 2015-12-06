@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`usuario` (
   `foto` LONGBLOB NULL DEFAULT NULL COMMENT '',
   `email` VARCHAR(40) NOT NULL COMMENT '',
   `senha` VARCHAR(20) NOT NULL COMMENT '',
-   `tipo`  INT(2) NOT NULL DEFAULT 0,		
+   `tipo`  INT(4) NOT NULL DEFAULT 0,		
   PRIMARY KEY (`cpf`))
 DEFAULT CHARACTER SET = utf8;
 
@@ -112,9 +112,8 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`aluno`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`aluno` (
-  `cpfAluno` VARCHAR(14) NOT NULL UNIQUE ,
-  `idCurso` INT(4) NULL DEFAULT NULL COMMENT '',
-  `tipo`  INT(2) NOT NULL DEFAULT 0,
+  `cpfAluno` VARCHAR(14) NOT NULL,
+  `idCurso` INT(4) DEFAULT NULL COMMENT '',
   PRIMARY KEY (`cpfAluno`),
     FOREIGN KEY (`cpfAluno`)
     REFERENCES `ava`.`usuario` (`cpf`)
