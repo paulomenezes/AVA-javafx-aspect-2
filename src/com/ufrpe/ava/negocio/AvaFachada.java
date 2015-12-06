@@ -9,6 +9,7 @@ import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -80,5 +81,12 @@ public class AvaFachada implements IAvaFachada {
         return controladorCurso.selecionarCursos();
     }
 
-   
+    /* FUNÇÕES  DISCIPLINAS -----------------------------------------------------------------------------*/ 
+    
+    public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return controladorCurso.disciplinasDisponiveis(cpf);
+    	
+    }
+    
 }

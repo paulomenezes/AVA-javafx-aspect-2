@@ -111,12 +111,14 @@ public class TelaCadastro extends Tela {
         listaValidacao.add(campoNome.getText());
         listaValidacao.add(campoSenha.getText());
         listaValidacao.add(campoReSenha.getText());
+        
 
         if (Validacao.validarCampos(listaValidacao) && validarCheckBox()) {
             if (Validacao.validarSenha(campoSenha.getText(), campoReSenha.getText()) &&
                     Validacao.validarEmail(campoEmail.getText()) &&
                     Validacao.validarCPF(campoCPF.getText())) {
-
+                
+            	
                 if (professorCheck.isSelected()){
                     try {
                         this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),

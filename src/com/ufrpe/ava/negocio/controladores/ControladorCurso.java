@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -36,4 +37,9 @@ public class ControladorCurso {
     public void removerDepartamento(Departamento departamento) throws SQLException{
         //CHAMADA ASPECTO REMOVER
     }
+    
+    public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{
+    	//CHAMADA ASPECTO CONSULTAR
+    	return null;
+    } 
 }

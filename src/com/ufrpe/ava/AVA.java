@@ -53,8 +53,17 @@ public class AVA extends Application {
                     sStage.setTitle("AVA");
                     sStage.setScene(criarCena(carregarTelaInicial()));
                     sStage.show();
-
+                            
                     break;
+                case "painelMatricular":
+                
+                	Scene telaMatricula = new Scene(FXMLLoader.load(AVA.class.getResource("gui/telas/painelMatricular.fxml")), 435, 325);
+                    sStage.setTitle("Matricula");
+                    sStage.setScene(telaMatricula);
+                    sStage.show();
+                	
+                     break;
+                             
             }
         } catch (Exception e) {
             e.printStackTrace();

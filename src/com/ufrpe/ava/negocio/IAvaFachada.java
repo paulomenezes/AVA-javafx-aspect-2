@@ -1,12 +1,14 @@
 package com.ufrpe.ava.negocio;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -42,6 +44,11 @@ public interface IAvaFachada {
 /*FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     
     List<Curso> selecionarCursos() throws SQLException, ListaCadastroVaziaExceptions;
+    
+/*FUNCOES CURSOS ------------------------------------------------------------------------------------*/
+    
+
+    public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions;
     
 }
 

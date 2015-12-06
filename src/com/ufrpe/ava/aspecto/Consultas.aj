@@ -9,14 +9,51 @@ import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
 
 /**
  * Created by paulomenezes on 01/12/15.
  */
 public aspect Consultas extends ConexaoMySQL {
+	
     pointcut selecionarDepartamentos(): execution(* ControladorCurso.selecionarDepartamentos());
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
-
+    pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
+    
+    
+    
+    
+    
+    ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
+    	
+    	PreparedStatement statement = connection.prepareStatement(" SELECT R.nome, R.cargaHoraria,R.nome_professor FROM alunoHistorico AS A JOIN requisitos AS R ON A.idOferta = R.requisito WHERE A.cpfAluno = ? ");
+    	statement.setString(1, cpf);
+    	ResultSet resultSet = statement.executeQuery();
+        ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
+        
+    	
+        while(resultSet.next()){
+        	
+        	DisciplinaDisponivel d = new DisciplinaDisponivel();
+        	
+        	d.setNome(resultSet.getString("nome"));
+        	d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
+        	d.setNomeProfessor(resultSet.getString("nome_professor"));
+        	
+        	disciplinas.add(d);
+        }
+        
+        	
+        if(disciplinas.isEmpty()){
+        	
+        	throw new ListaCadastroVaziaExceptions();
+        }
+        
+        return disciplinas;
+    	
+    }
+    
+    
     ArrayList<Departamento> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDepartamentos() {
     	
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM departamento");

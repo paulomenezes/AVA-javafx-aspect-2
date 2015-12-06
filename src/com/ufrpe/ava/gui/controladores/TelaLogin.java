@@ -30,6 +30,7 @@ public class TelaLogin extends Tela {
         ArrayList<String>listaValidacao = new ArrayList<>();
         listaValidacao.add(campoCPF.getText());
         listaValidacao.add(campoSenha.getText());
+        
 
         if (Validacao.validarCampos(listaValidacao)) {
         	if(Validacao.validarCPF(campoCPF.getText())){
