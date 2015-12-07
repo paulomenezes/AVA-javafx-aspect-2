@@ -98,11 +98,13 @@ end
 create trigger atualizarNVagasProjeto after update on participarprojeto for each row
 	begin
 		declare texto text;
+        declare texto2 text;
 		if (new.cpfAluno is not null and new.idProjeto is not null) then
 			update projetopesquisa
 				set nVagas = nVagas - 1
 				where idProjeto = new.idProjeto;
-			set texto = concat('Parabéns, ' buscarNomeUsuario(new.cpfAluno), 'você está dentro do projeto ', buscarNomeProjeto(new.idProjeto), '!');
+                set texto2 = buscarNomeUsuario(new.cpfAluno);
+			set texto = concat('Parabéns ', texto2, ' você está dentro do projeto ', buscarNomeProjeto(new.idProjeto), '!');
 		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) 
         VALUES(NULL, 'Vaga conquistada!', texto, 0, NULL, NULL, NULL, new.cpfAluno);-- mensagem específica para o usuário
 		end if;
@@ -111,7 +113,8 @@ create trigger atualizarNVagasProjeto after update on participarprojeto for each
 			update projetopesquisa
 				set nVagas = nVagas + 1
 				where idProjeto = old.idProjeto;
-			set texto = concat('O projeto ', buscarNomeProjeto(old.idProjeto), ' tem uma vaga em aberto.');
+                set texto2 =  buscarNomeProjeto(old.idProjeto);
+			set texto = concat('O projeto ', texto2, ' tem uma vaga em aberto.');
 		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
         VALUES(NULL, 'Há uma nova vaga', texto, 0, NULL, NULL, NULL, NULL); -- mensagem para todos, pois tem null tanto no ultimo q penultimo
 		end if;
