@@ -30,8 +30,8 @@ public class AvaFachada implements IAvaFachada {
     
     @Override
     public Usuario buscarLogin(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions {
-    	Usuario usuario = controladorUsuario.buscarLogin(cpf, senha);
-        return usuario;
+    	return controladorUsuario.buscarLogin(cpf, senha);
+  
     }
 
     @Override

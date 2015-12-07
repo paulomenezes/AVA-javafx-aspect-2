@@ -37,11 +37,6 @@ public aspect Autenticacao extends ConexaoMySQL {
             ResultSet resultSet = statement.executeQuery();
             Usuario usuario = new Usuario();
             
-            if(!resultSet.next()){
-            	
-            	throw  new ObjetoNaoExistenteExcepitions(cpf," ");
-            }
-            
             while (resultSet.next()) {
             	
                 //usuario.setId(resultSet.getInt("id"));
@@ -53,7 +48,11 @@ public aspect Autenticacao extends ConexaoMySQL {
 
                 System.out.println(usuario.getNome()); 
             }
-            
+  
+            if(usuario.getNome() == null){
+            	
+            	throw new ObjetoNaoExistenteExcepitions(cpf," ");
+            }
             return usuario;
     }
 

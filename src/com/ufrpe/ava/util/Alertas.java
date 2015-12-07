@@ -32,7 +32,13 @@ public class Alertas {
     
     public static void falhaConexaoBanco(){
     	
-    	alerta("Falha","Desculpe ocorreu algo errado,Tente Mais tarde",Alert.AlertType.ERROR);
+    	alerta("Falha","Desculpe ocorreu algo de errado na Conexão,Tente Mais tarde",Alert.AlertType.ERROR);
+    }
+    
+    public static void falhaCredencialBanco(){
+    	
+    	alerta("Falha","Desculpe ocorreu algo de errado na Conexão \n Preencha o Root e senha corretas do seu Banco \n "
+    			+ "Na Classe ConexaoMySQL",Alert.AlertType.ERROR);
     }
     
     public static void tabelaVazia(){

@@ -36,8 +36,11 @@ public class TelaLogin extends Tela {
 	            try {
 	                this.usuarioAtivo = this.avaFachada.buscarLogin(campoCPF.getText(), campoSenha.getText());
 	                AVA.carregar("inicio");
-	            } catch (ObjetoNaoExistenteExcepitions | SQLException e) {
+	            } catch (ObjetoNaoExistenteExcepitions e) {
 	                System.out.println(e.getMessage());
+	            
+	            }catch (SQLException e){
+	            	System.out.println(e.getMessage()) ;
 	            }
         	}else{
         		

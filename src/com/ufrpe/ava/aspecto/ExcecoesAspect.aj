@@ -1,7 +1,9 @@
 package com.ufrpe.ava.aspecto;
 
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.util.Alertas;
@@ -11,11 +13,11 @@ public aspect ExcecoesAspect {
 	// POINTCUTS ---------------------------------------------------------------------------------------------------------------- 
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
 	pointcut matriculaDisponivel() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.disciplinasDisponiveis(..));
-	pointcut loginExcecao() : call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.buscarLogin(..));
+	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
 	
 	pointcut removerExcecao() : call(* *.remover*(..));
-	pointcut conexaoFalha() : execution(* ConexaoMySQL.getConnection());
+	pointcut conexaoFalha() : call(* DriverManager.getConnection(..));
 	
 	pointcut insercaoProfessor() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarProfessor(..));
 	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
@@ -31,9 +33,10 @@ public aspect ExcecoesAspect {
 		
 	}
 	
-	after()throwing(Exception e): conexaoFalha(){
+	after()throwing : conexaoFalha(){
 		
-		Alertas.falhaConexaoBanco();
+		Alertas.falhaCredencialBanco();
+		AVA.sStage.close();
 	}
 	
 	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso() || matriculaDisponivel(){
