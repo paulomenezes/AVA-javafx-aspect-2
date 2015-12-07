@@ -9,7 +9,7 @@ create function verificarSePreRequisitoCumprido (idCurso int, idDisciplina int, 
 		declare idPre int; -- préRequisitoLinha
         declare preReqOK boolean;
         declare tudoOK boolean default true;
-		declare cursoCursor cursor for select idCurso, dependente, requesito from preRequisito; -- ajeitar lá na tabela, está prerequEsito
+		declare cursoCursor cursor for select idCurso, dependente, requesito from preRequisito; 
 		declare continue handler for not found set done = 1;
 
 		open cursoCursor;

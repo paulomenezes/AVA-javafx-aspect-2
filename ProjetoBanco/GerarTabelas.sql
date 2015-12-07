@@ -148,7 +148,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`projetoPesquisa` (
   `idProjeto` INT AUTO_INCREMENT NOT NULL COMMENT '',
-  `nome` VARCHAR(20) NOT NULL COMMENT '',
+  `nome` VARCHAR(35) NOT NULL COMMENT '',
   `modalidade` VARCHAR(10) NOT NULL COMMENT '',
   `organizacao` VARCHAR(20) NOT NULL COMMENT '',
 `valorBolsa` VARCHAR(10) NOT NULL COMMENT '',
@@ -205,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`artigo` (
   `tema` VARCHAR(35) NOT NULL COMMENT '',
   `objetivo` LONGTEXT NULL DEFAULT NULL COMMENT '',
   `area` VARCHAR(15) NOT NULL COMMENT '',
-  PRIMARY KEY (`idArtigo`, `idProjeto`),
+  PRIMARY KEY (`idArtigo`),
     FOREIGN KEY (`idProjeto`)
     REFERENCES `ava`.`projetopesquisa` (`idProjeto`)
     ON DELETE CASCADE
@@ -237,7 +237,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`aviso` (
   `idAviso` INT AUTO_INCREMENT NOT NULL COMMENT '',
-  `idRemetente` VARCHAR(14) NOT NULL COMMENT '',
+  `idRemetente` VARCHAR(14) DEFAULT NULL COMMENT '',
   `titulo` VARCHAR(40) NOT NULL COMMENT '',
   `descricao` TEXT DEFAULT NULL COMMENT '',
   `prioridade` INT(3) DEFAULT NULL COMMENT '', -- -1: baixa, 0: média, 1:alta
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`aviso` (
   `idDestinatarioO` INT(10) DEFAULT NULL COMMENT '', -- direcionado a uma oferta de disciplina
   `idDestinatarioU` VARCHAR(14) DEFAULT NULL COMMENT '', -- direcionado a uma pessoa
   
-  PRIMARY KEY (`idAviso`, `idRemetente`),
+  PRIMARY KEY (`idAviso`),
     FOREIGN KEY (`idRemetente`)
     REFERENCES `ava`.`usuario` (`cpf`)
     ON DELETE CASCADE
