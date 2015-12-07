@@ -31,8 +31,6 @@ public class TelaLogin extends Tela {
         listaValidacao.add(campoCPF.getText());
         listaValidacao.add(campoSenha.getText());
         
-        AVA.carregar("painelMatricular");
-        
         if (Validacao.validarCampos(listaValidacao)) {
         	if(Validacao.validarCPF(campoCPF.getText())){
 	            try {
