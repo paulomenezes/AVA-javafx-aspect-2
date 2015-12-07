@@ -49,7 +49,7 @@ public class PainelMatricula  extends Tela implements Initializable{
 		
 		
 		try {
-				lista = avaFachada.disciplinasDisponiveis("345278459-19");
+				lista = avaFachada.disciplinasDisponiveis(usuarioAtivo.getCPF());
 				
 				for (DisciplinaDisponivel d : lista) {
 					
@@ -69,6 +69,10 @@ public class PainelMatricula  extends Tela implements Initializable{
 		} catch (ListaCadastroVaziaExceptions e) {
 		
 			System.out.println(e.getMessage());
+		
+		}catch(NullPointerException e){
+			
+			System.out.println("Usuario não ativo no sistema") ;
 		}
 	}
 	
@@ -85,8 +89,14 @@ public class PainelMatricula  extends Tela implements Initializable{
 				
 				Matricular matricula = new Matricular();
 				
-				matricula.setCpfAluno("345278459-19");
-				
+				try{
+					matricula.setCpfAluno(usuarioAtivo.getCPF());
+				}catch(NullPointerException e){
+					
+					System.out.println("Usuario não ativo no sistema");
+					
+				}
+	
 				LocalDate hoje = LocalDate.now();
 				matricula.setDataMatricula(hoje.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 				matricula.setIdOferta(Integer.parseInt(c.getId()));
