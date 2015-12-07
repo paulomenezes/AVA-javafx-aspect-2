@@ -14,8 +14,8 @@ INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogé
 INSERT INTO  departamento(nome,idDepartamento)VALUES('DQ',1),('DF',2),('DM',3),('DEINFO',4),('DLin',5), 
 ('DEdF', 6);
 
-INSERT INTO aluno(cpfAluno, idCurso, tipo)VALUES('190564714-73',1,1), ('345278459-19',2,2),('898929087-61',4,1),
-('893546244-12',1,1),('356289457-36', 3,2),('357832989-36',4,3);
+INSERT INTO aluno(cpfAluno, idCurso)VALUES('190564714-73',1), ('345278459-19',2),('898929087-61',4),
+('893546244-12',1),('356289457-36', 3),('357832989-36',4);
 
 INSERT INTO professor(cpfProfessor,idDepartamento)VALUES('124673424-09',2),('893546244-12',5),
 ('153672890-03',3),('782451173-93',1),('134676398-09',4),('563812908-89',6),('237453713-89',5);
@@ -101,8 +101,8 @@ INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',
 
 
 INSERT INTO projetopesquisa(nome, modalidade, organizacao, valorBolsa, nVagas)VALUES('proj1','PIBIC', 'CNPq','R$ 400,00',3),
-('proj2','PIBID', 'CNPq', 'R$ 800,00',2),('proj3','PIBID', 'CNPq','350,00', 1),
-('proj4','PICME', 'FACEPE', 'R$ 230,00', 2),('proj5','PICME', 'FACEPE','', 1);
+('proj2','PIBID', 'CNPq', 'R$ 800,00',2),('proj3','PIBID', 'CNPq','R$ 350,00', 1),
+('proj4','PICME', 'FACEPE', 'R$ 230,00', 2),('proj5','PICME', 'FACEPE','R$ 430', 1);
 
 INSERT INTO projetoProfessor(cpfProfessor, idProjeto) VALUES('153672890-03',1),('124673424-09',2),('124673424-09',1),
 ('563812908-89',3),('237453713-89',5),('153672890-03',5);
@@ -110,8 +110,8 @@ INSERT INTO projetoProfessor(cpfProfessor, idProjeto) VALUES('153672890-03',1),(
 INSERT INTO participarProjeto(cpfAluno, idProjeto) VALUES('898929087-61',1),('345278459-19',1),('893546244-12',2),
 ('190564714-73',1),('782451173-93',3),('782451173-93',4),('893546244-12',5);
 
-INSERT INTO solicitacaoProjeto(cpfAluno, idProjeto, estado)VALUES(11,1,false),(11,3,false),
-(11,5,true),('345278459-19',3,false),('345278459-19',3,true);
+INSERT INTO solicitacaoProjeto(cpfAluno, idProjeto, estado)VALUES('356289457-36',1,false),('356289457-36',3,false),
+('356289457-36',5,true),('345278459-19',3,false),('345278459-19',3,true);
 
 
 INSERT INTO artigo(idProjeto, nome, tema, objetivo, area)VALUES(1,'Mecânica Quântica','GH','Nada','Física'),
