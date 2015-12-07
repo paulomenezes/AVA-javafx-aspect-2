@@ -49,7 +49,7 @@ public class PainelMatricula  extends Tela implements Initializable{
 		
 		
 		try {
-				lista = avaFachada.disciplinasDisponiveis("123");
+				lista = avaFachada.disciplinasDisponiveis("345278459-19");
 				
 				for (DisciplinaDisponivel d : lista) {
 					
@@ -85,7 +85,7 @@ public class PainelMatricula  extends Tela implements Initializable{
 				
 				Matricular matricula = new Matricular();
 				
-				matricula.setCpfAluno("123");
+				matricula.setCpfAluno("345278459-19");
 				
 				LocalDate hoje = LocalDate.now();
 				matricula.setDataMatricula(hoje.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));

@@ -29,41 +29,5 @@ public class SolicitacaoProjeto {
 	public void setEstado(boolean estado) {
 		this.estado = estado;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((aluno == null) ? 0 : aluno.hashCode());
-		result = prime * result + codSolicitacao;
-		result = prime * result + (estado ? 1231 : 1237);
-		result = prime * result + ((projeto == null) ? 0 : projeto.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SolicitacaoProjeto other = (SolicitacaoProjeto) obj;
-		if (aluno == null) {
-			if (other.aluno != null)
-				return false;
-		} else if (!aluno.equals(other.aluno))
-			return false;
-		if (codSolicitacao != other.codSolicitacao)
-			return false;
-		if (estado != other.estado)
-			return false;
-		if (projeto == null) {
-			if (other.projeto != null)
-				return false;
-		} else if (!projeto.equals(other.projeto))
-			return false;
-		return true;
-	}
-	
 	
 }

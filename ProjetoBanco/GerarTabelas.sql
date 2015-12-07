@@ -469,20 +469,15 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `ava`.`prerequesito`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`prerequisito` (
-  `idCurso` INT NOT NULL COMMENT '',
   `dependente` INT NOT NULL COMMENT '',
   `requisito` INT(4)  COMMENT '',
-	PRIMARY KEY (`idCurso`,`dependente`, `requisito`),
+	PRIMARY KEY (`dependente`, `requisito`),
     FOREIGN KEY (`dependente`)
     REFERENCES `ava`.`disciplina` (`idDisciplina`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
     FOREIGN KEY (`requisito`)
     REFERENCES `ava`.`disciplina` (`idDisciplina`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (`idCurso`)
-    REFERENCES `ava`.`curso` (`idCurso`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
