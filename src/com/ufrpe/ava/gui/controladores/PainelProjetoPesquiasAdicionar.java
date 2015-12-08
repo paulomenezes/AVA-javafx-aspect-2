@@ -1,11 +1,9 @@
 package com.ufrpe.ava.gui.controladores;
 
-import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
 import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;

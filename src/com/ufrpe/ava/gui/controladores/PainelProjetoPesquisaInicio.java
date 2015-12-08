@@ -70,7 +70,7 @@ public class PainelProjetoPesquisaInicio extends Tela {
             valorBolsa = new TableColumn<>("Valor Bolsa");
             valorBolsa.setCellValueFactory(new PropertyValueFactory<ProjetoPesquisa, Double>("valorBolsa"));
 
-            nVagas = new TableColumn<>("Nº Vagas");
+            nVagas = new TableColumn<>("N Vagas");
             nVagas.setCellValueFactory(new PropertyValueFactory<ProjetoPesquisa, Integer>("nVagas"));
 
             tabela.getColumns().addAll(id, nome, modalidade, organizacao, valorBolsa, nVagas);

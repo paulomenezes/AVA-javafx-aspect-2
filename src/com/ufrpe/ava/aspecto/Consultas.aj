@@ -156,28 +156,35 @@ public aspect Consultas extends ConexaoMySQL {
         return lista;
     }
 
-    ArrayList<ProjetoPesquisa> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
+    ArrayList<ProjetoPesquisa> around() throws SQLException, ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
+            ResultSet resultSet = statement.executeQuery();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
-        ResultSet resultSet = statement.executeQuery();
+            System.out.println(resultSet);
 
-        ArrayList<ProjetoPesquisa> lista = new ArrayList<>();
-        while (resultSet.next()) {
-            ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
-            projetoPesquisa.setIdProjeto(resultSet.getInt("idProjeto"));
-            projetoPesquisa.setNome(resultSet.getString("nome"));
-            projetoPesquisa.setModalidade(resultSet.getString("modalidade"));
-            projetoPesquisa.setOrganizacao(resultSet.getString("organizacao"));
-            projetoPesquisa.setValorBolsa(resultSet.getDouble("valorBolsa"));
-            projetoPesquisa.setnVagas(resultSet.getInt("nVagas"));
+            ArrayList<ProjetoPesquisa> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+                projetoPesquisa.setIdProjeto(resultSet.getInt("idProjeto"));
+                projetoPesquisa.setNome(resultSet.getString("nome"));
+                projetoPesquisa.setModalidade(resultSet.getString("modalidade"));
+                projetoPesquisa.setOrganizacao(resultSet.getString("organizacao"));
+                projetoPesquisa.setValorBolsa(resultSet.getDouble("valorBolsa"));
+                projetoPesquisa.setnVagas(resultSet.getInt("nVagas"));
 
-            lista.add(projetoPesquisa);
+                lista.add(projetoPesquisa);
+            }
+
+            if (lista.isEmpty()) {
+                throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
+            }
+
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
         }
-
-        if(lista.isEmpty()){
-            throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
-        }
-
-        return lista;
     }
 }
