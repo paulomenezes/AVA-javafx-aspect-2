@@ -43,10 +43,9 @@ public aspect Insercoes extends ConexaoMySQL {
 		
 		if(usuario instanceof Aluno){
 		
-			statement = connection.prepareStatement("INSERT INTO aluno(cpfAluno, idCurso, tipo)VALUES(?,?,?)");
+			statement = connection.prepareStatement("INSERT INTO aluno(cpfAluno, idCurso)VALUES(?,?)");
 			statement.setString(1, usuario.getCPF());
 			statement.setInt(2, ((Aluno) usuario).getCurso());
-			statement.setInt(3, ((Aluno) usuario).getTipoAluno());
 			statement.execute();
 			connection.commit();
 			

@@ -1,15 +1,19 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.*;
 
 import com.ufrpe.ava.AVA;
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.util.Validacao;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -44,10 +48,10 @@ public class TelaCadastro extends Tela {
     private Button botaoCriarConta;
 
     @FXML
-    private TextField codDpto;
+    private ChoiceBox<Departamento> departamento;
 
     @FXML
-    private TextField codCurso;
+    private ChoiceBox<Curso> curso;
 
     @FXML
     private CheckBox graduacaoCheck;
@@ -79,24 +83,41 @@ public class TelaCadastro extends Tela {
     public void clickProfessorCheck() {
         if (professorCheck.isSelected()) {
             alunoCheck.setDisable(true);
-            codCurso.setDisable(true);
+            curso.setDisable(true);
         } else {
             alunoCheck.setDisable(false);
-            codCurso.setDisable(false);
+            curso.setDisable(false);
         }
     }
 
     public void clickAlunoCheck() {
         if (alunoCheck.isSelected()) {
             professorCheck.setDisable(true);
-            codDpto.setDisable(true);
+            departamento.setDisable(true);
             graduacaoCheck.setDisable(false);
             posGradCheck.setDisable(false);
         } else {
             professorCheck.setDisable(false);
-            codDpto.setDisable(false);
+            departamento.setDisable(false);
             graduacaoCheck.setDisable(true);
             posGradCheck.setDisable(true);
+        }
+    }
+
+    @FXML
+    public void initialize() {
+        try {
+            java.util.List<Departamento> depts = this.avaFachada.selecionarDepartamentos();
+
+            departamento.getItems().addAll(depts);
+
+            java.util.List<Curso> curs = this.avaFachada.selecionarCursos();
+
+            curso.getItems().addAll(curs);
+        } catch (ListaCadastroVaziaExceptions e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -122,7 +143,9 @@ public class TelaCadastro extends Tela {
                 if (professorCheck.isSelected()){
                     try {
                         this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
-                                campoSenha.getText(), Integer.parseInt(codDpto.getText()), 1);
+                                campoSenha.getText(), departamento.getSelectionModel().getSelectedItem().getIdDepartamento(), 1);
+
+                        AVA.carregar("inicio");
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
@@ -136,7 +159,9 @@ public class TelaCadastro extends Tela {
 
                     try {
                         this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
-                                campoSenha.getText(), Integer.parseInt(codCurso.getText()), tipoAluno, 2);
+                                campoSenha.getText(), curso.getSelectionModel().getSelectedItem().getIdCurso(), tipoAluno, 2);
+
+                        AVA.carregar("inicio");
                     } catch (SQLException e) {
                         System.out.println(e.getMessage());
                     }
@@ -158,13 +183,13 @@ public class TelaCadastro extends Tela {
     private Boolean validarCheckBox() {
         if (!professorCheck.isSelected() && !alunoCheck.isSelected()) {
             return false;
-        } else if(alunoCheck.isSelected() && !codCurso.getText().isEmpty()) {
+        } else if(alunoCheck.isSelected() && curso.getSelectionModel().getSelectedItem() != null) {
             if (!graduacaoCheck.isSelected() && !posGradCheck.isSelected()) {
                 return false;
             } else {
                 return true;
             }
-        } else if (professorCheck.isSelected() && !alunoCheck.isSelected() && !codDpto.getText().isEmpty()) {
+        } else if (professorCheck.isSelected() && !alunoCheck.isSelected() && departamento.getSelectionModel().getSelectedItem() != null) {
             return true;
         } else {
             return false;

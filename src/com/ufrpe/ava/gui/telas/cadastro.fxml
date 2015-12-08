@@ -30,18 +30,18 @@
                 <PasswordField fx:id="campoReSenha" layoutX="206.0" layoutY="79.0" prefHeight="26.0" prefWidth="141.0" promptText="Repita a senha" />
                 <TextField fx:id="campoNome" layoutX="64.0" layoutY="113.0" prefHeight="26.0" prefWidth="283.0" />
                 <TextField fx:id="campoEmail" layoutX="64.0" layoutY="148.0" prefHeight="26.0" prefWidth="283.0" />
-                <Button fx:id="botaoVoltar" layoutX="253.0" layoutY="248.0" mnemonicParsing="false" onAction="#botaoVoltarAction" text="Voltar" />
-                <Button fx:id="botaoCriarConta" layoutX="312.0" layoutY="248.0" mnemonicParsing="false" onAction="#botaoCriarContaAction" text="Criar conta" />
                 <Label layoutX="14.0" layoutY="118.0" text="Nome" />
                 <Label layoutX="12.0" layoutY="152.0" text="E-mail" />
                 <CheckBox fx:id="professorCheck" layoutX="10.0" layoutY="188.0" mnemonicParsing="false" onMouseClicked="#clickProfessorCheck" text="Professor" />
+            <ChoiceBox fx:id="departamento" layoutX="198.0" layoutY="183.0" prefWidth="150.0" />
                 <CheckBox fx:id="alunoCheck" layoutX="9.0" layoutY="217.0" mnemonicParsing="false" onMouseClicked="#clickAlunoCheck" text="Aluno" />
-                <TextField fx:id="codDpto" layoutX="192.0" layoutY="184.0" prefHeight="25.0" prefWidth="33.0" />
-                <TextField fx:id="codCurso" layoutX="192.0" layoutY="213.0" prefHeight="25.0" prefWidth="32.0" />
-                <Label layoutX="103.0" layoutY="188.0" text="Codigo depto" />
-                <Label layoutX="103.0" layoutY="217.0" text="Codigo curso" />
+            <ChoiceBox fx:id="curso" layoutX="198.0" layoutY="213.0" prefWidth="150.0" />
+                <Label layoutX="103.0" layoutY="188.0" text="Departamento" />
+                <Label layoutX="151.0" layoutY="218.0" text="Curso" />
                 <CheckBox fx:id="graduacaoCheck" disable="true" layoutX="9.0" layoutY="240.0" mnemonicParsing="false" onMouseClicked="#clickGraduacaoCheck" text="graduação" />
                 <CheckBox fx:id="posGradCheck" disable="true" layoutX="9.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#clickPosGradCheck" text="pós-graduação" />
+                <Button fx:id="botaoVoltar" layoutX="205.0" layoutY="261.0" mnemonicParsing="false" onAction="#botaoVoltarAction" text="Voltar" />
+                <Button fx:id="botaoCriarConta" layoutX="264.0" layoutY="261.0" mnemonicParsing="false" onAction="#botaoCriarContaAction" text="Criar conta" />
             </children>
         </Pane>
     </children>
