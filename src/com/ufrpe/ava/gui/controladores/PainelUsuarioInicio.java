@@ -32,7 +32,7 @@ public class PainelUsuarioInicio extends Tela {
     private TableColumn<Usuario, String> email;
 
     @FXML
-    private TableColumn<Usuario, Integer> tipo;
+    private TableColumn<Usuario, String> tipo;
 
     @FXML
     private void initialize() {
@@ -48,7 +48,7 @@ public class PainelUsuarioInicio extends Tela {
             nome.setCellValueFactory(new PropertyValueFactory<Usuario, String>("nome"));
 
             tipo = new TableColumn<>("Tipo");
-            tipo.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("grad"));
+            tipo.setCellValueFactory(new PropertyValueFactory<Usuario, String>("tipo"));
 
             email = new TableColumn<>("E-mail");
             email.setCellValueFactory(new PropertyValueFactory<Usuario, String>("email"));

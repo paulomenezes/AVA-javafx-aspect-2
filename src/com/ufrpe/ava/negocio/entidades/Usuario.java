@@ -11,6 +11,8 @@ package com.ufrpe.ava.negocio.entidades;
 	    private String senha;
 	    private int grad;
 
+        private String tipo;
+
 		public Usuario() {
 
 		}
@@ -73,6 +75,17 @@ package com.ufrpe.ava.negocio.entidades;
 	        this.senha = senha;
 	    }
 	
+        public String getTipo() {
+            if (grad == -1)
+                return "Coordenador";
+            else if (grad == 0)
+                return "Professor";
+            else if (grad == 1)
+                return "Aluno graduação";
+            else if (grad == 2)
+                return "Aluno pós-graduação";
 
+            return null;
+        }
 	}
 
