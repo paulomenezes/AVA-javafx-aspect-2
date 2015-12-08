@@ -108,7 +108,7 @@ public class PainelMatricula  extends Tela implements Initializable{
 		}
 		
 		
-		if(cont>=3 && cont<=10 ){
+		if(cont>=1 && cont<=6 ){
 			
 			int aux = 0;
 			

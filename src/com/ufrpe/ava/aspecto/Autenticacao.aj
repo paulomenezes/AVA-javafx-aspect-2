@@ -49,7 +49,7 @@ public aspect Autenticacao extends ConexaoMySQL {
                 System.out.println(usuario.getNome()); 
             }
   
-            if(usuario.getNome() == null){
+            if(usuario.getNome().isEmpty()){
             	
             	throw new ObjetoNaoExistenteExcepitions(cpf," ");
             }

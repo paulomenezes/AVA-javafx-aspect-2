@@ -40,9 +40,14 @@ public aspect ExcecoesAspect {
 		AVA.sStage.close();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso() || matriculaDisponivel(){
+	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso(){
 		
 		Alertas.tabelaVazia();
+	}
+	
+	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel(){
+		
+		Alertas.selecaoVazia(e.getMessage());
 	}
 	
 	after()throwing(ObjetoNaoExistenteExcepitions e) : loginExcecao(){
