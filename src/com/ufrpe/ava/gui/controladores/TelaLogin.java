@@ -35,6 +35,7 @@ public class TelaLogin extends Tela {
         	if(Validacao.validarCPF(campoCPF.getText())){
 	            try {
 	                this.usuarioAtivo = this.avaFachada.buscarLogin(campoCPF.getText(), campoSenha.getText());
+	                avaFachada.registrarLogin(campoCPF.getText());
 	                AVA.carregar("inicio");
 	            } catch (ObjetoNaoExistenteExcepitions e) {
 	                System.out.println(e.getMessage());
