@@ -48,7 +48,7 @@ public aspect Consultas extends ConexaoMySQL {
         	
         if(disciplinas.isEmpty()){
         	
-        	throw new ListaCadastroVaziaExceptions();
+        	throw new ListaCadastroVaziaExceptions("disciplinas Disponíveis");
         }
         
         return disciplinas;
@@ -72,7 +72,7 @@ public aspect Consultas extends ConexaoMySQL {
             
             if(lista.isEmpty()){
             	
-            	throw new ListaCadastroVaziaExceptions();
+            	throw new ListaCadastroVaziaExceptions("selecao Departamentos");
             }
 
             return lista;
@@ -101,7 +101,7 @@ public aspect Consultas extends ConexaoMySQL {
             }
             
                 if(lista.isEmpty()){
-                	throw new ListaCadastroVaziaExceptions();
+                	throw new ListaCadastroVaziaExceptions("selecao Cursos");
                 }
                 
                 return lista;
