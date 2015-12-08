@@ -19,6 +19,10 @@ package com.ufrpe.ava.negocio.entidades;
 			this.senha = senha;
 			this.grad = grad;
 		}
+	    
+	    public Usuario(){
+	    	
+	    }
 
 
 		public int getGrad() {
