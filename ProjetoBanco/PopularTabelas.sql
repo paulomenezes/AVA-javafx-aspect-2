@@ -1,5 +1,5 @@
 USE AVA;
-
+-- só para env
 SET foreign_key_checks = 0;
 
 INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234',1),

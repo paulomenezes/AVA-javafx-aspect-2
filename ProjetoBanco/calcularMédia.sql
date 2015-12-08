@@ -1,7 +1,7 @@
 -- GERAR MÉDIA DE UM ALUNO NUMA OFERTA
 -- ENTREGO O ID DA OFERTA E CALCULA A MÉDIA DE CADA ALUNO DA OFERTA
 use ava;
-
+-- enviar de novo
 delimiter |
 create procedure calcularMediaDeCadaAlunoNaOferta(idOf int)
 	begin
