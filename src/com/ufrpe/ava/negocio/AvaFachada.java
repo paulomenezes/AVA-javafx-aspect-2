@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorLogging;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
@@ -19,6 +20,7 @@ import com.ufrpe.ava.negocio.entidades.Usuario;
 public class AvaFachada implements IAvaFachada {
     private ControladorUsuario controladorUsuario;
     private ControladorCurso controladorCurso;
+    private ControladorLogging controladorLogging;
 
     public AvaFachada() {
         controladorUsuario = new ControladorUsuario();
@@ -105,6 +107,24 @@ public class AvaFachada implements IAvaFachada {
     	return controladorCurso.disciplinasDisponiveis(cpf);
     	
     }
+
+    
+    /* FUNÇÕES  REGISTROS -----------------------------------------------------------------------------*/ 
+
+	@Override
+	public void registrarLogin(String registro) {
+		
+		controladorLogging.registrarLogin(registro);
+		
+	}
+
+
+	@Override
+	public void registrarMatricula(String registro) {
+		
+		controladorLogging.registrarMatricula(registro);
+		
+	}
 
 
 	

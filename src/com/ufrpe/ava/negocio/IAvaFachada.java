@@ -53,5 +53,10 @@ public interface IAvaFachada {
 
     /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions;
+    
+   /*FUNCOES LOGGGING ------------------------------------------------------------------------------------*/
+    
+    public void registrarLogin(String registro);
+    public void registrarMatricula(String registro);
 }
 

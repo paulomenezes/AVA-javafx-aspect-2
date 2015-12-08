@@ -6,13 +6,14 @@ import java.sql.SQLException;
 import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
+import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.util.Alertas;
 
 public aspect ExcecoesAspect {
 
 	// POINTCUTS ---------------------------------------------------------------------------------------------------------------- 
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
-	pointcut matriculaDisponivel() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.disciplinasDisponiveis(..));
+	pointcut matriculaDisponivel() : call(* *.disciplinasDisponiveis(..));
 	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
 	
@@ -21,8 +22,8 @@ public aspect ExcecoesAspect {
 	
 	pointcut insercaoProfessor() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarProfessor(..));
 	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
-	pointcut matricularAluno() : 
-		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..));
+	pointcut matricularAluno(Matricular matricula) : 
+		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..)) && args(matricula);
     
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
@@ -54,8 +55,8 @@ public aspect ExcecoesAspect {
 		Alertas.ObjetoJaExiste("Usuario já existe");
 	}
 	
-	after()throwing(SQLException e) : matricularAluno(){
+	after(Matricular matricula)throwing(SQLException e) : matricularAluno(matricula){
 		
-		Alertas.ObjetoJaExiste("Essa Matricula já foi feita");
+		Alertas.ObjetoJaExiste("A matricula na Oferta- "+matricula.getIdOferta()+" \n Data -"+matricula.getDataMatricula()+"\n Ja foi Realizada");
 	}
 }
