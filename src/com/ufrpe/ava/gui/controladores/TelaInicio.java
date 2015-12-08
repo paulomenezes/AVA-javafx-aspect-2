@@ -40,4 +40,9 @@ public class TelaInicio extends Tela {
     void menuDisciplinaAction(ActionEvent event) {
         Navegacao.carregarPainel("painelDisciplinaInicio");
     }
+
+    @FXML
+    void menuProjetoPesquisaAction(ActionEvent event) {
+        Navegacao.carregarPainel("painelProjetoPesquisaInicio");
+    }
 }

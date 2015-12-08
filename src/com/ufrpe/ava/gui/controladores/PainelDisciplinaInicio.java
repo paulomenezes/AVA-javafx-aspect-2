@@ -48,8 +48,7 @@ public class PainelDisciplinaInicio extends Tela {
 
     @FXML
     private void initialize() {
-        try{
-
+        try {
             List<Disciplina> disciplinas = this.avaFachada.selecionarDisciplinas();
 
             tabela.setItems(FXCollections.observableArrayList(disciplinas));
@@ -89,7 +88,7 @@ public class PainelDisciplinaInicio extends Tela {
     }
 
     public void botaoInserirAction() {
-        PainelDepartamentoAdicionar.departamento = null;
+        PainelDisciplinaAdicionar.disciplina = null;
         Navegacao.carregarPainel("painelDisciplinaAdicionar");
     }
 

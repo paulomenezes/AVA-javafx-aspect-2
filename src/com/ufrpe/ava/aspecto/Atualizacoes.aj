@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
+import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 
 /**
@@ -19,6 +20,9 @@ public aspect Atualizacoes extends ConexaoMySQL {
 
     pointcut editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos):
             call(* ControladorDisciplina.editarDisciplina(int, String, String, int, int)) && args(id, nome, tipo, cargaHoraria, creditos);
+
+    pointcut editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
+            call(* ControladorProjetoPesquisa.editarProjetoPesquisa(int, String, String, String, double, int)) && args(id, nome, modalidade, organizacao, valorBolsa, nVagas);
 
     void around(int id, String nome) throws SQLException: editarDepartamento(id, nome) {
         connection.setAutoCommit(false);
@@ -60,6 +64,25 @@ public aspect Atualizacoes extends ConexaoMySQL {
         statement.setInt(3, creditos);
         statement.setString(4, tipo);
         statement.setInt(5, id);
+        statement.executeUpdate();
+
+        System.out.println(id + "");
+        System.out.println(nome);
+
+        connection.commit();
+    }
+
+    void around(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException:
+            editarProjetoPesquisa(id, nome, modalidade, organizacao, valorBolsa, nVagas) {
+
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("UPDATE projetoPesquisa SET nome = ?, modalidade = ?, organizacao = ?, valorBolsa = ?, nVagas = ? WHERE idProjeto = ?");
+        statement.setString(1, nome);
+        statement.setString(2, modalidade);
+        statement.setString(3, organizacao);
+        statement.setDouble(4, valorBolsa);
+        statement.setInt(5, nVagas);
+        statement.setInt(6, id);
         statement.executeUpdate();
 
         System.out.println(id + "");

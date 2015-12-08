@@ -21,7 +21,7 @@
             <MenuItem mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
             <MenuItem mnemonicParsing="false" onAction="#menuDisciplinaAction" text="Disciplinas" />
             <MenuItem mnemonicParsing="false" text="Matrículas" />
-            <MenuItem mnemonicParsing="false" text="Pesquisa" />
+            <MenuItem mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Relatórios">

@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
+import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
 import com.ufrpe.ava.negocio.entidades.*;
 
 /**
@@ -24,8 +25,11 @@ public aspect Insercoes extends ConexaoMySQL {
 
     pointcut cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos):
             call(* ControladorDisciplina.cadastrarDisciplina(String, String, int, int)) && args(nome, tipo, cargaHoraria, creditos);
-    
-	pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
+
+    pointcut cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
+            call(* ControladorProjetoPesquisa.cadastrarProjetoPesquisa(String, String, String, double, int)) && args(nome, modalidade, organizacao, valorBolsa, nVagas);
+
+    pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
 	
 	pointcut matricularAluno(Matricular matricula) : 
 		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..))&& args(matricula)  ;
@@ -170,5 +174,40 @@ public aspect Insercoes extends ConexaoMySQL {
             return null;
         }
     }
-    
+
+    ProjetoPesquisa around(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception:
+        cadastrarProjetoPesquisa(nome, modalidade, organizacao, valorBolsa, nVagas) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO projetoPesquisa (nome, modalidade, organizacao, valorBolsa, nVagas) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, nome);
+            statement.setString(2, modalidade);
+            statement.setString(3, organizacao);
+            statement.setDouble(4, valorBolsa);
+            statement.setInt(5, nVagas);
+            statement.executeUpdate();
+
+            ResultSet resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+                projetoPesquisa.setIdProjeto(resultSet.getInt(1));
+                projetoPesquisa.setNome(nome);
+                projetoPesquisa.setModalidade(modalidade);
+                projetoPesquisa.setOrganizacao(organizacao);
+                projetoPesquisa.setValorBolsa(valorBolsa);
+                projetoPesquisa.setnVagas(nVagas);
+
+                connection.commit();
+
+                return projetoPesquisa;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

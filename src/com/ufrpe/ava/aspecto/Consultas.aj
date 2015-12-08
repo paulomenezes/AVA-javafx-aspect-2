@@ -9,6 +9,7 @@ import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
+import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
 import com.ufrpe.ava.negocio.entidades.*;
 
 /**
@@ -20,6 +21,7 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
     pointcut selecionarUsuarios(): execution(* ControladorUsuario.selecionarTudo());
     pointcut selecionarDisciplinas(): execution(* ControladorDisciplina.selecionarDisciplinas());
+    pointcut selecionarProjetoPesquisas(): execution(* ControladorProjetoPesquisa.selecionarProjetoPesquisas());
 
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
@@ -153,5 +155,29 @@ public aspect Consultas extends ConexaoMySQL {
 
         return lista;
     }
-    
+
+    ArrayList<ProjetoPesquisa> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<ProjetoPesquisa> lista = new ArrayList<>();
+        while (resultSet.next()) {
+            ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+            projetoPesquisa.setIdProjeto(resultSet.getInt("idProjeto"));
+            projetoPesquisa.setNome(resultSet.getString("nome"));
+            projetoPesquisa.setModalidade(resultSet.getString("modalidade"));
+            projetoPesquisa.setOrganizacao(resultSet.getString("organizacao"));
+            projetoPesquisa.setValorBolsa(resultSet.getDouble("valorBolsa"));
+            projetoPesquisa.setnVagas(resultSet.getInt("nVagas"));
+
+            lista.add(projetoPesquisa);
+        }
+
+        if(lista.isEmpty()){
+            throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
+        }
+
+        return lista;
+    }
 }

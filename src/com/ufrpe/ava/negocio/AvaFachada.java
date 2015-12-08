@@ -6,10 +6,7 @@ import java.util.List;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
-import com.ufrpe.ava.negocio.controladores.ControladorCurso;
-import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
-import com.ufrpe.ava.negocio.controladores.ControladorLogging;
-import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
+import com.ufrpe.ava.negocio.controladores.*;
 import com.ufrpe.ava.negocio.entidades.*;
 
 /**
@@ -20,12 +17,14 @@ public class AvaFachada implements IAvaFachada {
     private ControladorCurso controladorCurso;
     private ControladorDisciplina controladorDiscilpina;
     private ControladorLogging controladorLogging;
+    private ControladorProjetoPesquisa controladorProjetoPesquisa;
 
     public AvaFachada() {
         controladorUsuario = new ControladorUsuario();
         controladorCurso = new ControladorCurso();
         controladorLogging = new ControladorLogging();
         controladorDiscilpina = new ControladorDisciplina();
+        controladorProjetoPesquisa = new ControladorProjetoPesquisa();
     }
     
 
@@ -153,5 +152,22 @@ public class AvaFachada implements IAvaFachada {
 
     public List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {
         return controladorDiscilpina.selecionarDisciplinas();
+    }
+
+    /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
+    public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception {
+        return controladorProjetoPesquisa.cadastrarProjetoPesquisa(nome, modalidade, organizacao, valorBolsa, nVagas);
+    }
+
+    public void editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException {
+        controladorProjetoPesquisa.editarProjetoPesquisa(id, nome, modalidade, organizacao, valorBolsa, nVagas);
+    }
+
+    public void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException {
+        controladorProjetoPesquisa.removerProjetoPesquisa(projetoPesquisa);
+    }
+
+    public List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions {
+        return controladorProjetoPesquisa.selecionarProjetoPesquisas();
     }
 }

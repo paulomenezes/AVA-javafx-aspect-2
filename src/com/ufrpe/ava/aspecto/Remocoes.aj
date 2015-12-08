@@ -6,10 +6,8 @@ import java.sql.SQLException;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Disciplina;
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.*;
 
 /**
  * Created by paulomenezes on 02/12/15.
@@ -26,6 +24,9 @@ public aspect Remocoes extends ConexaoMySQL {
 
     pointcut removerDisciplina(Disciplina disciplina):
             call(* ControladorDisciplina.removerDisciplina(Disciplina)) && args(disciplina);
+
+    pointcut removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa):
+            call(* ControladorProjetoPesquisa.removerProjetoPesquisa(ProjetoPesquisa)) && args(projetoPesquisa);
 
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
         connection.setAutoCommit(false);
@@ -55,6 +56,14 @@ public aspect Remocoes extends ConexaoMySQL {
         connection.setAutoCommit(false);
         PreparedStatement statement = connection.prepareStatement("DELETE FROM disciplina WHERE idDisciplina = ?");
         statement.setInt(1, disciplina.getIdDisciplina());
+        statement.executeUpdate();
+        connection.commit();
+    }
+
+    void around(ProjetoPesquisa projetoPesquisa) throws SQLException : removerProjetoPesquisa(projetoPesquisa) {
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM projetoPesquisa WHERE idProjeto = ?");
+        statement.setInt(1, projetoPesquisa.getIdProjeto());
         statement.executeUpdate();
         connection.commit();
     }
