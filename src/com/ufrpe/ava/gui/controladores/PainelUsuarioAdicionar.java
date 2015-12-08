@@ -111,12 +111,13 @@ public class PainelUsuarioAdicionar extends Tela {
             try {
                 if (tipo == -1) {
                     this.avaFachada.cadastrarUsuario(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText());
-
+                    avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
+                    
                     Navegacao.carregarPainel("painelUsuarioInicio");
                 } else if (tipo == 0) {
                     if (departamento.getValue() != null) {
                         this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), departamento.getValue().getIdDepartamento(), 0);
-
+                        avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
                         Navegacao.carregarPainel("painelUsuarioInicio");
                     } else {
                         Alertas.campoObrigatorio("selecione um departamento.");
@@ -125,7 +126,7 @@ public class PainelUsuarioAdicionar extends Tela {
                     if (curso.getValue() != null) {
                         if (graduacaoCheck.isSelected()) {
                             this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 1);
-
+                            avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
                             Navegacao.carregarPainel("painelUsuarioInicio");
                         } else if (posGradCheck.isSelected()) {
                             this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 2);

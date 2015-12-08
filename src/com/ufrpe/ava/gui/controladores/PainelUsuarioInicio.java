@@ -1,19 +1,18 @@
 package com.ufrpe.ava.gui.controladores;
 
-import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Usuario;
-import com.ufrpe.ava.util.Navegacao;
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.sql.SQLException;
 import java.util.List;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
+import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.util.Navegacao;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PainelUsuarioInicio extends Tela {
     @FXML
@@ -89,11 +88,16 @@ public class PainelUsuarioInicio extends Tela {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
                 this.avaFachada.removerUsuario(tabela.getSelectionModel().getSelectedItem());
+                
+                this.avaFachada.registrarPersistencia(tabela.getSelectionModel().getSelectedItem().getNome() +"Cpf - "+
+                  tabela.getSelectionModel().getSelectedItem().getCPF() + " - Foi Removido do sistema." );
+                
                 tabela.getColumns().clear();
 
                 List<Usuario> usuarios = this.avaFachada.selecionarUsuarios();
                 tabela.setItems(FXCollections.observableArrayList(usuarios));
-
+                
+                
                 tabela.getColumns().addAll(cpf, nome, email, tipo);
 
                 botaoRemover.setDisable(true);

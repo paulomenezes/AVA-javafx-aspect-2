@@ -13,6 +13,7 @@ public aspect ExcecoesAspect {
 
 	// POINTCUTS ---------------------------------------------------------------------------------------------------------------- 
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
+	pointcut selecionarControladorUsuarios(): execution(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.selecionar*());
 	pointcut matriculaDisponivel() : call(* *.disciplinasDisponiveis(..));
 	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
@@ -28,11 +29,13 @@ public aspect ExcecoesAspect {
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
-	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel(){
+	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel() ||
+	  selecionarControladorUsuarios(){
 		
 		Alertas.falhaConexaoBanco();
 		
 	}
+	
 	
 	after()throwing : conexaoFalha(){
 		
@@ -45,7 +48,7 @@ public aspect ExcecoesAspect {
 		Alertas.tabelaVazia();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel(){
+	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios(){
 		
 		Alertas.selecaoVazia(e.getMessage());
 	}
