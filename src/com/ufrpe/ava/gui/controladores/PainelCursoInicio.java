@@ -90,6 +90,7 @@ public class PainelCursoInicio extends Tela {
     }
 
     public void botaoInserirAction() {
+        PainelCursoAdicionar.curso = null;
         Navegacao.carregarPainel("painelCursoAdicionar");
     }
 

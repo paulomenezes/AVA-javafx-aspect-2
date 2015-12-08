@@ -37,6 +37,7 @@ public aspect Atualizacoes extends ConexaoMySQL {
         statement.setInt(2, quantidade);
         statement.setInt(3, departamento.getIdDepartamento());
         statement.setString(4, tipo);
+        statement.setInt(5, id);
         statement.executeUpdate();
 
         System.out.println(id + "");

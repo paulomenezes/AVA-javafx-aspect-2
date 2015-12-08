@@ -40,17 +40,23 @@ public class PainelCursoAdicionar extends Tela {
 
             campoTipo.getItems().add("Graduação");
             campoTipo.getItems().add("Pós-Graduação");
+
+            if (curso != null) {
+                for (int i = 0; i < departamentos.size(); i++) {
+                    if (departamentos.get(i).getIdDepartamento() == curso.getIdDepartamento().getIdDepartamento()) {
+                        selectDepartamento.getSelectionModel().select(i);
+                        break;
+                    }
+                }
+
+                campoNome.setText(curso.getNome());
+                campoQuantidade.setText(String.valueOf(curso.getQuantAlunos()));
+                campoTipo.getSelectionModel().select(curso.getTipo());
+            }
         } catch (ListaCadastroVaziaExceptions e) {
             System.out.println(e.getMessage());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        }
-
-        if (curso != null) {
-            campoNome.setText(curso.getNome());
-            campoQuantidade.setText(String.valueOf(curso.getQuantAlunos()));
-            selectDepartamento.getSelectionModel().select(curso.getIdDepartamento());
-            campoTipo.getSelectionModel().select(curso.getTipo());
         }
     }
 
@@ -58,6 +64,7 @@ public class PainelCursoAdicionar extends Tela {
         Navegacao.carregarPainel("painelCursoInicio");
     }
 
+    @FXML
     public void botaoSalvarAction() {
         if (!campoNome.getText().isEmpty() && !campoQuantidade.getText().isEmpty() && selectDepartamento.getValue() != null && campoTipo.getValue() != null) {
             try {
@@ -69,7 +76,8 @@ public class PainelCursoAdicionar extends Tela {
 
                 Navegacao.carregarPainel("painelCursoInicio");
             } catch(Exception e) {
-
+                Alertas.falhaCadastro("curso.");
+                e.printStackTrace();
             }
         } else {
             Alertas.campoObrigatorio("Preencha todos os campos.");
