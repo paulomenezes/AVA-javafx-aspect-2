@@ -1,9 +1,11 @@
 package com.ufrpe.ava.gui.controladores;
 
+import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
 import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import java.sql.SQLException;
@@ -50,8 +52,10 @@ public class PainelProjetoPesquiasAdicionar extends Tela {
             try {
                 if (projetoPesquisa == null) {
                     this.avaFachada.cadastrarProjetoPesquisa(campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
+                    this.avaFachada.registrarLogin("Projeto"+ campoNome.getText()+" - Foi Cadastrado no Sistema" ) ;
                 } else {
                     this.avaFachada.editarProjetoPesquisa(projetoPesquisa.getIdProjeto(), campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
+                    this.avaFachada.registrarLogin("Projeto"+ campoNome.getText()+" - Foi Alterado no Sistema" ) ;
                 }
 
                 Navegacao.carregarPainel("painelProjetoPesquisaInicio");

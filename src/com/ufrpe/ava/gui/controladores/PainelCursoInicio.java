@@ -112,6 +112,7 @@ public class PainelCursoInicio extends Tela {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
                 this.avaFachada.removerCurso(tabela.getSelectionModel().getSelectedItem());
+                this.avaFachada.registrarPersistencia("Curso - "+tabela.getSelectionModel().getSelectedItem().getNome() +"Foi Removido do Sistema") ;
                 tabela.getColumns().clear();
 
                 List<Curso> cursos = this.avaFachada.selecionarCursos();

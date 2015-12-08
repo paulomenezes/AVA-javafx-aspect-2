@@ -55,8 +55,10 @@ public class PainelDisciplinaAdicionar extends Tela {
             try {
                 if (disciplina == null) {
                     this.avaFachada.cadastrarDisciplina(campoNome.getText(), campoTipo.getValue().toString(), Integer.parseInt(campoCargaHoraria.getText().toString()), Integer.parseInt(campoCreditos.getText().toString()));
+                    this.avaFachada.registrarPersistencia("Disciplina - "+ campoNome.getText() +" -  Foi cadastrada no sistema") ;
                 } else {
                     this.avaFachada.editarDisciplina(disciplina.getIdDisciplina(), campoNome.getText(), campoTipo.getValue().toString(), Integer.parseInt(campoCargaHoraria.getText().toString()), Integer.parseInt(campoCreditos.getText().toString()));
+                    this.avaFachada.registrarPersistencia("Disciplina - "+ campoNome.getText() +" -  Foi alterada no sistema") ;
                 }
 
                 Navegacao.carregarPainel("painelDisciplinaInicio");

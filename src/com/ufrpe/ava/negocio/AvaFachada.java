@@ -107,15 +107,6 @@ public class AvaFachada implements IAvaFachada {
     public void removerCurso(Curso curso) throws SQLException {
         controladorCurso.removerCurso(curso);
     }
-
-    /* FUNÇÕES  DISCIPLINAS -----------------------------------------------------------------------------*/ 
-    
-    public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{
-    	
-    	return controladorCurso.disciplinasDisponiveis(cpf);
-    	
-    }
-
     
     /* FUNÇÕES  REGISTROS -----------------------------------------------------------------------------*/ 
 
@@ -152,6 +143,13 @@ public class AvaFachada implements IAvaFachada {
 
     public List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {
         return controladorDiscilpina.selecionarDisciplinas();
+        
+    }
+    
+    public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return controladorCurso.disciplinasDisponiveis(cpf);
+    	
     }
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
@@ -170,4 +168,8 @@ public class AvaFachada implements IAvaFachada {
     public List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions {
         return controladorProjetoPesquisa.selecionarProjetoPesquisas();
     }
+    
+    
+   
+
 }

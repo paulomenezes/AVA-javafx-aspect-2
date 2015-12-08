@@ -10,12 +10,14 @@ import java.util.ArrayList;
  * Created by paulomenezes on 08/12/15.
  */
 public class ControladorProjetoPesquisa {
+	
     public ArrayList<ProjetoPesquisa> selecionarProjetoPesquisas()throws SQLException,ListaCadastroVaziaExceptions {
         return new ArrayList<>();
     }
 
     public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception  {
-        ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+        
+    	ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
         projetoPesquisa.setNome(nome);
         projetoPesquisa.setModalidade(modalidade);
         projetoPesquisa.setOrganizacao(organizacao);

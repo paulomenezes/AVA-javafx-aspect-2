@@ -112,7 +112,7 @@ public aspect Insercoes extends ConexaoMySQL {
         }
     }
 
-	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws Exception: cadastrarCurso(nome, quantidade, departamento, tipo) {
+	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws SQLException: cadastrarCurso(nome, quantidade, departamento, tipo) {
 		try {
 			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO curso (nome, qtdAlunos, idDepartamento, tipo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -143,7 +143,7 @@ public aspect Insercoes extends ConexaoMySQL {
 		}
 	}
 
-    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws Exception: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
+    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws SQLException: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
         try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO disciplina (nome, tipo, cargaHoraria, creditos) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);

@@ -43,7 +43,7 @@ public class ControladorCurso {
     	return null;
     }
 
-    public Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws Exception  {
+    public Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws SQLException  {
         Curso curso = new Curso();
         curso.setNome(nome);
         curso.setQuantAlunos(quantidade);
