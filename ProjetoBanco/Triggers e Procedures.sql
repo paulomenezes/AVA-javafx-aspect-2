@@ -1,118 +1,9 @@
 -- fazer uma procedure que verifica após confirmar o botão de matrícula, verifica se tem ao mínimo 3 matérias e no máximo 10
 
 use ava;
--- só para adi
-
 delimiter |
+-- -------------------------------------------- PROCEDURE ----------------------------------------------------
 
--- TRIGGER
-
-create trigger inserirNotaAposMatricularAluno after insert on matricular for each row begin
--- cria um 'objeto' nota para poder comportar as notas do aluno numa 
--- oferta de disciplina após confirmado(matriculado)
-	if (new.cpfAluno is not null and new.idOferta is not null) then
-		INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)
-			VALUES(new.cpfAluno, new.idOferta, null, null, null, null);
-	end if;
-	end
-|
-
--- toda vez que alterar alguma coisa na tabela nota, as notas, logicamente, ele chama o procedimento de 
--- calcular...Média (outro arquivo) que calcula a média para todos os alunos daquela oferta, consequentemente
--- a do cara com a nota alterada 
--- põe lá em histórico ()
-
--- OBS: o controle de fluxo é feito no procedimento 
-create trigger calcularMedia after update on nota for each row begin
-	if (new.idOferta is not null) then
-		call calcularMediaDeCadaAlunoNaOferta(new.idOferta);
-	end if;
-end
-|
-create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row begin
--- cria um 'objeto' 'historico' para poder comportar a média e situação
--- de um aluno numa oferta de disciplina após inserido na nota
-	if (new.cpfAluno is not null and new.idOferta is not null) then
-		INSERT INTO historico(cpfAluno, idOferta, condicao, media)
-			VALUES(new.cpfAluno, new.idOferta, null, null);
-	end if;
-end
-|
-
-create trigger atualizarNAlunosOferta after update on matricular for each row -- tanto quanto se matricular quanto sair
-	begin
-		declare nAlunos int default 0;
-		if (new.cpfAluno is not null and new.idOferta is not null) then
-			update ofertaDisciplina
-				set nAlunos = nAlunos + 1
-				where idOferta = new.idOferta;
-		end if;
-		if (old.cpfAluno is not null and old.idOferta is not null) then
-			update ofertaDisciplina
-				set nAlunos = nAlunos - 1
-				where idOferta = old.idOferta;
-		end if;
-	end
-	|
-
-create trigger atualizarNAlunosCurso after update on aluno for each row -- tanto quanto se matricular quanto sair
-	begin
-		declare nAlunos int default 0;
-		if (new.cpfAluno is not null and new.idCurso is not null) then
-			update curso
-					set	nAlunos = nAlunos + 1
-					where idCurso = new.idCurso;
-		end if;
-		if (old.cpfAluno is not null and old.idCurso is not null) then
-			update curso
-				set nAlunos = nAlunos - 1
-				where idCurso = old.idCurso;
-		end if;
-	end
-	|
-
--- quando se cria um novo projeto de pesquisa, ele gera um aviso novo, disponível a todos (público)
-create trigger criarAvisoProjeto after insert on projetopesquisa for each row -- tanto quanto se matricular quanto sair
-	begin
-		declare descr text default null; -- descrição 
-
-        set  descr = concat('Uma nova bolsa foi lançada. ', new.nome, ' é uma bolsa do(a) ', new.organizacao, 
-        ' na modalidade ', new.modalidade, ' com ', new.nVagas, 'disponível(is) e bolsa com valor de ', new.valorBolsa);
-		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
-        VALUES(NULL, 'Oportunidade', descr, 0, NULL, NULL, NULL, NULL);
-	end
-	|
-    
-    -- se alguém entra em um proj o n de vagas diminui, se sai, aumenta
-create trigger atualizarNVagasProjeto after update on participarprojeto for each row
-	begin
-		declare texto text;
-        declare texto2 text;
-		if (new.cpfAluno is not null and new.idProjeto is not null) then
-			update projetopesquisa
-				set nVagas = nVagas - 1
-				where idProjeto = new.idProjeto;
-                set texto2 = buscarNomeUsuario(new.cpfAluno);
-			set texto = concat('Parabéns ', texto2, ' você está dentro do projeto ', buscarNomeProjeto(new.idProjeto), '!');
-		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) 
-        VALUES(NULL, 'Vaga conquistada!', texto, 0, NULL, NULL, NULL, new.cpfAluno);-- mensagem específica para o usuário
-		end if;
-        
-        if (old.cpfAluno is not null and old.idProjeto is not null) then
-			update projetopesquisa
-				set nVagas = nVagas + 1
-				where idProjeto = old.idProjeto;
-                set texto2 =  buscarNomeProjeto(old.idProjeto);
-			set texto = concat('O projeto ', texto2, ' tem uma vaga em aberto.');
-		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
-        VALUES(NULL, 'Há uma nova vaga', texto, 0, NULL, NULL, NULL, NULL); -- mensagem para todos, pois tem null tanto no ultimo q penultimo
-		end if;
-	end
-	|
-
--- PROCEDURE
-
--- quando se inicia, está tudo null, tem chamá-la primeiro antes de chamar as outras de atualizar.
 create procedure atualizarNAlunosCursoQuandoNull (in idC int) 
 	begin
 		declare done int default 0;
@@ -136,7 +27,8 @@ create procedure atualizarNAlunosCursoQuandoNull (in idC int)
 		close alunoCursor;
 	end
 	|
-    
+
+-- usado uma vez pelo procedimento atualizarAlunos(...) logo abaixo    
 create procedure atualizarNAlunosOfertaQuandoNull (in idO int) 
 	begin
 		declare done int default 0;
@@ -161,6 +53,8 @@ create procedure atualizarNAlunosOfertaQuandoNull (in idO int)
 	|
     
 
+-- deve ser usado uma vez somente para preencher o banco, atualiza o n° de alunos antes de começar
+-- a inserir coisas no banco
 create procedure atualizarAlunos () 
 begin
 	declare done int default 0;
@@ -168,6 +62,9 @@ begin
     declare continue handler for not found set done = 1;
     
 	repeat
+    -- lembrar de trocar onde tem 'Curso' no nome do procedimento na chamada abaixo por 'Oferta'
+    -- depois de tê-lo chamado uma vez, agora, depois de trocado, será chamado para preencher
+    -- a coluna qtdAlunos na tabela ofertadisciplina
 		call atualizarNAlunosCursoQuandoNull(nOfertaCurso);
         set nOfertaCurso = nOfertaCurso + 1;
         if nOfertaCurso = 200 then 
@@ -178,6 +75,8 @@ begin
 end
 |
 
+-- deve ser usado uma vez somente para preencher o banco
+-- para atualizar o hist de quem já iniciou no banco
 create procedure atualizarHistorico () 
 begin
 	declare done int default 0;
@@ -196,7 +95,7 @@ end
 |
 
 
-
+-- matrícula do aluno
 create procedure adicionarAlunoAOferta(in cpfAl varchar(14), in idO int, in dataMatr date, in numProt int) begin
 -- numProt pode ser gerado aleatoriamente com até 20 caraceteres alfanuméricos lá no java
 	if (cpfAl is not null and idO is not null and idO <> 0) then
@@ -215,7 +114,16 @@ create procedure adicionarProfessorAOferta(in cpfProf varchar(14), in idO int) b
 end
 |
 
--- para aluno estar vinculado a um projeto
+create procedure adicionarSolicitacaoDeProjetoDeUmAluno(in cpfAl varchar(14), in idP int) begin
+-- numProt pode ser gerado aleatoriamente com até 20 caraceteres alfanuméricos lá no java
+	if (cpfAl is not null and idP is not null and idP <> 0) then
+		INSERT INTO solicitacaoprojeto(cpfAluno, idProjeto, estado)
+			VALUES(cpfAl, idP, NULL);
+	end if;
+end
+|
+
+-- para aluno estar vinculado a um projeto, após aprovada sua solicitação
 create procedure adicionarAlunoAoProjeto (in cpfAl varchar(14), in idP int) begin
 	if (cpfAl is not null and idP is not null and idP <> 0) then
 		INSERT INTO projetopesquisa(cpfAluno, idProjeto)
@@ -259,8 +167,172 @@ create procedure adicionarNotaAAluno (in cpfAl varchar(14), in idOf int, in nota
 end
 |
 
--- FUNCTION
+-- -------------------------------------------- TRIGGERS ----------------------------------------------------
+-- toda vez que tiver um update em solicitação, prof rejeita por exemplo
+CREATE TRIGGER ava.salvarAlunoProjeto
+AFTER update ON solicitacaoprojeto
+FOR EACH ROW
+BEGIN
+	IF(new.estado = 1) THEN
+		
+        INSERT INTO ava.participarprojeto(cpfAluno,idProjeto)VALUES(new.cpfAluno,new.idProjeto);
+        DELETE FROM ava.solicitacaoprojeto WHERE idSolicitacao = new.idSolicitacao;
+	ELSE IF (new.estado = 0) then -- quer dizer que respondeu e negou, pode excluir tb
+			delete from ava.solicitacaoprojeto where idSolicitacao = new.idSolicitacao;
+            end if;
+    END IF;
+		
+END
+|
 
+-- cria um 'objeto' nota para poder comportar as notas do aluno numa 
+-- oferta de disciplina após confirmado(matriculado)
+create trigger inserirNotaAposMatricularAluno after insert on matricular for each row begin
+	if (new.cpfAluno is not null and new.idOferta is not null) then
+		INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)
+			VALUES(new.cpfAluno, new.idOferta, null, null, null, null);
+	end if;
+	end
+|
+
+-- toda vez que alterar alguma coisa na tabela nota, as notas, logicamente, ele chama o procedimento de 
+-- calcular...Média (outro arquivo) que calcula a média para todos os alunos daquela oferta, consequentemente
+-- a do cara com a nota alterada 
+-- põe lá em histórico ()
+
+-- OBS: o controle de fluxo é feito no procedimento 
+create trigger calcularMedia after update on nota for each row begin
+	if (new.idOferta is not null and new.cpfAluno is not null) then
+		call calcularMediaAluno(new.idOferta, new.cpfAluno);
+	end if;
+end
+|
+create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row begin
+-- cria um 'objeto' 'historico' para poder comportar a média e situação
+-- de um aluno numa oferta de disciplina após inserido na nota
+	if (new.cpfAluno is not null and new.idOferta is not null) then
+		INSERT INTO historico(cpfAluno, idOferta, condicao, media)
+			VALUES(new.cpfAluno, new.idOferta, null, null);
+	end if;
+end
+|
+
+-- número de alunos numa oferta de disciplina (alg linear, prog, paradigmas etc.)
+create trigger atualizarNAlunosOferta after update on matricular for each row -- tanto quanto se matricular quanto sair
+	begin
+		if (new.cpfAluno is not null and new.idOferta is not null) then
+			update ofertaDisciplina
+				set qtdAlunos = qtdAlunos + 1
+				where idOferta = new.idOferta;
+		end if;
+		if (old.cpfAluno is not null and old.idOferta is not null) then
+			update ofertaDisciplina
+				set qtdAlunos = qtdAlunos - 1
+				where idOferta = old.idOferta;
+		end if;
+	end
+	|
+
+-- número de alunos num curso (ciencia da comp, matemat...)
+create trigger atualizarNAlunosCurso after update on aluno for each row -- tanto quanto se matricular quanto sair
+	begin
+		if (new.cpfAluno is not null and new.idCurso is not null) then
+			update curso
+					set	qtdAlunos = qtdAlunos + 1
+					where idCurso = new.idCurso;
+		end if;
+		if (old.cpfAluno is not null and old.idCurso is not null) then
+			update curso
+				set qtdAlunos = qtdAlunos - 1
+				where idCurso = old.idCurso;
+		end if;
+	end
+	|
+
+-- quando se cria um novo projeto de pesquisa, ele gera um aviso novo, disponível a todos (público)
+create trigger criarAvisoProjeto after insert on projetopesquisa for each row -- tanto quanto se matricular quanto sair
+	begin
+		declare descr text default null; -- descrição 
+
+        set  descr = concat('Uma nova bolsa foi lançada. ', new.nome, ' é uma bolsa do(a) ', new.organizacao, 
+        ' na modalidade ', new.modalidade, ' com ', new.nVagas, 'disponível(is) e bolsa com valor de ', new.valorBolsa);
+		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+        VALUES(NULL, 'Oportunidade', descr, 0, NULL, NULL, NULL, NULL);
+	end
+	|
+    
+-- na vdd não avisa, apenas cria, quem tem de avisar é por fora
+create trigger avisarProfessorDeSolicitacao after insert on solicitacaoprojeto for each row
+begin
+	declare texto text default null; -- descrição 
+    declare nomeProj varchar(40);
+    declare nomeAl varchar(35);
+    declare cpfProf varchar(14);
+    if (new.cpfAluno is not null and new.idProjeto is not null) then
+		set cpfProf = buscarCpfProfessor(new.idProjeto);
+		set nomeProj = buscarNomeProjeto(new.idProjeto);
+		set nomeAl = buscarNomeUsuario(new.cpfAluno);
+		set texto = concat(nomeAl, ' quer tentar uma vaga no projeto ', nomeProj, ' coordenado por você.');
+		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+			VALUES(new.cpfAluno, 'Alguém está interessado em seu projeto', texto, 1, NULL, NULL, NULL, cpfProf);
+	end if;
+end
+|
+
+    -- se alguém entra em um proj o n de vagas diminui, se sai, aumenta
+create trigger atualizarNVagasProjeto after update on participarprojeto for each row
+	begin
+		declare texto text;
+        declare texto2 text;
+		if (new.cpfAluno is not null and new.idProjeto is not null) then
+			update projetopesquisa
+				set nVagas = nVagas - 1
+				where idProjeto = new.idProjeto;
+                set texto2 = buscarNomeUsuario(new.cpfAluno);
+			set texto = concat('Parabéns ', texto2, ' você está dentro do projeto ', buscarNomeProjeto(new.idProjeto), '!');
+		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) 
+        VALUES(NULL, 'Vaga conquistada!', texto, 0, NULL, NULL, NULL, new.cpfAluno);-- mensagem específica para o usuário
+		end if;
+        
+        if (old.cpfAluno is not null and old.idProjeto is not null) then
+			update projetopesquisa
+				set nVagas = nVagas + 1
+				where idProjeto = old.idProjeto;
+                set texto2 =  buscarNomeProjeto(old.idProjeto);
+			set texto = concat('O projeto ', texto2, ' tem uma vaga em aberto.');
+		INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+        VALUES(NULL, 'Há uma nova vaga', texto, 0, NULL, NULL, NULL, NULL); -- mensagem para todos, pois tem null tanto no ultimo q penultimo
+		end if;
+	end
+	|
+--  ------------------------------------------------------FUNCTION-----------------------------------------
+
+-- FUNÇÕES SECUNDÁRIAS
+
+
+-- problema dessa função é que retorna somente o primeiro prof da tab, ou seja, somente ele receberá a 
+-- mensagem no fim
+create function buscarCpfProf (idP int) returns varchar(14) deterministic begin
+		declare done int default 0;
+		declare idProj int;
+		declare cpfProf varchar(14);
+        declare cpfP varchar(14) default null;
+        declare projetoprofCursor cursor for select cpfProfessor, idProjeto from projetoprofessor; 
+		declare continue handler for not found set done = 1;
+        
+        open projetoprofCursor;
+        repeat
+        fetch projetoprofCursor into cpfProf, idProj;
+        if (idProj = idP) then
+			set cpfP = cpfProf;
+			set done = 1;
+        end if;
+        until done
+        end repeat;
+        close projetoprofCursor;
+        return cpfP;
+end
+|
 
 create function buscarNomeProjeto (idP int) returns varchar(35) deterministic begin
 		declare done int default 0;
@@ -305,6 +377,7 @@ create function buscarNomeUsuario (cpfU varchar(14)) returns varchar(35) determi
         return nomeUsuario;
 end
 |
+
 delimiter ;
 call atualizarAlunos();
 call atualizarHistorico();
