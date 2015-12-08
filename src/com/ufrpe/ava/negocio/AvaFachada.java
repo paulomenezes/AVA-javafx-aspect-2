@@ -38,7 +38,7 @@ public class AvaFachada implements IAvaFachada {
     }
 
     @Override
-    public ArrayList<Usuario> selecionarUsuarios() {
+    public ArrayList<Usuario> selecionarUsuarios() throws SQLException,ListaCadastroVaziaExceptions {
         return controladorUsuario.selecionarTudo();
     }
 
@@ -63,6 +63,10 @@ public class AvaFachada implements IAvaFachada {
 
     public void removerUsuario(Usuario usuario) throws SQLException {
         controladorUsuario.removerUsuario(usuario);
+    }
+
+    public void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException  {
+        controladorUsuario.cadastrarUsuario(nome, cpf, email, senha);
     }
     
     /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/

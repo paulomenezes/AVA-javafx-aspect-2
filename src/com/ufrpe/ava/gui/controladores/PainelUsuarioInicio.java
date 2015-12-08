@@ -5,23 +5,17 @@ import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 import com.ufrpe.ava.util.Navegacao;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class PainelUsuarioInicio extends Tela {
-    @FXML
-    private Button botaoAdicionar;
-
-    @FXML
-    private Button botaoAtualizar;
-
     @FXML
     private Button botaoRemover;
 
@@ -48,13 +42,13 @@ public class PainelUsuarioInicio extends Tela {
             tabela.setItems(FXCollections.observableArrayList(usuarios));
 
             cpf = new TableColumn<>("CPF");
-            cpf.setCellValueFactory(new PropertyValueFactory<Usuario, String>("cpf"));
+            cpf.setCellValueFactory(new PropertyValueFactory<Usuario, String>("CPF"));
 
             nome = new TableColumn<>("Nome");
             nome.setCellValueFactory(new PropertyValueFactory<Usuario, String>("nome"));
 
             tipo = new TableColumn<>("Tipo");
-            tipo.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("tipo"));
+            tipo.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("grad"));
 
             email = new TableColumn<>("E-mail");
             email.setCellValueFactory(new PropertyValueFactory<Usuario, String>("email"));
@@ -63,10 +57,8 @@ public class PainelUsuarioInicio extends Tela {
 
             tabela.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
                 if (tabela.getSelectionModel().getSelectedItem() != null) {
-                    botaoAtualizar.setDisable(false);
                     botaoRemover.setDisable(false);
                 } else {
-                    botaoAtualizar.setDisable(true);
                     botaoRemover.setDisable(true);
                 }
             });
@@ -75,23 +67,22 @@ public class PainelUsuarioInicio extends Tela {
         }
     }
 
-    public void botaoInserirAction() {
+    public void botaoCoordenadorAction() {
+        PainelUsuarioAdicionar.tipo = -1;
         PainelUsuarioAdicionar.usuario = null;
         Navegacao.carregarPainel("painelUsuarioAdicionar");
     }
 
-    public void botaoAtualizarAction() {
-        if (tabela.getSelectionModel().getSelectedItem() != null) {
-            try {
-                PainelUsuarioAdicionar.usuario = tabela.getSelectionModel().getSelectedItem();
-                Navegacao.carregarPainel("painelUsuarioAdicionar");
-            } catch (Exception e) {
+    public void botaoProfessorAction() {
+        PainelUsuarioAdicionar.tipo = 0;
+        PainelUsuarioAdicionar.usuario = null;
+        Navegacao.carregarPainel("painelUsuarioAdicionar");
+    }
 
-            }
-        } else {
-            botaoAtualizar.setDisable(true);
-            botaoRemover.setDisable(true);
-        }
+    public void botaoAlunoAction() {
+        PainelUsuarioAdicionar.tipo = 1;
+        PainelUsuarioAdicionar.usuario = null;
+        Navegacao.carregarPainel("painelUsuarioAdicionar");
     }
 
     public void botaoRemoverAction() {
@@ -105,13 +96,13 @@ public class PainelUsuarioInicio extends Tela {
 
                 tabela.getColumns().addAll(cpf, nome, email, tipo);
 
-                botaoAtualizar.setDisable(true);
                 botaoRemover.setDisable(true);
+            } catch(ListaCadastroVaziaExceptions e){
+                e.getMessage();
             } catch(SQLException e){
                 e.getMessage();
             }
         } else {
-            botaoAtualizar.setDisable(true);
             botaoRemover.setDisable(true);
         }
     }

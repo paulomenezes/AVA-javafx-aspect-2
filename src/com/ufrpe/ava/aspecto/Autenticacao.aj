@@ -25,8 +25,6 @@ public aspect Autenticacao extends ConexaoMySQL {
 
     pointcut loginUsuario(String cpf, String senha):
             call(* ControladorUsuario.buscarLogin(String, String)) && args(cpf, senha);
-    
-    
 
     Usuario around(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions: loginUsuario(cpf, senha) {
    
@@ -69,13 +67,10 @@ public aspect Autenticacao extends ConexaoMySQL {
     }
 
     boolean around(String s1 , String s2): validarSenha(s1, s2) {
-        Boolean retorno = false;
+        if (s1.equals(s2))
+            return true;
 
-        if (s1.equals(s2)) {
-            retorno = true;
-        }
-
-        return retorno;
+        return false;
     }
 
     boolean around(String email) : validarEmail(email) {

@@ -11,6 +11,10 @@ package com.ufrpe.ava.negocio.entidades;
 	    private String senha;
 	    private int grad;
 
+		public Usuario() {
+
+		}
+
 	    public Usuario(String cpf, String nome, String email, String foto, String senha, int grad) {
 			this.cpf = cpf;
 			this.nome = nome;

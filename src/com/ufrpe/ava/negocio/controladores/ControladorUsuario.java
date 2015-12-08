@@ -3,6 +3,7 @@ package com.ufrpe.ava.negocio.controladores;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.entidades.Aluno;
 import com.ufrpe.ava.negocio.entidades.Matricular;
@@ -19,7 +20,7 @@ public class ControladorUsuario {
     }
 
 
-    public ArrayList<Usuario> selecionarTudo() {
+    public ArrayList<Usuario> selecionarTudo() throws SQLException,ListaCadastroVaziaExceptions {
         return null;
     }
 
@@ -42,10 +43,20 @@ public class ControladorUsuario {
     }
 
     public void matricularAluno(Matricular m) throws SQLException{
-    	
     	//INSERIDO PELO ASPECTO INSERÇÕES
     }
 
     public void removerUsuario(Usuario usuario) throws SQLException {
+
+    }
+
+    public void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException {
+        Usuario usuario = new Usuario();
+        usuario.setNome(nome);
+        usuario.setCPF(cpf);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+
+        cadastrarUsuario(usuario);
     }
 }

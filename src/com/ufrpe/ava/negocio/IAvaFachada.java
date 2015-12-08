@@ -27,12 +27,13 @@ public interface IAvaFachada {
     
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;
 
-    List<Usuario> selecionarUsuarios();
+    List<Usuario> selecionarUsuarios() throws SQLException,ListaCadastroVaziaExceptions;
 
     void matricularAluno(Matricular m) throws SQLException;
 
     void removerUsuario(Usuario selectedItem) throws SQLException;
 
+    void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException;
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
     Departamento cadastrarDepartamento(String nome) throws Exception;

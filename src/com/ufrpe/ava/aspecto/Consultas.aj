@@ -7,9 +7,11 @@ import java.util.ArrayList;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -18,12 +20,9 @@ public aspect Consultas extends ConexaoMySQL {
 	
     pointcut selecionarDepartamentos(): execution(* ControladorCurso.selecionarDepartamentos());
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
+    pointcut selecionarUsuarios(): execution(* ControladorUsuario.selecionarTudo());
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
-    
-    
-    
-    
-    
+
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
     	
     	PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM ofertasPagas"+ 
@@ -80,32 +79,55 @@ public aspect Consultas extends ConexaoMySQL {
 
     ArrayList<Curso> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarCursos() {
 
-            PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
-            ResultSet resultSet = statement.executeQuery();
+        PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
+        ResultSet resultSet = statement.executeQuery();
 
-            ArrayList<Curso> lista = new ArrayList<>();
-            while (resultSet.next()) {
-                Curso curso = new Curso();
-                curso.setIdCurso(resultSet.getInt("idCurso"));
-                curso.setNome(resultSet.getString("nome"));
-                curso.setQuantAlunos(resultSet.getInt("qtdAlunos"));
-                curso.setTipo(resultSet.getString("tipo"));
+        ArrayList<Curso> lista = new ArrayList<>();
+        while (resultSet.next()) {
+            Curso curso = new Curso();
+            curso.setIdCurso(resultSet.getInt("idCurso"));
+            curso.setNome(resultSet.getString("nome"));
+            curso.setQuantAlunos(resultSet.getInt("qtdAlunos"));
+            curso.setTipo(resultSet.getString("tipo"));
 
-                Departamento departamento = new Departamento();
-                departamento.setIdDepartamento(resultSet.getInt("idDepto"));
-                departamento.setNome(resultSet.getString("NomeDepartamento"));
+            Departamento departamento = new Departamento();
+            departamento.setIdDepartamento(resultSet.getInt("idDepto"));
+            departamento.setNome(resultSet.getString("NomeDepartamento"));
 
-                curso.setIdDepartamento(departamento);
+            curso.setIdDepartamento(departamento);
 
-                lista.add(curso);
+            lista.add(curso);
+        }
+
+            if(lista.isEmpty()){
+                throw new ListaCadastroVaziaExceptions("selecao Cursos");
             }
-            
-                if(lista.isEmpty()){
-                	throw new ListaCadastroVaziaExceptions("selecao Cursos");
-                }
-                
-                return lista;
+
+            return lista;
     }
-    
+
+    ArrayList<Usuario> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarUsuarios() {
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario");
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<Usuario> lista = new ArrayList<>();
+        while (resultSet.next()) {
+            Usuario usuario = new Usuario();
+            usuario.setCPF(resultSet.getString("cpf"));
+            usuario.setNome(resultSet.getString("nome"));
+            usuario.setEmail(resultSet.getString("email"));
+            usuario.setGrad(resultSet.getInt("tipo"));
+            usuario.setFoto(resultSet.getString("foto"));
+
+            lista.add(usuario);
+        }
+
+        if(lista.isEmpty()){
+            throw new ListaCadastroVaziaExceptions("selecao usuarios");
+        }
+
+        return lista;
+    }
     
 }

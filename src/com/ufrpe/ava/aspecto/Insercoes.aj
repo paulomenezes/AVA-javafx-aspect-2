@@ -30,7 +30,6 @@ public aspect Insercoes extends ConexaoMySQL {
 	// IRSERCAO RELACIONADA  A USUARIOS --------------------------------------------------------------------------------------------------------//
 	
 	void around(Usuario usuario)throws SQLException: insercaoUsuario(usuario){
-		
 		connection.setAutoCommit(false);
 		PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (cpf, nome, foto, email, senha, tipo)VALUES(?,?,?,?,?,?)");
 		statement.setString(1, usuario.getCPF());

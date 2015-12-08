@@ -18,9 +18,14 @@
 
                   </columns>
               </TableView>
-              <Button fx:id="botaoInserir" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoInserirAction" text="Inserir" />
-              <Button fx:id="botaoAtualizar" layoutX="79.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoAtualizarAction" text="Atualizar" />
-              <Button fx:id="botaoRemover" layoutX="160.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoRemoverAction" text="Remover" />
+              <Button fx:id="botaoRemover" layoutX="135.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoRemoverAction" text="Remover" />
+            <MenuButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="111.0" text="Inserir">
+              <items>
+                  <MenuItem mnemonicParsing="false" text="Coordenador" onAction="#botaoCoordenadorAction" />
+                  <MenuItem mnemonicParsing="false" text="Professor" onAction="#botaoProfessorAction" />
+                  <MenuItem mnemonicParsing="false" text="Aluno" onAction="#botaoAlunoAction" />
+              </items>
+            </MenuButton>
           </children>
       </Pane>
     </children>

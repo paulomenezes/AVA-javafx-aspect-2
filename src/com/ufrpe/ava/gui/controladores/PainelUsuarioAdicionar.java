@@ -1,17 +1,15 @@
 package com.ufrpe.ava.gui.controladores;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.negocio.entidades.*;
 import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
+import com.ufrpe.ava.util.Validacao;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,40 +17,72 @@ import java.util.List;
  */
 public class PainelUsuarioAdicionar extends Tela {
     @FXML
+    private TextField campoCPF;
+
+    @FXML
+    private TextField campoSenha;
+
+    @FXML
+    private TextField campoReSenha;
+
+    @FXML
+    private CheckBox professorCheck;
+
+    @FXML
+    private CheckBox alunoCheck;
+
+    @FXML
     private TextField campoNome;
 
     @FXML
-    private ChoiceBox<Departamento> selectDepartamento;
+    private TextField campoEmail;
 
     @FXML
-    private TextField campoQuantidade;
+    private Button botaoVoltar;
 
     @FXML
-    private ComboBox campoTipo;
+    private Button botaoCriarConta;
+
+    @FXML
+    private ChoiceBox<Departamento> departamento;
+
+    @FXML
+    private ChoiceBox<Curso> curso;
+
+    @FXML
+    private CheckBox graduacaoCheck;
+
+    @FXML
+    private CheckBox posGradCheck;
 
     public static Usuario usuario;
+
+    public static int tipo = 0;
 
     @FXML
     public void initialize() {
         try {
             List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
+            departamento.getItems().addAll(departamentos);
 
-            selectDepartamento.getItems().addAll(departamentos);
+            List<Curso> cursos = this.avaFachada.selecionarCursos();
+            curso.getItems().addAll(cursos);
 
-            campoTipo.getItems().add("Graduação");
-            campoTipo.getItems().add("Pós-Graduação");
-
-            if (curso != null) {
-                for (int i = 0; i < departamentos.size(); i++) {
-                    if (departamentos.get(i).getIdDepartamento() == curso.getIdDepartamento().getIdDepartamento()) {
-                        selectDepartamento.getSelectionModel().select(i);
-                        break;
-                    }
-                }
-
-                campoNome.setText(curso.getNome());
-                campoQuantidade.setText(String.valueOf(curso.getQuantAlunos()));
-                campoTipo.getSelectionModel().select(curso.getTipo());
+            if (tipo == -1) {
+                graduacaoCheck.setDisable(true);
+                posGradCheck.setDisable(true);
+                curso.setDisable(true);
+                departamento.setDisable(true);
+            } else if (tipo == 0) {
+                graduacaoCheck.setDisable(true);
+                posGradCheck.setDisable(true);
+                curso.setDisable(true);
+                departamento.setDisable(false);
+            } else if (tipo == 1) {
+                graduacaoCheck.setDisable(false);
+                posGradCheck.setDisable(false);
+                curso.setDisable(false);
+                departamento.setDisable(true);
             }
         } catch (ListaCadastroVaziaExceptions e) {
             System.out.println(e.getMessage());
@@ -62,21 +92,53 @@ public class PainelUsuarioAdicionar extends Tela {
     }
 
     public void botaoCancelarAction() {
-        Navegacao.carregarPainel("painelCursoInicio");
+        Navegacao.carregarPainel("painelUsuarioInicio");
     }
 
     @FXML
     public void botaoSalvarAction() {
-        if (!campoNome.getText().isEmpty() && !campoQuantidade.getText().isEmpty() && selectDepartamento.getValue() != null && campoTipo.getValue() != null) {
-            try {
-                if (curso == null) {
-                    this.avaFachada.cadastrarCurso(campoNome.getText(), Integer.parseInt(campoQuantidade.getText()), selectDepartamento.getValue(), campoTipo.getValue().toString());
-                } else {
-                    this.avaFachada.editarCurso(curso.getIdCurso(), campoNome.getText(), Integer.parseInt(campoQuantidade.getText()), selectDepartamento.getValue(), campoTipo.getValue().toString());
-                }
+        ArrayList<String> listaValidacao = new ArrayList<String>();
+        listaValidacao.add(campoCPF.getText());
+        listaValidacao.add(campoEmail.getText());
+        listaValidacao.add(campoNome.getText());
+        listaValidacao.add(campoSenha.getText());
+        listaValidacao.add(campoReSenha.getText());
 
-                Navegacao.carregarPainel("painelCursoInicio");
-            } catch(Exception e) {
+        if (Validacao.validarCampos(listaValidacao) &&
+                Validacao.validarSenha(campoSenha.getText(), campoReSenha.getText()) &&
+                Validacao.validarEmail(campoEmail.getText()) &&
+                Validacao.validarCPF(campoCPF.getText())) {
+            try {
+                if (tipo == -1) {
+                    this.avaFachada.cadastrarUsuario(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText());
+
+                    Navegacao.carregarPainel("painelUsuarioInicio");
+                } else if (tipo == 0) {
+                    if (departamento.getValue() != null) {
+                        this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), departamento.getValue().getIdDepartamento(), 0);
+
+                        Navegacao.carregarPainel("painelUsuarioInicio");
+                    } else {
+                        Alertas.campoObrigatorio("selecione um departamento.");
+                    }
+                } else if (tipo == 1) {
+                    if (curso.getValue() != null) {
+                        if (graduacaoCheck.isSelected()) {
+                            this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 1);
+
+                            Navegacao.carregarPainel("painelUsuarioInicio");
+                        } else if (posGradCheck.isSelected()) {
+                            this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 2);
+
+                            Navegacao.carregarPainel("painelUsuarioInicio");
+                        } else {
+                            Alertas.campoObrigatorio("selecione graduação ou pós-graduação.");
+                        }
+                    } else {
+                        Alertas.campoObrigatorio("selecione um curso.");
+                    }
+                }
+            } catch (Exception e) {
                 Alertas.falhaCadastro("curso.");
                 e.printStackTrace();
             }
