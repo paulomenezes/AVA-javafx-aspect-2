@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`curso` (
   `idCurso` INT AUTO_INCREMENT NOT NULL COMMENT '',
   `idDepartamento` INT NOT NULL COMMENT '',
   `nome` VARCHAR(30) NOT NULL COMMENT '',
-  `qtdAlunos` INT(3) COMMENT '',
+  `qtdAlunos` INT(3) DEFAULT 0 COMMENT '',
   `tipo` VARCHAR(25) NOT NULL COMMENT '',
   PRIMARY KEY (`idCurso`),
 	INDEX `fk_departamento` (`idDepartamento` ASC),
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`ofertaDisciplina` (
   `idOferta`	INT AUTO_INCREMENT NOT NULL,
   `idDisciplina` INT NOT NULL COMMENT '',
   `idCurso` INT NOT NULL COMMENT '',
-  `qtdAlunos` INT(3) NULL COMMENT '',
+  `qtdAlunos` INT(3) DEFAULT 0 COMMENT '',
   `ano` INT NOT NULL COMMENT '',
   `semestre` INT(11) NOT NULL COMMENT '',
   
@@ -526,8 +526,8 @@ CREATE TABLE IF NOT EXISTS `ava`.`solicitacaoProjeto`(
 	`idSolicitacao` INT NOT NULL AUTO_INCREMENT,
     `cpfAluno`		VARCHAR(14) NOT NULL,
     `idProjeto`     INT NOT NULL,
-    `estado` 		BOOL NOT NULL,
-    PRIMARY KEY(`idSolicitacao`,`cpfAluno`,`idProjeto`),
+    `estado` 		BOOL DEFAULT NULL,
+    PRIMARY KEY(`idSolicitacao`),
     FOREIGN KEY(`cpfAluno`) REFERENCES `ava`.`aluno`(`cpfAluno`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,

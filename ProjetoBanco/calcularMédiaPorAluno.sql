@@ -1,9 +1,7 @@
--- GERAR MÉDIA DE UM ALUNO NUMA OFERTA
--- ENTREGO O ID DA OFERTA E CALCULA A MÉDIA DE CADA ALUNO DA OFERTA
 use ava;
 -- enviar de novo
 delimiter |
-create procedure calcularMediaDeCadaAlunoNaOferta(idOf int)
+create procedure calcularMediaAluno(idOf int, cpfAl int)
 	begin
 	-- parte dos cursores
 		declare done int default 0;
@@ -28,7 +26,7 @@ create procedure calcularMediaDeCadaAlunoNaOferta(idOf int)
 		open notaCursor;
 		repeat
 			fetch notaCursor into cpfA, idO, notaP, notaS, notaT, notaFinal;
-			if (idO = idOf) then
+			if (idO = idOf and cpfA = cpfAl) then
             
 					if (notaP is not null and notaS is not null) then
 						set soma = notaP + notaS;
@@ -89,7 +87,8 @@ create procedure calcularMediaDeCadaAlunoNaOferta(idOf int)
 					set condicao = situacao,
 						media = mediaF
                     where (idOferta = idO and cpfAluno = cpfA);-- após feito o calculo da média do aluno, temos de pô-la na tabela de historico
-			end if;
+			set done = 1; -- faz sair da iteração
+            end if;
 			until done
 			end repeat;
             close notaCursor;
