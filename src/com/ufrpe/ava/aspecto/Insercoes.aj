@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.entidades.*;
 
 /**
@@ -20,6 +21,9 @@ public aspect Insercoes extends ConexaoMySQL {
 
 	pointcut cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo):
 			call(* ControladorCurso.cadastrarCurso(String, int, Departamento, String)) && args(nome, quantidade, departamento, tipo);
+
+    pointcut cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos):
+            call(* ControladorDisciplina.cadastrarDisciplina(String, String, int, int)) && args(nome, tipo, cargaHoraria, creditos);
     
 	pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
 	
@@ -134,6 +138,37 @@ public aspect Insercoes extends ConexaoMySQL {
 			return null;
 		}
 	}
-    
+
+    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws Exception: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO disciplina (nome, tipo, cargaHoraria, creditos) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, nome);
+            statement.setString(2, tipo);
+            statement.setInt(3, cargaHoraria);
+            statement.setInt(4, creditos);
+            statement.executeUpdate();
+
+            ResultSet resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setIdDisciplina(resultSet.getInt(1));
+                disciplina.setNome(nome);
+                disciplina.setTipo(tipo);
+                disciplina.setCreditos(creditos);
+                disciplina.setCargaHoraria(cargaHoraria);
+
+                connection.commit();
+
+                return disciplina;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
 }

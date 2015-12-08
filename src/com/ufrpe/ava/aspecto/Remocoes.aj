@@ -5,8 +5,10 @@ import java.sql.SQLException;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
@@ -21,6 +23,9 @@ public aspect Remocoes extends ConexaoMySQL {
 
     pointcut removerUsuario(Usuario usuario):
             call(* ControladorUsuario.removerUsuario(Usuario)) && args(usuario);
+
+    pointcut removerDisciplina(Disciplina disciplina):
+            call(* ControladorDisciplina.removerDisciplina(Disciplina)) && args(disciplina);
 
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
         connection.setAutoCommit(false);
@@ -42,6 +47,14 @@ public aspect Remocoes extends ConexaoMySQL {
         connection.setAutoCommit(false);
         PreparedStatement statement = connection.prepareStatement("DELETE FROM usuario WHERE cpf = ?");
         statement.setString(1, usuario.getCPF());
+        statement.executeUpdate();
+        connection.commit();
+    }
+
+    void around(Disciplina disciplina) throws SQLException : removerDisciplina(disciplina) {
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM disciplina WHERE cpf = ?");
+        statement.setInt(1, disciplina.getIdDisciplina());
         statement.executeUpdate();
         connection.commit();
     }

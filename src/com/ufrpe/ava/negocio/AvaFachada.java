@@ -2,17 +2,15 @@ package com.ufrpe.ava.negocio;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.controladores.ControladorLogging;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
-import com.ufrpe.ava.negocio.entidades.Matricular;
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.negocio.entidades.*;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -20,12 +18,14 @@ import com.ufrpe.ava.negocio.entidades.Usuario;
 public class AvaFachada implements IAvaFachada {
     private ControladorUsuario controladorUsuario;
     private ControladorCurso controladorCurso;
+    private ControladorDisciplina controladorDiscilpina;
     private ControladorLogging controladorLogging;
 
     public AvaFachada() {
         controladorUsuario = new ControladorUsuario();
         controladorCurso = new ControladorCurso();
         controladorLogging = new ControladorLogging();
+        controladorDiscilpina = new ControladorDisciplina();
     }
     
 
@@ -135,6 +135,20 @@ public class AvaFachada implements IAvaFachada {
 		
 	}
 
+    /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
+    public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception {
+        return controladorDiscilpina.cadastrarDisciplina(nome, tipo, cargaHoraria, creditos);
+    }
 
-	
+    public void editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException {
+        controladorDiscilpina.editarDisciplina(id, nome, tipo, cargaHoraria, creditos);
+    }
+
+    public void removerDisciplina(Disciplina disciplina) throws SQLException {
+
+    }
+
+    public List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {
+        return controladorDiscilpina.selecionarDisciplinas();
+    }
 }

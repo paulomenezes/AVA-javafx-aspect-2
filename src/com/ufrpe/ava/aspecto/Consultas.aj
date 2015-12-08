@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
+import com.ufrpe.ava.negocio.entidades.*;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -21,6 +19,8 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarDepartamentos(): execution(* ControladorCurso.selecionarDepartamentos());
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
     pointcut selecionarUsuarios(): execution(* ControladorUsuario.selecionarTudo());
+    pointcut selecionarDisciplinas(): execution(* ControladorDisciplina.selecionarDisciplinas());
+
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
@@ -121,6 +121,30 @@ public aspect Consultas extends ConexaoMySQL {
             usuario.setFoto(resultSet.getString("foto"));
 
             lista.add(usuario);
+        }
+
+        if(lista.isEmpty()){
+            throw new ListaCadastroVaziaExceptions("selecao usuarios");
+        }
+
+        return lista;
+    }
+
+    ArrayList<Disciplina> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDisciplinas() {
+
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM disciplina");
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<Disciplina> lista = new ArrayList<>();
+        while (resultSet.next()) {
+            Disciplina disciplina = new Disciplina();
+            disciplina.setIdDisciplina(resultSet.getInt("idDisciplina"));
+            disciplina.setNome(resultSet.getString("nome"));
+            disciplina.setTipo(resultSet.getString("tipo"));
+            disciplina.setCargaHoraria(resultSet.getInt("cargaHoraria"));
+            disciplina.setCreditos(resultSet.getInt("creditos"));
+
+            lista.add(disciplina);
         }
 
         if(lista.isEmpty()){
