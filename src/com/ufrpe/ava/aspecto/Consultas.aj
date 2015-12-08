@@ -26,39 +26,43 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
-    	
-    	PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM ofertasPagas"+ 
-    	" AS A JOIN requisitos AS R ON A.idDisciplina = R.requisito WHERE A.cpfAluno = ? GROUP BY R.idOferta ");
-    	
-    	statement.setString(1, cpf);
-    	ResultSet resultSet = statement.executeQuery();
-        ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
-        
-    	
-        while(resultSet.next()){
-        	
-        	DisciplinaDisponivel d = new DisciplinaDisponivel();
-        	d.setIdOferta(resultSet.getInt("idOferta"));
-        	d.setNome(resultSet.getString("nome"));
-        	d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
-        	d.setNomeProfessor(resultSet.getString("nome_professor"));
-        	
-        	disciplinas.add(d);
+    	try {
+            PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM ofertasPagas" +
+                    " AS A JOIN requisitos AS R ON A.idDisciplina = R.requisito WHERE A.cpfAluno = ? GROUP BY R.idOferta ");
+
+            statement.setString(1, cpf);
+            ResultSet resultSet = statement.executeQuery();
+            ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
+
+
+            while (resultSet.next()) {
+
+                DisciplinaDisponivel d = new DisciplinaDisponivel();
+                d.setIdOferta(resultSet.getInt("idOferta"));
+                d.setNome(resultSet.getString("nome"));
+                d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
+                d.setNomeProfessor(resultSet.getString("nome_professor"));
+
+                disciplinas.add(d);
+            }
+
+
+            if (disciplinas.isEmpty()) {
+
+                throw new ListaCadastroVaziaExceptions("disciplinas Disponíveis");
+            }
+
+            return disciplinas;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        
-        	
-        if(disciplinas.isEmpty()){
-        	
-        	throw new ListaCadastroVaziaExceptions("disciplinas Disponíveis");
-        }
-        
-        return disciplinas;
     	
     }
     
     
     ArrayList<Departamento> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDepartamentos() {
-    	
+    	try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM departamento");
             ResultSet resultSet = statement.executeQuery();
 
@@ -70,114 +74,137 @@ public aspect Consultas extends ConexaoMySQL {
 
                 lista.add(usuario);
             }
-            
-            if(lista.isEmpty()){
-            	
-            	throw new ListaCadastroVaziaExceptions("selecao Departamentos");
+
+            if (lista.isEmpty()) {
+
+                throw new ListaCadastroVaziaExceptions("selecao Departamentos");
             }
 
             return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     ArrayList<Curso> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarCursos() {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
+            ResultSet resultSet = statement.executeQuery();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
-        ResultSet resultSet = statement.executeQuery();
+            ArrayList<Curso> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                Curso curso = new Curso();
+                curso.setIdCurso(resultSet.getInt("idCurso"));
+                curso.setNome(resultSet.getString("nome"));
+                curso.setQuantAlunos(resultSet.getInt("qtdAlunos"));
+                curso.setTipo(resultSet.getString("tipo"));
 
-        ArrayList<Curso> lista = new ArrayList<>();
-        while (resultSet.next()) {
-            Curso curso = new Curso();
-            curso.setIdCurso(resultSet.getInt("idCurso"));
-            curso.setNome(resultSet.getString("nome"));
-            curso.setQuantAlunos(resultSet.getInt("qtdAlunos"));
-            curso.setTipo(resultSet.getString("tipo"));
+                Departamento departamento = new Departamento();
+                departamento.setIdDepartamento(resultSet.getInt("idDepto"));
+                departamento.setNome(resultSet.getString("NomeDepartamento"));
 
-            Departamento departamento = new Departamento();
-            departamento.setIdDepartamento(resultSet.getInt("idDepto"));
-            departamento.setNome(resultSet.getString("NomeDepartamento"));
+                curso.setIdDepartamento(departamento);
 
-            curso.setIdDepartamento(departamento);
+                lista.add(curso);
+            }
 
-            lista.add(curso);
-        }
-
-            if(lista.isEmpty()){
+            if (lista.isEmpty()) {
                 throw new ListaCadastroVaziaExceptions("selecao Cursos");
             }
 
             return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     ArrayList<Usuario> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarUsuarios() {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario");
+            ResultSet resultSet = statement.executeQuery();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario");
-        ResultSet resultSet = statement.executeQuery();
+            ArrayList<Usuario> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setCPF(resultSet.getString("cpf"));
+                usuario.setNome(resultSet.getString("nome"));
+                usuario.setEmail(resultSet.getString("email"));
+                usuario.setGrad(resultSet.getInt("tipo"));
+                usuario.setFoto(resultSet.getString("foto"));
 
-        ArrayList<Usuario> lista = new ArrayList<>();
-        while (resultSet.next()) {
-            Usuario usuario = new Usuario();
-            usuario.setCPF(resultSet.getString("cpf"));
-            usuario.setNome(resultSet.getString("nome"));
-            usuario.setEmail(resultSet.getString("email"));
-            usuario.setGrad(resultSet.getInt("tipo"));
-            usuario.setFoto(resultSet.getString("foto"));
+                lista.add(usuario);
+            }
 
-            lista.add(usuario);
+            if (lista.isEmpty()) {
+                throw new ListaCadastroVaziaExceptions("selecao usuarios");
+            }
+
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-
-        if(lista.isEmpty()){
-            throw new ListaCadastroVaziaExceptions("selecao usuarios");
-        }
-
-        return lista;
     }
 
     ArrayList<Disciplina> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDisciplinas() {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM disciplina");
+            ResultSet resultSet = statement.executeQuery();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM disciplina");
-        ResultSet resultSet = statement.executeQuery();
+            ArrayList<Disciplina> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                Disciplina disciplina = new Disciplina();
+                disciplina.setIdDisciplina(resultSet.getInt("idDisciplina"));
+                disciplina.setNome(resultSet.getString("nome"));
+                disciplina.setTipo(resultSet.getString("tipo"));
+                disciplina.setCargaHoraria(resultSet.getInt("cargaHoraria"));
+                disciplina.setCreditos(resultSet.getInt("creditos"));
 
-        ArrayList<Disciplina> lista = new ArrayList<>();
-        while (resultSet.next()) {
-            Disciplina disciplina = new Disciplina();
-            disciplina.setIdDisciplina(resultSet.getInt("idDisciplina"));
-            disciplina.setNome(resultSet.getString("nome"));
-            disciplina.setTipo(resultSet.getString("tipo"));
-            disciplina.setCargaHoraria(resultSet.getInt("cargaHoraria"));
-            disciplina.setCreditos(resultSet.getInt("creditos"));
+                lista.add(disciplina);
+            }
 
-            lista.add(disciplina);
+            if (lista.isEmpty()) {
+                throw new ListaCadastroVaziaExceptions("selecao disciplinas");
+            }
+
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-
-        if(lista.isEmpty()){
-            throw new ListaCadastroVaziaExceptions("selecao usuarios");
-        }
-
-        return lista;
     }
 
-    ArrayList<ProjetoPesquisa> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
+    ArrayList<ProjetoPesquisa> around() throws SQLException, ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
+            ResultSet resultSet = statement.executeQuery();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
-        ResultSet resultSet = statement.executeQuery();
+            System.out.println(resultSet);
 
-        ArrayList<ProjetoPesquisa> lista = new ArrayList<>();
-        while (resultSet.next()) {
-            ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
-            projetoPesquisa.setIdProjeto(resultSet.getInt("idProjeto"));
-            projetoPesquisa.setNome(resultSet.getString("nome"));
-            projetoPesquisa.setModalidade(resultSet.getString("modalidade"));
-            projetoPesquisa.setOrganizacao(resultSet.getString("organizacao"));
-            projetoPesquisa.setValorBolsa(resultSet.getDouble("valorBolsa"));
-            projetoPesquisa.setnVagas(resultSet.getInt("nVagas"));
+            ArrayList<ProjetoPesquisa> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+                projetoPesquisa.setIdProjeto(resultSet.getInt("idProjeto"));
+                projetoPesquisa.setNome(resultSet.getString("nome"));
+                projetoPesquisa.setModalidade(resultSet.getString("modalidade"));
+                projetoPesquisa.setOrganizacao(resultSet.getString("organizacao"));
+                projetoPesquisa.setValorBolsa(resultSet.getDouble("valorBolsa"));
+                projetoPesquisa.setnVagas(resultSet.getInt("nVagas"));
 
-            lista.add(projetoPesquisa);
+                lista.add(projetoPesquisa);
+            }
+
+            if (lista.isEmpty()) {
+                throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
+            }
+
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
         }
-
-        if(lista.isEmpty()){
-            throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
-        }
-
-        return lista;
     }
 }

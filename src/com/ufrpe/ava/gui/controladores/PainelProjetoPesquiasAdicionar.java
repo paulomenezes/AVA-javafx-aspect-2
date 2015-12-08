@@ -52,8 +52,10 @@ public class PainelProjetoPesquiasAdicionar extends Tela {
             try {
                 if (projetoPesquisa == null) {
                     this.avaFachada.cadastrarProjetoPesquisa(campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
+                    this.avaFachada.registrarLogin("Projeto"+ campoNome.getText()+" - Foi Cadastrado no Sistema" ) ;
                 } else {
                     this.avaFachada.editarProjetoPesquisa(projetoPesquisa.getIdProjeto(), campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
+                    this.avaFachada.registrarLogin("Projeto"+ campoNome.getText()+" - Foi Alterado no Sistema" ) ;
                 }
 
                 Navegacao.carregarPainel("painelProjetoPesquisaInicio");

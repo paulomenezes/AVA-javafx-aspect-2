@@ -38,55 +38,59 @@ public aspect Insercoes extends ConexaoMySQL {
 	// IRSERCAO RELACIONADA  A USUARIOS --------------------------------------------------------------------------------------------------------//
 	
 	void around(Usuario usuario)throws SQLException: insercaoUsuario(usuario){
-		connection.setAutoCommit(false);
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (cpf, nome, foto, email, senha, tipo)VALUES(?,?,?,?,?,?)");
-		statement.setString(1, usuario.getCPF());
-		statement.setString(2, usuario.getNome());
-		statement.setString(3, usuario.getFoto());
-		statement.setString(4, usuario.getEmail());
-		statement.setString(5, usuario.getSenha());
-		statement.setInt(6, usuario.getGrad());
-		statement.execute();
-		
-		if(usuario instanceof Aluno){
-		
-			statement = connection.prepareStatement("INSERT INTO aluno(cpfAluno, idCurso)VALUES(?,?)");
-			statement.setString(1, usuario.getCPF());
-			statement.setInt(2, ((Aluno) usuario).getCurso());
-			statement.execute();
-			connection.commit();
-			
-		
-		}else if(usuario instanceof Professor){
-			
-			statement.close();
-			statement = connection.prepareStatement("INSERT INTO professor(cpfProfessor, idDepartamento)VALUES(?,?)");
-			statement.setString(1, usuario.getCPF());
-			statement.setInt(2, ((Professor) usuario).getIdDpto());
-			statement.execute();
-			connection.commit();
-		}
-		
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (cpf, nome, foto, email, senha, tipo)VALUES(?,?,?,?,?,?)");
+            statement.setString(1, usuario.getCPF());
+            statement.setString(2, usuario.getNome());
+            statement.setString(3, usuario.getFoto());
+            statement.setString(4, usuario.getEmail());
+            statement.setString(5, usuario.getSenha());
+            statement.setInt(6, usuario.getGrad());
+            statement.execute();
+
+            if (usuario instanceof Aluno) {
+
+                statement = connection.prepareStatement("INSERT INTO aluno(cpfAluno, idCurso)VALUES(?,?)");
+                statement.setString(1, usuario.getCPF());
+                statement.setInt(2, ((Aluno) usuario).getCurso());
+                statement.execute();
+                connection.commit();
+
+
+            } else if (usuario instanceof Professor) {
+
+                statement.close();
+                statement = connection.prepareStatement("INSERT INTO professor(cpfProfessor, idDepartamento)VALUES(?,?)");
+                statement.setString(1, usuario.getCPF());
+                statement.setInt(2, ((Professor) usuario).getIdDpto());
+                statement.execute();
+                connection.commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 	
 	void around(Matricular matricula) throws SQLException : matricularAluno(matricula){
-		
-		PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
-        
-		statement.setString(1,matricula.getCpfAluno());
-        statement.setInt(2,matricula.getIdOferta());
-        statement.setString(3,matricula.getDataMatricula());
-        statement.setString(4, matricula.getNumProtocolo());
-        
-        statement.execute();
-		  
+		try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
+
+            statement.setString(1, matricula.getCpfAluno());
+            statement.setInt(2, matricula.getIdOferta());
+            statement.setString(3, matricula.getDataMatricula());
+            statement.setString(4, matricula.getNumProtocolo());
+
+            statement.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 
 	// IRSERCAO DEPARTAMENTO --------------------------------------------------------------------------------------------------------//
 
     Departamento around(String nome) throws SQLException: cadastrarDepartamento(nome) {
-
         try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO departamento (nome) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
@@ -112,7 +116,7 @@ public aspect Insercoes extends ConexaoMySQL {
         }
     }
 
-	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws Exception: cadastrarCurso(nome, quantidade, departamento, tipo) {
+	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws SQLException: cadastrarCurso(nome, quantidade, departamento, tipo) {
 		try {
 			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO curso (nome, qtdAlunos, idDepartamento, tipo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -143,7 +147,7 @@ public aspect Insercoes extends ConexaoMySQL {
 		}
 	}
 
-    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws Exception: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
+    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws SQLException: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
         try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO disciplina (nome, tipo, cargaHoraria, creditos) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);

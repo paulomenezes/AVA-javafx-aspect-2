@@ -25,69 +25,82 @@ public aspect Atualizacoes extends ConexaoMySQL {
             call(* ControladorProjetoPesquisa.editarProjetoPesquisa(int, String, String, String, double, int)) && args(id, nome, modalidade, organizacao, valorBolsa, nVagas);
 
     void around(int id, String nome) throws SQLException: editarDepartamento(id, nome) {
-        connection.setAutoCommit(false);
-        PreparedStatement statement = connection.prepareStatement("UPDATE departamento SET nome = ? WHERE idDepartamento = ?");
-        statement.setString(1, nome);
-        statement.setInt(2, id);
-        statement.executeUpdate();
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("UPDATE departamento SET nome = ? WHERE idDepartamento = ?");
+            statement.setString(1, nome);
+            statement.setInt(2, id);
+            statement.executeUpdate();
 
-        System.out.println(id + "");
-        System.out.println(nome);
+            System.out.println(id + "");
+            System.out.println(nome);
 
-        connection.commit();
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void around(int id, String nome, int quantidade, Departamento departamento, String tipo) throws SQLException: editarCurso(id, nome, quantidade, departamento, tipo) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("UPDATE curso SET nome = ?, qtdAlunos = ?, idDepartamento = ?, tipo = ? WHERE idCurso = ?");
+            statement.setString(1, nome);
+            statement.setInt(2, quantidade);
+            statement.setInt(3, departamento.getIdDepartamento());
+            statement.setString(4, tipo);
+            statement.setInt(5, id);
+            statement.executeUpdate();
 
-        connection.setAutoCommit(false);
-        PreparedStatement statement = connection.prepareStatement("UPDATE curso SET nome = ?, qtdAlunos = ?, idDepartamento = ?, tipo = ? WHERE idCurso = ?");
-        statement.setString(1, nome);
-        statement.setInt(2, quantidade);
-        statement.setInt(3, departamento.getIdDepartamento());
-        statement.setString(4, tipo);
-        statement.setInt(5, id);
-        statement.executeUpdate();
+            System.out.println(id + "");
+            System.out.println(nome);
 
-        System.out.println(id + "");
-        System.out.println(nome);
-
-        connection.commit();
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void around(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException:
         editarDisciplina(id, nome, tipo, cargaHoraria, creditos) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("UPDATE disciplina SET nome = ?, cargaHoraria = ?, creditos = ?, tipo = ? WHERE idDisciplina = ?");
+            statement.setString(1, nome);
+            statement.setInt(2, cargaHoraria);
+            statement.setInt(3, creditos);
+            statement.setString(4, tipo);
+            statement.setInt(5, id);
+            statement.executeUpdate();
 
-        connection.setAutoCommit(false);
-        PreparedStatement statement = connection.prepareStatement("UPDATE disciplina SET nome = ?, cargaHoraria = ?, creditos = ?, tipo = ? WHERE idDisciplina = ?");
-        statement.setString(1, nome);
-        statement.setInt(2, cargaHoraria);
-        statement.setInt(3, creditos);
-        statement.setString(4, tipo);
-        statement.setInt(5, id);
-        statement.executeUpdate();
+            System.out.println(id + "");
+            System.out.println(nome);
 
-        System.out.println(id + "");
-        System.out.println(nome);
-
-        connection.commit();
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     void around(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException:
             editarProjetoPesquisa(id, nome, modalidade, organizacao, valorBolsa, nVagas) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("UPDATE projetoPesquisa SET nome = ?, modalidade = ?, organizacao = ?, valorBolsa = ?, nVagas = ? WHERE idProjeto = ?");
+            statement.setString(1, nome);
+            statement.setString(2, modalidade);
+            statement.setString(3, organizacao);
+            statement.setDouble(4, valorBolsa);
+            statement.setInt(5, nVagas);
+            statement.setInt(6, id);
+            statement.executeUpdate();
 
-        connection.setAutoCommit(false);
-        PreparedStatement statement = connection.prepareStatement("UPDATE projetoPesquisa SET nome = ?, modalidade = ?, organizacao = ?, valorBolsa = ?, nVagas = ? WHERE idProjeto = ?");
-        statement.setString(1, nome);
-        statement.setString(2, modalidade);
-        statement.setString(3, organizacao);
-        statement.setDouble(4, valorBolsa);
-        statement.setInt(5, nVagas);
-        statement.setInt(6, id);
-        statement.executeUpdate();
+            System.out.println(id + "");
+            System.out.println(nome);
 
-        System.out.println(id + "");
-        System.out.println(nome);
+            connection.commit();
+        } catch (Exception e) {
 
-        connection.commit();
+        }
     }
 }
