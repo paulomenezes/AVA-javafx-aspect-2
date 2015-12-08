@@ -27,9 +27,11 @@ public interface IAvaFachada {
     
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;
 
-    List<Usuario> selecionarTudo();
+    List<Usuario> selecionarUsuarios();
 
     void matricularAluno(Matricular m) throws SQLException;
+
+    void removerUsuario(Usuario selectedItem) throws SQLException;
 
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/

@@ -45,4 +45,7 @@ public class ControladorUsuario {
     	
     	//INSERIDO PELO ASPECTO INSERÇÕES
     }
+
+    public void removerUsuario(Usuario usuario) throws SQLException {
+    }
 }

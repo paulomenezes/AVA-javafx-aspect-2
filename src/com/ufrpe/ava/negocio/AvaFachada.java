@@ -38,8 +38,8 @@ public class AvaFachada implements IAvaFachada {
     }
 
     @Override
-    public ArrayList<Usuario> selecionarTudo() {
-        return null;
+    public ArrayList<Usuario> selecionarUsuarios() {
+        return controladorUsuario.selecionarTudo();
     }
 
     @Override
@@ -59,6 +59,10 @@ public class AvaFachada implements IAvaFachada {
     @Override
 	public void matricularAluno(Matricular m) throws SQLException {
     	controladorUsuario.matricularAluno(m);
+    }
+
+    public void removerUsuario(Usuario usuario) throws SQLException {
+        controladorUsuario.removerUsuario(usuario);
     }
     
     /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/
