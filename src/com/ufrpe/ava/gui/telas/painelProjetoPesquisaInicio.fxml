@@ -21,6 +21,7 @@
                 <Button fx:id="botaoInserir" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoInserirAction" text="Inserir" />
                 <Button fx:id="botaoAtualizar" disable="true" layoutX="79.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoAtualizarAction" text="Atualizar" />
                 <Button fx:id="botaoRemover" disable="true" layoutX="160.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoRemoverAction" text="Remover" />
+            <Button fx:id="botaoEnviarSolicitacao" disable="true" layoutX="506.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoEnviarSolicitacaoAction" text="Enviar solicitação" />
             </children>
         </Pane>
     </children>

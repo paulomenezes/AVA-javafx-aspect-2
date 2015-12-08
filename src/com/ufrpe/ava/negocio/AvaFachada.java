@@ -169,7 +169,8 @@ public class AvaFachada implements IAvaFachada {
         return controladorProjetoPesquisa.selecionarProjetoPesquisas();
     }
     
-    
-   
+    public SolicitacaoProjeto enviarSolicitacaoProjeto(int idProjeto, String cpf) throws Exception {
+        return controladorProjetoPesquisa.enviarSolicitacao(idProjeto, cpf);
+    }
 
 }

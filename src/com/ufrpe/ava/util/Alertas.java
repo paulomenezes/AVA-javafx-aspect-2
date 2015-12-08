@@ -18,6 +18,10 @@ public class Alertas {
         alerta("Campo Inválido", mensagem, Alert.AlertType.ERROR);
     }
 
+    public static void sucesso(String mensagem) {
+        alerta("Solicitação registrada com sucesso.", mensagem, Alert.AlertType.CONFIRMATION);
+    }
+
     public static void campoObrigatorio(String mensagem) {
         alerta("Campo Obrigatório", mensagem, Alert.AlertType.INFORMATION);
     }

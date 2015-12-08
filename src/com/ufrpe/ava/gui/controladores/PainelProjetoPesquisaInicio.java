@@ -3,6 +3,8 @@ package com.ufrpe.ava.gui.controladores;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -26,6 +28,9 @@ public class PainelProjetoPesquisaInicio extends Tela {
 
     @FXML
     private Button botaoRemover;
+
+    @FXML
+    private Button botaoEnviarSolicitacao;
 
     @FXML
     private TableView<ProjetoPesquisa> tabela;
@@ -79,9 +84,11 @@ public class PainelProjetoPesquisaInicio extends Tela {
                 if (tabela.getSelectionModel().getSelectedItem() != null) {
                     botaoAtualizar.setDisable(false);
                     botaoRemover.setDisable(false);
+                    botaoEnviarSolicitacao.setDisable(false);
                 } else {
                     botaoAtualizar.setDisable(true);
                     botaoRemover.setDisable(true);
+                    botaoEnviarSolicitacao.setDisable(true);
                 }
             });
         }catch(ListaCadastroVaziaExceptions e){
@@ -108,6 +115,7 @@ public class PainelProjetoPesquisaInicio extends Tela {
         } else {
             botaoAtualizar.setDisable(true);
             botaoRemover.setDisable(true);
+            botaoEnviarSolicitacao.setDisable(true);
         }
     }
 
@@ -125,6 +133,7 @@ public class PainelProjetoPesquisaInicio extends Tela {
 
                 botaoAtualizar.setDisable(true);
                 botaoRemover.setDisable(true);
+                botaoEnviarSolicitacao.setDisable(true);
             } catch(ListaCadastroVaziaExceptions e){
                 System.out.println(e.getMessage());
             } catch(SQLException e){
@@ -133,7 +142,24 @@ public class PainelProjetoPesquisaInicio extends Tela {
         } else {
             botaoAtualizar.setDisable(true);
             botaoRemover.setDisable(true);
+            botaoEnviarSolicitacao.setDisable(true);
         }
     }
 
+    public void botaoEnviarSolicitacaoAction() {
+        try {
+            if (this.avaFachada.enviarSolicitacaoProjeto(tabela.getSelectionModel().getSelectedItem().getIdProjeto(), this.usuarioAtivo.getCPF()) != null) {
+                Alertas.sucesso("Solicitação de projeto enviada com sucesso, aguardando a resposta do professor responsável.");
+                Navegacao.carregarPainel("painelInicio");
+            } else {
+                Alertas.falhaCadastro("solicitação do projeto.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alertas.falhaCadastro("solicitação do projeto.");
+            botaoAtualizar.setDisable(true);
+            botaoRemover.setDisable(true);
+            botaoEnviarSolicitacao.setDisable(true);
+        }
+    }
 }

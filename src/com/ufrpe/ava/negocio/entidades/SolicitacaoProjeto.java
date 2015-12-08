@@ -2,32 +2,39 @@ package com.ufrpe.ava.negocio.entidades;
 
 public class SolicitacaoProjeto {
 	private int idSolicitacao;
-	private Aluno aluno;
-	private ProjetoPesquisa projeto;
-	private boolean estado;
-	public int getCodSolicitacao() {
-		return idSolicitacao;
-	}
-	public void setCodSolicitacao(int idSolicitacao) {
-		this.idSolicitacao = idSolicitacao;
-	}
-	public Aluno getAluno() {
-		return aluno;
-	}
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
-	}
-	public ProjetoPesquisa getProjeto() {
-		return projeto;
-	}
-	public void setProjeto(ProjetoPesquisa projeto) {
-		this.projeto = projeto;
-	}
-	public boolean isEstado() {
-		return estado;
-	}
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-	
+	private String cpfAluno;
+	private int idProjeto;
+	private int estado;
+
+    public int getIdSolicitacao() {
+        return idSolicitacao;
+    }
+
+    public void setIdSolicitacao(int idSolicitacao) {
+        this.idSolicitacao = idSolicitacao;
+    }
+
+    public String getCpfAluno() {
+        return cpfAluno;
+    }
+
+    public void setCpfAluno(String cpfAluno) {
+        this.cpfAluno = cpfAluno;
+    }
+
+    public int getIdProjeto() {
+        return idProjeto;
+    }
+
+    public void setIdProjeto(int idProjeto) {
+        this.idProjeto = idProjeto;
+    }
+
+    public int getEstado() {
+        return estado;
+    }
+
+    public void setEstado(int estado) {
+        this.estado = estado;
+    }
 }

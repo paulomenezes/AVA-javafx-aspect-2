@@ -29,6 +29,9 @@ public aspect Insercoes extends ConexaoMySQL {
     pointcut cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
             call(* ControladorProjetoPesquisa.cadastrarProjetoPesquisa(String, String, String, double, int)) && args(nome, modalidade, organizacao, valorBolsa, nVagas);
 
+    pointcut enviarSolicitacao(int idProjeto, String cpf):
+            call(* ControladorProjetoPesquisa.enviarSolicitacao(int, String)) && args(idProjeto, cpf);
+
     pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
 	
 	pointcut matricularAluno(Matricular matricula) : 
@@ -205,6 +208,39 @@ public aspect Insercoes extends ConexaoMySQL {
                 connection.commit();
 
                 return projetoPesquisa;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    SolicitacaoProjeto around(int idProjeto, String cpf) throws Exception:
+            enviarSolicitacao(idProjeto, cpf) {
+        try {
+            System.out.println(cpf);
+            System.out.println(idProjeto);
+
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO solicitacaoProjeto (cpfAluno, idProjeto, estado) VALUES (?, ?, 0)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, cpf);
+            statement.setInt(2, idProjeto);
+            statement.executeUpdate();
+
+            ResultSet resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                SolicitacaoProjeto solicitacaoProjeto = new SolicitacaoProjeto();
+                solicitacaoProjeto.setIdSolicitacao(resultSet.getInt(1));
+                solicitacaoProjeto.setCpfAluno(cpf);
+                solicitacaoProjeto.setIdProjeto(idProjeto);
+                solicitacaoProjeto.setEstado(0);
+
+                connection.commit();
+
+                return solicitacaoProjeto;
             } else {
                 return null;
             }

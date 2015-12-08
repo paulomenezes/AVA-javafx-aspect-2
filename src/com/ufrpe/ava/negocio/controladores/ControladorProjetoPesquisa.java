@@ -2,6 +2,7 @@ package com.ufrpe.ava.negocio.controladores;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.SolicitacaoProjeto;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,5 +39,9 @@ public class ControladorProjetoPesquisa {
 
     public void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException {
 
+    }
+
+    public SolicitacaoProjeto enviarSolicitacao(int idProjeto, String cpf) throws Exception {
+        return null;
     }
 }

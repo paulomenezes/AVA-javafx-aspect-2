@@ -9,5 +9,5 @@ import com.ufrpe.ava.negocio.entidades.Usuario;
  */
 public class Tela {
     public IAvaFachada avaFachada = new AvaFachada();
-    public Usuario usuarioAtivo;
+    public static Usuario usuarioAtivo;
 }

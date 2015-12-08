@@ -12,15 +12,14 @@ import com.ufrpe.ava.negocio.entidades.*;
  * Created by paulomenezes on 01/12/15.
  */
 public interface IAvaFachada {
+    /*FUNCOES USUARIOS ------------------------------------------------------------------------------------*/
 
- /*FUNCOES USUARIOS ------------------------------------------------------------------------------------*/
-	
     void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, int tipo, int grad)
-    		throws SQLException;
+        throws SQLException;
 
     void cadastrarProfessor(String nome, String cpf, String email, String senha, int idDepartamento, int grad)
-    		throws SQLException;
-    
+        throws SQLException;
+
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;
 
     List<Usuario> selecionarUsuarios() throws SQLException,ListaCadastroVaziaExceptions;
@@ -33,14 +32,14 @@ public interface IAvaFachada {
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
     Departamento cadastrarDepartamento(String nome) throws SQLException;
-    
+
     void editarDepartamento(int id, String nome) throws SQLException;
 
     void removerDepartamento(Departamento departamento) throws SQLException;
 
     List<Departamento> selecionarDepartamentos() throws SQLException, ListaCadastroVaziaExceptions;
-    
-    
+
+
     /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     List<Curso> selecionarCursos() throws SQLException, ListaCadastroVaziaExceptions;
 
@@ -52,9 +51,9 @@ public interface IAvaFachada {
 
     /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions;
-    
-   /*FUNCOES LOGGGING ------------------------------------------------------------------------------------*/
-    
+
+    /*FUNCOES LOGGGING ------------------------------------------------------------------------------------*/
+
     void registrarLogin(String registro);
     void registrarMatricula(String registro);
     void registrarPersistencia(String registro);
@@ -69,12 +68,14 @@ public interface IAvaFachada {
     List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
-     ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;
+    ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;
 
-     void editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException;
+    void editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException;
 
-     void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException;
+    void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException;
 
-     List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions;
+    List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions;
+
+    SolicitacaoProjeto enviarSolicitacaoProjeto(int idProjeto, String cpf) throws Exception;
 }
 
