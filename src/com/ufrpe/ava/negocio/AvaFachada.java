@@ -25,6 +25,7 @@ public class AvaFachada implements IAvaFachada {
     public AvaFachada() {
         controladorUsuario = new ControladorUsuario();
         controladorCurso = new ControladorCurso();
+        controladorLogging = new ControladorLogging();
     }
     
 

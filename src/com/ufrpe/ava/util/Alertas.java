@@ -58,6 +58,11 @@ public class Alertas {
     
     public static void selecaoOfertasIndevido(){
     	
-    	alerta("Atenção","Selecione no minimo 3 Ofertas ou \n no Máximo 10 Ofertas",Alert.AlertType.WARNING);
+    	alerta("Atenção","Selecione no minimo 1 Ofertas ou \n no Máximo 06 Ofertas",Alert.AlertType.WARNING);
+    }
+    
+    public static void selecaoVazia(String s){
+    	
+    	alerta("Atenção",s,Alert.AlertType.INFORMATION);
     }
 }
