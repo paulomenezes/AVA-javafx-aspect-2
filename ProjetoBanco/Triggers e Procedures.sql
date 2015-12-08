@@ -3,6 +3,20 @@
 use ava;
 -- só para adi
 
+DELIMITER |
+CREATE TRIGGER ava.salvarAlunoProjeto
+AFTER INSERT ON solicitacaoprojeto
+FOR EACH ROW
+BEGIN
+	IF(new.estado = 1) THEN
+		
+        INSERT INTO ava.participarprojeto(cpfAluno,idProjeto)VALUES(new.cpfAluno,new.idProjeto);
+        DELETE FROM ava.solicitacaoprojeto WHERE idSolicitacao = new.idSolicitacao;
+    END IF;
+		
+END|
+
+
 delimiter |
 
 -- TRIGGER
