@@ -1,5 +1,5 @@
 USE AVA;
-
+-- só para env
 SET foreign_key_checks = 0;
 
 INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234',1),
@@ -100,9 +100,9 @@ INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',
 ('893546244-12',45,NULL,NULL),('893546244-12',4,NULL,NULL),('356289457-36',33,NULL,35),('356289457-36',6,NULL,NULL);
 
 
-INSERT INTO projetopesquisa(nome, modalidade, organizacao, valorBolsa, nVagas)VALUES('proj1','PIBIC', 'CNPq','R$ 400,00',3),
-('proj2','PIBID', 'CNPq', 'R$ 800,00',2),('proj3','PIBID', 'CNPq','R$ 350,00', 1),
-('proj4','PICME', 'FACEPE', 'R$ 230,00', 2),('proj5','PICME', 'FACEPE','R$ 430', 1);
+INSERT INTO projetopesquisa(nome, modalidade, organizacao, valorBolsa, nVagas)VALUES('proj1','PIBIC', 'CNPq',400.00,3),
+('proj2','PIBID', 'CNPq', 800.00,2),('proj3','PIBID', 'CNPq',350.00, 1),
+('proj4','PICME', 'FACEPE', 230.00, 2),('proj5','PICME', 'FACEPE',430.00, 1);
 
 INSERT INTO projetoProfessor(cpfProfessor, idProjeto) VALUES('153672890-03',1),('124673424-09',2),('124673424-09',1),
 ('563812908-89',3),('237453713-89',5),('153672890-03',5);

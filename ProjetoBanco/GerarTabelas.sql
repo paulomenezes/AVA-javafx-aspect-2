@@ -2,7 +2,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
-
+-- só para enviar de novo
 -- -----------------------------------------------------
 -- Schema ava
 -- -----------------------------------------------------
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`projetoPesquisa` (
   `nome` VARCHAR(35) NOT NULL COMMENT '',
   `modalidade` VARCHAR(10) NOT NULL COMMENT '',
   `organizacao` VARCHAR(20) NOT NULL COMMENT '',
-`valorBolsa` VARCHAR(10) NOT NULL COMMENT '',
+`valorBolsa` DOUBLE NOT NULL COMMENT '',
 `nVagas` INT(2) NOT NULL COMMENT '',
   PRIMARY KEY (`idProjeto`)
 )
@@ -185,7 +185,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `ava`.`projetoProfessor` (
   `cpfProfessor` VARCHAR(14) NOT NULL,
   `idProjeto` INT NOT NULL ,
-  PRIMARY KEY (`idProjeto`, `cpfProfessor`),
+  PRIMARY KEY (`cpfProfessor`,`idProjeto`),
 	FOREIGN KEY (`idProjeto`)
     REFERENCES `ava`.`projetoPesquisa`(`idProjeto`),
     FOREIGN KEY (`cpfProfessor`)
@@ -305,7 +305,7 @@ CREATE TABLE IF NOT EXISTS `ava`.`historico` (
   `cpfAluno` VARCHAR(14) NOT NULL,
    `idOferta` INT NOT NULL,
    `condicao` VARCHAR(25) DEFAULT NULL,
-  `media` FLOAT  DEFAULT NULL COMMENT '',
+  `media` DOUBLE  DEFAULT NULL COMMENT '',
 	PRIMARY KEY (`cpfAluno`, `idOferta`),
     FOREIGN KEY (`cpfAluno`)
     REFERENCES `ava`.`aluno` (`cpfAluno`)
@@ -449,12 +449,12 @@ CREATE TABLE IF NOT EXISTS `ava`.`nota` (
   `idNota` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `cpfAluno` VARCHAR(14) NOT NULL,
   `idOferta` INT(4) NOT NULL COMMENT '',
-  `nota1` INT(2) NOT NULL COMMENT '',
-  `nota2` INT(2) NOT NULL COMMENT '',
-  `nota3` INT(2) NULL COMMENT '',
-  `notaFinal` INT(2) NULL COMMENT '', -- mediaFinal
+  `nota1` INT(2) DEFAULT NULL COMMENT '',
+  `nota2` INT(2) DEFAULT NULL COMMENT '',
+  `nota3` INT(2) DEFAULT NULL COMMENT '',
+  `notaFinal` INT(2) DEFAULT NULL COMMENT '', -- nota da prova final
   
-  PRIMARY KEY (`idNota`,`cpfAluno`,`idOferta`),
+  PRIMARY KEY (`idNota`),
   CONSTRAINT `nota_ibfk_1`
     FOREIGN KEY (`cpfAluno` , `idOferta`)
     REFERENCES `ava`.`matricular` (`cpfAluno` , `idOferta`)
@@ -469,7 +469,7 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`prerequisito` (
   `dependente` INT NOT NULL COMMENT '',
-  `requisito` INT(4)  COMMENT '',
+  `requisito` INT DEFAULT NULL COMMENT '',
 	PRIMARY KEY (`dependente`, `requisito`),
     FOREIGN KEY (`dependente`)
     REFERENCES `ava`.`disciplina` (`idDisciplina`)

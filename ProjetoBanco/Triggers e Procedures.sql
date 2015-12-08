@@ -1,10 +1,43 @@
 -- fazer uma procedure que verifica após confirmar o botão de matrícula, verifica se tem ao mínimo 3 matérias e no máximo 10
--- fazer uma procedure que quando confirmado a matrícula de uma aluno numa oferta de disciplina, ele aumente a qtd de alunos matriculados nela
 
 use ava;
-
+-- só para adi
 
 delimiter |
+
+-- TRIGGER
+
+create trigger inserirNotaAposMatricularAluno after insert on matricular for each row begin
+-- cria um 'objeto' nota para poder comportar as notas do aluno numa 
+-- oferta de disciplina após confirmado(matriculado)
+	if (new.cpfAluno is not null and new.idOferta is not null) then
+		INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)
+			VALUES(new.cpfAluno, new.idOferta, null, null, null, null);
+	end if;
+	end
+|
+
+-- toda vez que alterar alguma coisa na tabela nota, as notas, logicamente, ele chama o procedimento de 
+-- calcular...Média (outro arquivo) que calcula a média para todos os alunos daquela oferta, consequentemente
+-- a do cara com a nota alterada 
+-- põe lá em histórico ()
+
+-- OBS: o controle de fluxo é feito no procedimento 
+create trigger calcularMedia after update on nota for each row begin
+	if (new.idOferta is not null) then
+		call calcularMediaDeCadaAlunoNaOferta(new.idOferta);
+	end if;
+end
+|
+create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row begin
+-- cria um 'objeto' 'historico' para poder comportar a média e situação
+-- de um aluno numa oferta de disciplina após inserido na nota
+	if (new.cpfAluno is not null and new.idOferta is not null) then
+		INSERT INTO historico(cpfAluno, idOferta, condicao, media)
+			VALUES(new.cpfAluno, new.idOferta, null, null);
+	end if;
+end
+|
 
 create trigger atualizarNAlunosOferta after update on matricular for each row -- tanto quanto se matricular quanto sair
 	begin
@@ -49,52 +82,8 @@ create trigger criarAvisoProjeto after insert on projetopesquisa for each row --
         VALUES(NULL, 'Oportunidade', descr, 0, NULL, NULL, NULL, NULL);
 	end
 	|
-
-create function buscarNomeProjeto (idP int) returns varchar(35) deterministic begin
-		declare done int default 0;
-		declare titulo varchar(35) default null;
-		declare idProj int;
-		declare nomeProj varchar(35);
-		declare projetoCursor cursor for select idProjeto, nome from projetopesquisa; 
-		declare continue handler for not found set done = 1;
-
-		open projetoCursor;
-		repeat
-			fetch projetoCursor into idProj, nomeProj;
-			if (idProj = idP) then
-				set titulo = nomeProj;
-				set done = 1;
-            end if;
-			until done
-		end repeat;
-        close projetoCursor;
-        return titulo;
-end
-|
-
-create function buscarNomeUsuario (cpfU varchar(14)) returns varchar(35) deterministic begin
-		declare done int default 0;
-		declare nomeUsuario varchar(35) default null;
-		declare cpfUser int;
-		declare nomeUser varchar(35);
-		declare usuarioCursor cursor for select cpf, nome from usuario; 
-		declare continue handler for not found set done = 1;
-
-		open usuarioCursor;
-		repeat
-			fetch usuarioCursor into cpfUser, nomeUser;
-			if (cpfUser = cpfU) then
-				set nomeUsuario = nomeUser;
-				set done = 1;
-            end if;
-			until done
-		end repeat;
-        close usuarioCursor;
-        return nomeUsuario;
-end
-|
-
--- se alguém entra em um proj o n de vagas diminui, se sai, aumenta
+    
+    -- se alguém entra em um proj o n de vagas diminui, se sai, aumenta
 create trigger atualizarNVagasProjeto after update on participarprojeto for each row
 	begin
 		declare texto text;
@@ -120,6 +109,8 @@ create trigger atualizarNVagasProjeto after update on participarprojeto for each
 		end if;
 	end
 	|
+
+-- PROCEDURE
 
 -- quando se inicia, está tudo null, tem chamá-la primeiro antes de chamar as outras de atualizar.
 create procedure atualizarNAlunosCursoQuandoNull (in idC int) 
@@ -204,6 +195,116 @@ begin
 end
 |
 
+
+
+create procedure adicionarAlunoAOferta(in cpfAl varchar(14), in idO int, in dataMatr date, in numProt int) begin
+-- numProt pode ser gerado aleatoriamente com até 20 caraceteres alfanuméricos lá no java
+	if (cpfAl is not null and idO is not null and idO <> 0) then
+		INSERT INTO matricular(cpfAluno, idOferta, dataMatricula, numeroProtocolo)
+			VALUES(cpfAl, idO, dataMatr, numProt);
+	end if;
+end
+|
+
+-- para professor ministra uma oferta
+create procedure adicionarProfessorAOferta(in cpfProf varchar(14), in idO int) begin
+	if (cpfProf is not null and idO is not null and idO <> 0) then
+		INSERT INTO ministraroferta(idOferta, cpfProfessor)
+			VALUES(idO, cpfProf);
+	end if;
+end
+|
+
+-- para aluno estar vinculado a um projeto
+create procedure adicionarAlunoAoProjeto (in cpfAl varchar(14), in idP int) begin
+	if (cpfAl is not null and idP is not null and idP <> 0) then
+		INSERT INTO projetopesquisa(cpfAluno, idProjeto)
+			VALUES(cpfAl, idP);
+	end if;
+end
+|
+
+-- para adicionar uma nota ao aluno, não necessita dizer qual é (1ª, 2ª, 3ª), faz automaticamente
+create procedure adicionarNotaAAluno (in cpfAl varchar(14), in idOf int, in nota double) begin
+		declare done int default 0;
+		declare cpfA varchar(14);
+        declare idO int;
+		declare notaP double;
+        declare notaS double;
+        declare notaT double;
+        declare notaF double;
+
+		declare notaCursor cursor for select cpfAluno, idOferta, nota1, nota2, nota3, notaFinal from nota;
+		declare continue handler for not found set done = 1;
+        
+        open notaCursor;
+        repeat
+        fetch notaCursor into cpfA, idO, notaP, notaS, notaT, notaF;
+        if (idO = idOf and cpfA = cpfAl) then
+			if (notaP is null) then
+				set notaP = nota, done = 1;
+			else if (notaS is null) then
+				set notaS = nota, done = 1;
+			else if (notaT is null) then
+				set notaT = nota, done = 1;
+			else if (notaF is null) then
+				set notaF = nota, done = 1;
+			end if; -- não sei pq tanto end if, mas fica sem indicar erro assim, coisas da vida
+			end if;
+            end if;
+            end if;
+            end if;
+        until done
+        end repeat;
+end
+|
+
+-- FUNCTION
+
+
+create function buscarNomeProjeto (idP int) returns varchar(35) deterministic begin
+		declare done int default 0;
+		declare titulo varchar(35) default null;
+		declare idProj int;
+		declare nomeProj varchar(35);
+		declare projetoCursor cursor for select idProjeto, nome from projetopesquisa; 
+		declare continue handler for not found set done = 1;
+
+		open projetoCursor;
+		repeat
+			fetch projetoCursor into idProj, nomeProj;
+			if (idProj = idP) then
+				set titulo = nomeProj;
+				set done = 1;
+            end if;
+			until done
+		end repeat;
+        close projetoCursor;
+        return titulo;
+end
+|
+
+create function buscarNomeUsuario (cpfU varchar(14)) returns varchar(35) deterministic begin
+		declare done int default 0;
+		declare nomeUsuario varchar(35) default null;
+		declare cpfUser int;
+		declare nomeUser varchar(35);
+		declare usuarioCursor cursor for select cpf, nome from usuario; 
+		declare continue handler for not found set done = 1;
+
+		open usuarioCursor;
+		repeat
+			fetch usuarioCursor into cpfUser, nomeUser;
+			if (cpfUser = cpfU) then
+				set nomeUsuario = nomeUser;
+				set done = 1;
+            end if;
+			until done
+		end repeat;
+        close usuarioCursor;
+        return nomeUsuario;
+end
+|
 delimiter ;
 call atualizarAlunos();
 call atualizarHistorico();
