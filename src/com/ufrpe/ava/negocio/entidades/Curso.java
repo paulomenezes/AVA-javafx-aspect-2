@@ -3,9 +3,9 @@ package com.ufrpe.ava.negocio.entidades;
 public class Curso {
 	private int idCurso;
 	private String nome;
-    private int limiteAluno;
     private int quantAlunos;
 	private Departamento idDepartamento;
+    private String tipo;
 
     public int getIdCurso() {
         return idCurso;
@@ -23,14 +23,6 @@ public class Curso {
         this.nome = nome;
     }
 
-    public int getLimiteAluno() {
-        return limiteAluno;
-    }
-
-    public void setLimiteAluno(int limiteAluno) {
-        this.limiteAluno = limiteAluno;
-    }
-
     public int getQuantAlunos() {
         return quantAlunos;
     }
@@ -45,5 +37,13 @@ public class Curso {
 
     public void setIdDepartamento(Departamento idDepartamento) {
         this.idDepartamento = idDepartamento;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

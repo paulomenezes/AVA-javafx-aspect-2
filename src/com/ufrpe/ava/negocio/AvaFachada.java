@@ -86,6 +86,18 @@ public class AvaFachada implements IAvaFachada {
         return controladorCurso.selecionarCursos();
     }
 
+    public Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws Exception {
+        return controladorCurso.cadastrarCurso(nome, quantidade, departamento, tipo);
+    }
+
+    public void editarCurso(int idCurso, String nome, int quantidade, Departamento departamento, String tipo) throws SQLException {
+        controladorCurso.editarCurso(idCurso, nome, quantidade, departamento, tipo);
+    }
+
+    public void removerCurso(Curso curso) throws SQLException {
+        controladorCurso.removerCurso(curso);
+    }
+
     /* FUNÇÕES  DISCIPLINAS -----------------------------------------------------------------------------*/ 
     
     public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{

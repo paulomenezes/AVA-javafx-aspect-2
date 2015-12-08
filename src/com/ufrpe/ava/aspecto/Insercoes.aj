@@ -6,11 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
-import com.ufrpe.ava.negocio.entidades.Aluno;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Matricular;
-import com.ufrpe.ava.negocio.entidades.Professor;
-import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.negocio.entidades.*;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -21,6 +17,9 @@ public aspect Insercoes extends ConexaoMySQL {
 	
 	pointcut cadastrarDepartamento(String nome):
         call(* ControladorCurso.cadastrarDepartamento(String)) && args(nome);
+
+	pointcut cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo):
+			call(* ControladorCurso.cadastrarCurso(String, int, Departamento, String)) && args(nome, quantidade, departamento, tipo);
     
 	pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
 	
@@ -106,8 +105,37 @@ public aspect Insercoes extends ConexaoMySQL {
             return null;
         }
     }
-    
-    
+
+	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws Exception: cadastrarCurso(nome, quantidade, departamento, tipo) {
+		try {
+			connection.setAutoCommit(false);
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO curso (nome, qtdAlunos, idDepartamento, tipo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+			statement.setString(1, nome);
+			statement.setInt(2, quantidade);
+			statement.setInt(3, departamento.getIdDepartamento());
+			statement.setString(4, tipo);
+			statement.executeUpdate();
+
+			ResultSet resultSet = statement.getGeneratedKeys();
+
+			if (resultSet.next()) {
+				Curso curso = new Curso();
+				curso.setIdCurso(resultSet.getInt(1));
+				curso.setNome(nome);
+				curso.setQuantAlunos(quantidade);
+				curso.setTipo(tipo);
+
+				connection.commit();
+
+				return curso;
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
     
     
 }

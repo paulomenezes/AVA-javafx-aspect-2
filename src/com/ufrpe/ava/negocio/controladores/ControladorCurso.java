@@ -41,6 +41,27 @@ public class ControladorCurso {
     public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions{
     	//CHAMADA ASPECTO CONSULTAR
     	return null;
-    } 
-    
+    }
+
+    public Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws Exception  {
+        Curso curso = new Curso();
+        curso.setNome(nome);
+        curso.setQuantAlunos(quantidade);
+        curso.setIdDepartamento(departamento);
+        curso.setTipo(tipo);
+
+        return curso;
+    }
+
+    public void editarCurso(int idCurso, String nome, int quantidade, Departamento departamento, String tipo) throws SQLException  {
+        Curso curso = new Curso();
+        curso.setNome(nome);
+        curso.setQuantAlunos(quantidade);
+        curso.setIdDepartamento(departamento);
+        curso.setTipo(tipo);
+    }
+
+    public void removerCurso(Curso curso) throws SQLException {
+
+    }
 }

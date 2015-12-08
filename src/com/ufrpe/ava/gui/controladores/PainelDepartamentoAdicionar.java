@@ -30,26 +30,24 @@ public class PainelDepartamentoAdicionar extends Tela {
     }
 
     public void botaoSalvarAction() {
-     	
-    	
-            if (departamento != null && ! campoNome.getText().isEmpty()) {
-            	
-            	try{
-            		
-            		this.avaFachada.editarDepartamento(departamento.getIdDepartamento(), campoNome.getText());
-                    Navegacao.carregarPainel("painelDepartamentoInicio");
-                
-            	}catch(SQLException e){
-                    System.out.println(e.getMessage());
-                    Navegacao.carregarPainel("painelDepartamentoInicio");
-            	}
-            	
-            }else{
-            	
-            	Alertas.campoObrigatorio("campoNome");
-            	 Navegacao.carregarPainel("painelDepartamentoInicio");
+        if (!campoNome.getText().isEmpty()) {
+            try {
+                if (departamento == null) {
+                    this.avaFachada.cadastrarDepartamento(campoNome.getText());
+                } else {
+                    this.avaFachada.editarDepartamento(departamento.getIdDepartamento(), campoNome.getText());
+                }
+
+                Navegacao.carregarPainel("painelDepartamentoInicio");
+            } catch(SQLException e) {
+                System.out.println(e.getMessage());
+                Navegacao.carregarPainel("painelDepartamentoInicio");
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                Navegacao.carregarPainel("painelDepartamentoInicio");
             }
-            
-       
+        } else {
+            Alertas.campoObrigatorio("Preencha todos os campos.");
+        }
     }
 }

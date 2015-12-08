@@ -88,8 +88,8 @@ public aspect Consultas extends ConexaoMySQL {
                 Curso curso = new Curso();
                 curso.setIdCurso(resultSet.getInt("idCurso"));
                 curso.setNome(resultSet.getString("nome"));
-                curso.setLimiteAluno(resultSet.getInt("limiteAluno"));
                 curso.setQuantAlunos(resultSet.getInt("qtdAlunos"));
+                curso.setTipo(resultSet.getString("tipo"));
 
                 Departamento departamento = new Departamento();
                 departamento.setIdDepartamento(resultSet.getInt("idDepto"));

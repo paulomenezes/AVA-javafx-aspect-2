@@ -32,8 +32,7 @@ public interface IAvaFachada {
     void matricularAluno(Matricular m) throws SQLException;
 
 
-/*FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/  
-    
+    /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
     Departamento cadastrarDepartamento(String nome) throws Exception;
     
     void editarDepartamento(int id, String nome) throws SQLException;
@@ -43,14 +42,16 @@ public interface IAvaFachada {
     List<Departamento> selecionarDepartamentos() throws SQLException, ListaCadastroVaziaExceptions;
     
     
-/*FUNCOES CURSOS ------------------------------------------------------------------------------------*/
-    
+    /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     List<Curso> selecionarCursos() throws SQLException, ListaCadastroVaziaExceptions;
-    
-/*FUNCOES CURSOS ------------------------------------------------------------------------------------*/
-    
 
+    Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws Exception;
+
+    void editarCurso(int idCurso, String nome, int quantidade, Departamento departamento, String tipo) throws SQLException;
+
+    void removerCurso(Curso curso) throws SQLException;
+
+    /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
     public ArrayList<DisciplinaDisponivel> disciplinasDisponiveis(String cpf)  throws SQLException,ListaCadastroVaziaExceptions;
-    
 }
 

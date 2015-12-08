@@ -22,4 +22,9 @@ public class Departamento {
     public void setIdDepartamento(int idDepartamento) {
         this.idDepartamento = idDepartamento;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
 }
