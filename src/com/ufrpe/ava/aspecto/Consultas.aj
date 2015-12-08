@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
+import com.ufrpe.ava.negocio.controladores.ControladorAviso;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
@@ -22,6 +23,7 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarUsuarios(): execution(* ControladorUsuario.selecionarTudo());
     pointcut selecionarDisciplinas(): execution(* ControladorDisciplina.selecionarDisciplinas());
     pointcut selecionarProjetoPesquisas(): execution(* ControladorProjetoPesquisa.selecionarProjetoPesquisas());
+    pointcut selecionarAvisos(String cpf): execution(* ControladorAviso.selecionarAvisos(String)) && args(cpf);
 
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
@@ -205,6 +207,40 @@ public aspect Consultas extends ConexaoMySQL {
             e.printStackTrace();
             return null;
 
+        }
+    }
+
+    ArrayList<Aviso> around(String cpf) throws SQLException, ListaCadastroVaziaExceptions: selecionarAvisos(cpf) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM aviso WHERE idDestinatarioU = ? or idDestinatarioU is null ORDER BY idAviso DESC LIMIT 20");
+            statement.setString(1, cpf);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            ArrayList<Aviso> lista = new ArrayList<>();
+            while (resultSet.next()) {
+                Aviso aviso = new Aviso();
+                aviso.setIdAviso(resultSet.getInt("idAviso"));
+                aviso.setIdRemetente(resultSet.getString("idRemetente"));
+                aviso.setTitulo(resultSet.getString("titulo"));
+                aviso.setDescricao(resultSet.getString("descricao"));
+                aviso.setPrioridade(resultSet.getInt("prioridade"));
+                aviso.setDataEnvio(resultSet.getString("dataEnvio"));
+                aviso.setHoraEnvio(resultSet.getString("horaEnvio"));
+                aviso.setIdDestinatarioO(resultSet.getInt("idDestinatarioO"));
+                aviso.setIdDestinatarioU(resultSet.getString("idDestinatarioU"));
+
+                lista.add(aviso);
+            }
+
+            if (lista.isEmpty()) {
+                throw new ListaCadastroVaziaExceptions("selecao projeto pesquisa");
+            }
+
+            return lista;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

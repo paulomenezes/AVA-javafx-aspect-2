@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.ufrpe.ava.negocio.controladores.ControladorAviso;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
@@ -28,6 +29,9 @@ public aspect Insercoes extends ConexaoMySQL {
 
     pointcut cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
             call(* ControladorProjetoPesquisa.cadastrarProjetoPesquisa(String, String, String, double, int)) && args(nome, modalidade, organizacao, valorBolsa, nVagas);
+
+    pointcut cadastrarAviso(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU):
+            call(* ControladorAviso.cadastrarAviso(String, String, String, int, String, String, int, String)) && args(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU);
 
     pointcut enviarSolicitacao(int idProjeto, String cpf):
             call(* ControladorProjetoPesquisa.enviarSolicitacao(int, String)) && args(idProjeto, cpf);
@@ -241,6 +245,47 @@ public aspect Insercoes extends ConexaoMySQL {
                 connection.commit();
 
                 return solicitacaoProjeto;
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    Aviso around(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws SQLException:
+            cadastrarAviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO aviso (idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1, idRemetente);
+            statement.setString(2, titulo);
+            statement.setString(3, descricao);
+            statement.setInt(4, prioridade);
+            statement.setString(5, dataEnvio);
+            statement.setString(6, horaEnvio);
+            statement.setInt(7, idDestinatarioO);
+            statement.setString(8, idDestinatarioU);
+            statement.executeUpdate();
+
+            ResultSet resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                Aviso aviso = new Aviso();
+                aviso.setIdAviso(resultSet.getInt(1));
+                aviso.setIdRemetente(idRemetente);
+                aviso.setTitulo(titulo);
+                aviso.setDescricao(descricao);
+                aviso.setPrioridade(prioridade);
+                aviso.setDataEnvio(dataEnvio);
+                aviso.setHoraEnvio(horaEnvio);
+                aviso.setIdDestinatarioO(idDestinatarioO);
+                aviso.setIdDestinatarioU(idDestinatarioU);
+
+                connection.commit();
+
+                return aviso;
             } else {
                 return null;
             }

@@ -3,6 +3,7 @@ package com.ufrpe.ava.aspecto;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.ufrpe.ava.negocio.controladores.ControladorAviso;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
@@ -25,11 +26,12 @@ public aspect Remocoes extends ConexaoMySQL {
 
     pointcut removerDisciplina(Disciplina disciplina):
             call(* ControladorDisciplina.removerDisciplina(Disciplina)) && args(disciplina);
-    
-    
 
     pointcut removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa):
             call(* ControladorProjetoPesquisa.removerProjetoPesquisa(ProjetoPesquisa)) && args(projetoPesquisa);
+
+    pointcut removerAviso(Aviso aviso):
+            call(* ControladorAviso.removerAviso(Aviso)) && args(aviso);
 
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
          try {
@@ -84,6 +86,18 @@ public aspect Remocoes extends ConexaoMySQL {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM projetoPesquisa WHERE idProjeto = ?");
             statement.setInt(1, projetoPesquisa.getIdProjeto());
+            statement.executeUpdate();
+            connection.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void around(Aviso aviso) throws SQLException : removerAviso(aviso) {
+        try {
+            connection.setAutoCommit(false);
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM aviso WHERE idAviso = ?");
+            statement.setInt(1, aviso.getIdAviso());
             statement.executeUpdate();
             connection.commit();
         } catch (Exception e) {

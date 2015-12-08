@@ -18,6 +18,7 @@ public class AvaFachada implements IAvaFachada {
     private ControladorDisciplina controladorDiscilpina;
     private ControladorLogging controladorLogging;
     private ControladorProjetoPesquisa controladorProjetoPesquisa;
+    private ControladorAviso controladorAviso;
 
     public AvaFachada() {
         controladorUsuario = new ControladorUsuario();
@@ -25,6 +26,7 @@ public class AvaFachada implements IAvaFachada {
         controladorLogging = new ControladorLogging();
         controladorDiscilpina = new ControladorDisciplina();
         controladorProjetoPesquisa = new ControladorProjetoPesquisa();
+        controladorAviso = new ControladorAviso();
     }
     
 
@@ -173,4 +175,20 @@ public class AvaFachada implements IAvaFachada {
         return controladorProjetoPesquisa.enviarSolicitacao(idProjeto, cpf);
     }
 
+    /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
+    public Aviso cadastrarAviso(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws Exception {
+        return controladorAviso.cadastrarAviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU);
+    }
+
+    public void editarAviso(int id, String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws SQLException {
+        controladorAviso.editarAviso(id, idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU);
+    }
+
+    public void removerAviso(Aviso aviso) throws SQLException {
+        controladorAviso.removerAviso(aviso);
+    }
+
+    public ArrayList<Aviso> selecionarAvisos(String cpf) throws SQLException, ListaCadastroVaziaExceptions {
+        return controladorAviso.selecionarAvisos(cpf);
+    }
 }
