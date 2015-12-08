@@ -25,6 +25,8 @@ public aspect ExcecoesAspect {
 	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
 	pointcut matricularAluno(Matricular matricula) : 
 		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..)) && args(matricula);
+	
+	pointcut cadastrarDepartamento(String nome): execution(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarDepartamento(..)) && args(nome);
     
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
@@ -61,6 +63,11 @@ public aspect ExcecoesAspect {
 	after()throwing(SQLException e): insercaoProfessor() || inserirAluno(){
 		
 		Alertas.ObjetoJaExiste("Usuario já existe");
+	}
+	
+	after(String nome)throwing(SQLException e) : cadastrarDepartamento(nome){
+		
+		Alertas.ObjetoJaExiste("Departamento já Existe no sistema");
 	}
 	
 	after(Matricular matricula)throwing(SQLException e) : matricularAluno(matricula){

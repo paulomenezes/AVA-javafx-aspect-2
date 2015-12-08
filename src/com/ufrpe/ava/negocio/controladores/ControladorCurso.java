@@ -13,7 +13,7 @@ import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
  */
 public class ControladorCurso {
 	
-    public Departamento cadastrarDepartamento(String nome) throws Exception {
+    public Departamento cadastrarDepartamento(String nome) throws SQLException {
         Departamento departamento = new Departamento();
         departamento.setNome(nome);
 

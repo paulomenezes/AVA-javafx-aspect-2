@@ -95,6 +95,7 @@ public class PainelDepartamentoInicio extends Tela {
             try {
                 
             	this.avaFachada.removerDepartamento(tabela.getSelectionModel().getSelectedItem());
+            	this.avaFachada.registrarPersistencia("Departamento -"+ tabela.getSelectionModel().getSelectedItem().getNome()+"-Foi removido no sistema") ;
                     tabela.getColumns().clear();
 
                     List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();

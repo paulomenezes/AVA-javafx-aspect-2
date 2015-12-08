@@ -15,6 +15,7 @@ import com.ufrpe.ava.negocio.entidades.Usuario;
  * Created by paulomenezes on 02/12/15.
  */
 public aspect Remocoes extends ConexaoMySQL {
+	
     pointcut removerDepartamento(Departamento departamento):
             call(* ControladorCurso.removerDepartamento(Departamento)) && args(departamento);
 
@@ -26,6 +27,8 @@ public aspect Remocoes extends ConexaoMySQL {
 
     pointcut removerDisciplina(Disciplina disciplina):
             call(* ControladorDisciplina.removerDisciplina(Disciplina)) && args(disciplina);
+    
+    
 
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
         connection.setAutoCommit(false);

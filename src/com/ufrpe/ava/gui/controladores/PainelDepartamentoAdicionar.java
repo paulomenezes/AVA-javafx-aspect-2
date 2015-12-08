@@ -34,6 +34,7 @@ public class PainelDepartamentoAdicionar extends Tela {
             try {
                 if (departamento == null) {
                     this.avaFachada.cadastrarDepartamento(campoNome.getText());
+                    this.avaFachada.registrarPersistencia("Departamento - "+ campoNome.getText() +"foi Adicionado no sistema.") ;
                 } else {
                     this.avaFachada.editarDepartamento(departamento.getIdDepartamento(), campoNome.getText());
                 }

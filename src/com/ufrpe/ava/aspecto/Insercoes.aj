@@ -81,7 +81,7 @@ public aspect Insercoes extends ConexaoMySQL {
 
 	// IRSERCAO DEPARTAMENTO --------------------------------------------------------------------------------------------------------//
 
-    Departamento around(String nome) throws Exception: cadastrarDepartamento(nome) {
+    Departamento around(String nome) throws SQLException: cadastrarDepartamento(nome) {
 
         try {
             connection.setAutoCommit(false);

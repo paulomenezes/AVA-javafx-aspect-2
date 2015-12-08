@@ -32,7 +32,7 @@ public interface IAvaFachada {
     void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException;
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
-    Departamento cadastrarDepartamento(String nome) throws Exception;
+    Departamento cadastrarDepartamento(String nome) throws SQLException;
     
     void editarDepartamento(int id, String nome) throws SQLException;
 
@@ -60,12 +60,12 @@ public interface IAvaFachada {
     void registrarPersistencia(String registro);
 
     /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
-    Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception;
+     Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception;
 
-    void editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException;
+     void editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException;
 
-    void removerDisciplina(Disciplina disciplina) throws SQLException;
+     void removerDisciplina(Disciplina disciplina) throws SQLException;
 
-    List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
+     List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
 }
 
