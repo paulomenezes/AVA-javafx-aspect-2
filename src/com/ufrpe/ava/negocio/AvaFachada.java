@@ -123,16 +123,19 @@ public class AvaFachada implements IAvaFachada {
 	@Override
 	public void registrarLogin(String registro) {
 		
-		controladorLogging.registrarLogin(registro);
-		
+		controladorLogging.registrarLogin(registro);		
 	}
-
 
 	@Override
 	public void registrarMatricula(String registro) {
 		
-		controladorLogging.registrarMatricula(registro);
+		controladorLogging.registrarMatricula(registro);		
+	}
+
+	@Override
+	public void registrarPersistencia(String registro) {
 		
+		controladorLogging.registrarPersistencia(registro);
 	}
 
 

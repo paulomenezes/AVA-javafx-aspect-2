@@ -61,5 +61,6 @@ public interface IAvaFachada {
     
     public void registrarLogin(String registro);
     public void registrarMatricula(String registro);
+    public void registrarPersistencia(String registro);
 }
 
