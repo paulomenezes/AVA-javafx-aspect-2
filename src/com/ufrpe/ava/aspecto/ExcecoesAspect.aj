@@ -15,6 +15,7 @@ public aspect ExcecoesAspect {
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
 	pointcut selecionarControladorUsuarios(): execution(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.selecionar*());
 	pointcut matriculaDisponivel() : call(* *.disciplinasDisponiveis(..));
+	pointcut selecionarDisciplinas(): execution(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.selecionarDisciplinas(..));
 	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
 	
@@ -27,7 +28,9 @@ public aspect ExcecoesAspect {
 		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..)) && args(matricula);
 	
 	pointcut cadastrarDepartamento(String nome): execution(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarDepartamento(..)) && args(nome);
-    
+	pointcut cadastrarDisciplina(): call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarDisciplina(..));
+	pointcut cadastrarCurso(): call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarCurso(..));
+	pointcut cadastrarProjeto(): call(* com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa.cadastrarProjetoPesquisa(..));
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
@@ -50,10 +53,11 @@ public aspect ExcecoesAspect {
 		Alertas.tabelaVazia();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios(){
+	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios() || selecionarDisciplinas(){
 		
 		Alertas.selecaoVazia(e.getMessage());
 	}
+
 	
 	after()throwing(ObjetoNaoExistenteExcepitions e) : loginExcecao(){
 		
@@ -68,6 +72,21 @@ public aspect ExcecoesAspect {
 	after(String nome)throwing(SQLException e) : cadastrarDepartamento(nome){
 		
 		Alertas.ObjetoJaExiste("Departamento já Existe no sistema");
+	}
+	
+	after()throwing(Exception e) : cadastrarDisciplina(){
+		
+		Alertas.ObjetoJaExiste("Disciplina já Existe no sistema");
+	}
+	
+	after()throwing(Exception e) : cadastrarCurso(){
+		
+		Alertas.ObjetoJaExiste(" Curso já Existe no sistema");
+	}
+	
+	after()throwing(Exception e) : cadastrarProjeto(){
+		
+		Alertas.ObjetoJaExiste(" Projeto já Existe no sistema");
 	}
 	
 	after(Matricular matricula)throwing(SQLException e) : matricularAluno(matricula){

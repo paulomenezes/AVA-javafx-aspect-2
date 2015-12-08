@@ -16,7 +16,8 @@ public class ControladorProjetoPesquisa {
     }
 
     public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception  {
-        ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
+        
+    	ProjetoPesquisa projetoPesquisa = new ProjetoPesquisa();
         projetoPesquisa.setNome(nome);
         projetoPesquisa.setModalidade(modalidade);
         projetoPesquisa.setOrganizacao(organizacao);

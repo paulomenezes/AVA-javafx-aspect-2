@@ -110,6 +110,7 @@ public class PainelDisciplinaInicio extends Tela {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
                 this.avaFachada.removerDisciplina(tabela.getSelectionModel().getSelectedItem());
+                this.avaFachada.registrarPersistencia("A disciplina -" +tabela.getSelectionModel().getSelectedItem().getNome()+"- Foi Excluida do sistema");
                 tabela.getColumns().clear();
 
                 List<Disciplina> disciplinas = this.avaFachada.selecionarDisciplinas();

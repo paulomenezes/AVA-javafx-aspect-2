@@ -69,12 +69,12 @@ public interface IAvaFachada {
     List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
-    ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;
+     ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;
 
-    void editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException;
+     void editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws SQLException;
 
-    void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException;
+     void removerProjetoPesquisa(ProjetoPesquisa projetoPesquisa) throws SQLException;
 
-    List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions;
+     List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions;
 }
 

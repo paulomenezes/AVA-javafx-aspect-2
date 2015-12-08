@@ -145,12 +145,12 @@ public aspect Consultas extends ConexaoMySQL {
             disciplina.setTipo(resultSet.getString("tipo"));
             disciplina.setCargaHoraria(resultSet.getInt("cargaHoraria"));
             disciplina.setCreditos(resultSet.getInt("creditos"));
-
+            
             lista.add(disciplina);
         }
 
         if(lista.isEmpty()){
-            throw new ListaCadastroVaziaExceptions("selecao usuarios");
+            throw new ListaCadastroVaziaExceptions("selecao disciplinas");
         }
 
         return lista;
