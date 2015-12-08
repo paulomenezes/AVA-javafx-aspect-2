@@ -13,6 +13,7 @@ public aspect ExcecoesAspect {
 
 	// POINTCUTS ---------------------------------------------------------------------------------------------------------------- 
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
+	pointcut selecionarControladorUsuarios(): execution(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.selecionar*());
 	pointcut matriculaDisponivel() : call(* *.disciplinasDisponiveis(..));
 	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
@@ -24,15 +25,19 @@ public aspect ExcecoesAspect {
 	pointcut inserirAluno() : execution(* com.ufrpe.ava.negocio.AvaFachada.cadastrarAluno(..));
 	pointcut matricularAluno(Matricular matricula) : 
 		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..)) && args(matricula);
+	
+	pointcut cadastrarDepartamento(String nome): execution(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarDepartamento(..)) && args(nome);
     
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
-	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel(){
+	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel() ||
+	  selecionarControladorUsuarios(){
 		
 		Alertas.falhaConexaoBanco();
 		
 	}
+	
 	
 	after()throwing : conexaoFalha(){
 		
@@ -45,7 +50,7 @@ public aspect ExcecoesAspect {
 		Alertas.tabelaVazia();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel(){
+	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios(){
 		
 		Alertas.selecaoVazia(e.getMessage());
 	}
@@ -58,6 +63,11 @@ public aspect ExcecoesAspect {
 	after()throwing(SQLException e): insercaoProfessor() || inserirAluno(){
 		
 		Alertas.ObjetoJaExiste("Usuario já existe");
+	}
+	
+	after(String nome)throwing(SQLException e) : cadastrarDepartamento(nome){
+		
+		Alertas.ObjetoJaExiste("Departamento já Existe no sistema");
 	}
 	
 	after(Matricular matricula)throwing(SQLException e) : matricularAluno(matricula){

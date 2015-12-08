@@ -32,7 +32,7 @@ public interface IAvaFachada {
     void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException;
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
-    Departamento cadastrarDepartamento(String nome) throws Exception;
+    Departamento cadastrarDepartamento(String nome) throws SQLException;
     
     void editarDepartamento(int id, String nome) throws SQLException;
 

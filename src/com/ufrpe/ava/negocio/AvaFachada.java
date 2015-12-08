@@ -71,7 +71,7 @@ public class AvaFachada implements IAvaFachada {
     /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/
     
     @Override
-    public Departamento cadastrarDepartamento(String nome) throws Exception {
+    public Departamento cadastrarDepartamento(String nome) throws SQLException {
         return controladorCurso.cadastrarDepartamento(nome);
     }
 
