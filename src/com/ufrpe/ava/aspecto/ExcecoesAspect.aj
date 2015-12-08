@@ -15,7 +15,7 @@ public aspect ExcecoesAspect {
 	pointcut selecionarControladorCurso() : call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.selecionar*());
 	pointcut selecionarControladorUsuarios(): execution(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.selecionar*());
 	pointcut matriculaDisponivel() : call(* *.disciplinasDisponiveis(..));
-	pointcut selecionarDisciplinas(): execution(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.selecionarDisciplinas(..));
+	pointcut selecionarProjeto() : call(* com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa.selecionar*(..));
 	pointcut loginExcecao() : execution(* *.buscarLogin(..));
 	
 	
@@ -35,7 +35,7 @@ public aspect ExcecoesAspect {
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
 	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel() ||
-	  selecionarControladorUsuarios(){
+	  selecionarControladorUsuarios() || selecionarProjeto(){
 		
 		Alertas.falhaConexaoBanco();
 		
@@ -48,12 +48,13 @@ public aspect ExcecoesAspect {
 		AVA.sStage.close();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso(){
+	after()throwing(ListaCadastroVaziaExceptions e): selecionarControladorCurso() ||  selecionarProjeto(){
 		
 		Alertas.tabelaVazia();
 	}
 	
-	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios() || selecionarDisciplinas(){
+	
+	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios(){
 		
 		Alertas.selecaoVazia(e.getMessage());
 	}

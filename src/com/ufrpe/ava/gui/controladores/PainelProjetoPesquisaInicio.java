@@ -115,6 +115,7 @@ public class PainelProjetoPesquisaInicio extends Tela {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
                 this.avaFachada.removerProjetoPesquisa(tabela.getSelectionModel().getSelectedItem());
+                this.avaFachada.registrarLogin("Projeto"+ tabela.getSelectionModel().getSelectedItem().getNome() +" - Foi Removido do Sistema" ) ;
                 tabela.getColumns().clear();
 
                 List<ProjetoPesquisa> projetoPesquisas = this.avaFachada.selecionarProjetoPesquisas();

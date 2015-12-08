@@ -1,17 +1,18 @@
 package com.ufrpe.ava.gui.controladores;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Navegacao;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -70,8 +71,10 @@ public class PainelCursoAdicionar extends Tela {
             try {
                 if (curso == null) {
                     this.avaFachada.cadastrarCurso(campoNome.getText(), Integer.parseInt(campoQuantidade.getText()), selectDepartamento.getValue(), campoTipo.getValue().toString());
+                    this.avaFachada.registrarPersistencia("Curso - "+ campoNome.getText() + " -  Foi Cadastrado no Sistema.") ;
                 } else {
                     this.avaFachada.editarCurso(curso.getIdCurso(), campoNome.getText(), Integer.parseInt(campoQuantidade.getText()), selectDepartamento.getValue(), campoTipo.getValue().toString());
+                    this.avaFachada.registrarPersistencia("Curso - "+ campoNome.getText() + " -  Foi aterado no Sistema.") ;
                 }
 
                 Navegacao.carregarPainel("painelCursoInicio");
