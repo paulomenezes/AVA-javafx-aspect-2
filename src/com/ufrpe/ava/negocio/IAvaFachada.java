@@ -6,7 +6,11 @@ import java.util.List;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
-import com.ufrpe.ava.negocio.entidades.*;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Matricular;
+import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -66,5 +70,6 @@ public interface IAvaFachada {
     void removerDisciplina(Disciplina disciplina) throws SQLException;
 
     List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
+    public void registrarPersistencia(String registro);
 }
 

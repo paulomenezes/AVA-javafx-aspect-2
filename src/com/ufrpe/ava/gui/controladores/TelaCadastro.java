@@ -1,9 +1,7 @@
 package com.ufrpe.ava.gui.controladores;
 
-import java.awt.*;
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
 
 import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
@@ -12,8 +10,10 @@ import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.util.Validacao;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -144,6 +144,8 @@ public class TelaCadastro extends Tela {
                     try {
                         this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
                                 campoSenha.getText(), departamento.getSelectionModel().getSelectedItem().getIdDepartamento(), 1);
+                        
+                        avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
 
                         AVA.carregar("inicio");
                     } catch (SQLException e) {
@@ -160,6 +162,8 @@ public class TelaCadastro extends Tela {
                     try {
                         this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
                                 campoSenha.getText(), curso.getSelectionModel().getSelectedItem().getIdCurso(), tipoAluno, 2);
+                        
+                        avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
 
                         AVA.carregar("inicio");
                     } catch (SQLException e) {
