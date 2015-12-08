@@ -53,7 +53,7 @@ public aspect Remocoes extends ConexaoMySQL {
 
     void around(Disciplina disciplina) throws SQLException : removerDisciplina(disciplina) {
         connection.setAutoCommit(false);
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM disciplina WHERE cpf = ?");
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM disciplina WHERE idDisciplina = ?");
         statement.setInt(1, disciplina.getIdDisciplina());
         statement.executeUpdate();
         connection.commit();

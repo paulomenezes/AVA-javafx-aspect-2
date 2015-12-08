@@ -96,7 +96,7 @@ public class PainelDisciplinaInicio extends Tela {
     public void botaoAtualizarAction() {
         if (tabela.getSelectionModel().getSelectedItem() != null) {
             try {
-                //PainelDepartamentoAdicionar.departamento = tabela.getSelectionModel().getSelectedItem();
+                PainelDisciplinaAdicionar.disciplina = tabela.getSelectionModel().getSelectedItem();
                 Navegacao.carregarPainel("painelDisciplinaAdicionar");
             } catch (Exception e) {
 

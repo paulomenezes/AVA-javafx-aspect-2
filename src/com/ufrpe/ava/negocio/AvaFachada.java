@@ -148,7 +148,7 @@ public class AvaFachada implements IAvaFachada {
     }
 
     public void removerDisciplina(Disciplina disciplina) throws SQLException {
-
+        controladorDiscilpina.removerDisciplina(disciplina);
     }
 
     public List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {

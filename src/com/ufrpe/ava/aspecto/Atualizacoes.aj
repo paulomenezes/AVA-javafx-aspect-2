@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 
 /**
@@ -15,6 +16,9 @@ public aspect Atualizacoes extends ConexaoMySQL {
 
     pointcut editarCurso(int id, String nome, int quantidade, Departamento departamento, String tipo):
             call(* ControladorCurso.editarCurso(int, String, int, Departamento, String)) && args(id, nome, quantidade, departamento, tipo);
+
+    pointcut editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos):
+            call(* ControladorDisciplina.editarDisciplina(int, String, String, int, int)) && args(id, nome, tipo, cargaHoraria, creditos);
 
     void around(int id, String nome) throws SQLException: editarDepartamento(id, nome) {
         connection.setAutoCommit(false);
@@ -36,6 +40,24 @@ public aspect Atualizacoes extends ConexaoMySQL {
         statement.setString(1, nome);
         statement.setInt(2, quantidade);
         statement.setInt(3, departamento.getIdDepartamento());
+        statement.setString(4, tipo);
+        statement.setInt(5, id);
+        statement.executeUpdate();
+
+        System.out.println(id + "");
+        System.out.println(nome);
+
+        connection.commit();
+    }
+
+    void around(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException:
+        editarDisciplina(id, nome, tipo, cargaHoraria, creditos) {
+
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("UPDATE disciplina SET nome = ?, cargaHoraria = ?, creditos = ?, tipo = ? WHERE idDisciplina = ?");
+        statement.setString(1, nome);
+        statement.setInt(2, cargaHoraria);
+        statement.setInt(3, creditos);
         statement.setString(4, tipo);
         statement.setInt(5, id);
         statement.executeUpdate();
