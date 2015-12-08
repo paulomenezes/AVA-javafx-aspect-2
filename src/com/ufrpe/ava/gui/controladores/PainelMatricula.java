@@ -39,13 +39,13 @@ public class PainelMatricula  extends Tela implements Initializable{
 
 	private ObservableList<CheckBox> data;
 	
+	private ArrayList<DisciplinaDisponivel> lista = new ArrayList<>();
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		data = FXCollections.observableArrayList();
-		
-		ArrayList<DisciplinaDisponivel> lista = new ArrayList<>();
 		
 		
 		try {
@@ -110,15 +110,20 @@ public class PainelMatricula  extends Tela implements Initializable{
 		
 		if(cont>=3 && cont<=10 ){
 			
+			int aux = 0;
 			
 			for (Matricular matricular : matriculas) {
 					
 				try {
 					avaFachada.matricularAluno(matricular);
+					avaFachada.registrarMatricula("Aluno com Cpf - "+ matricular.getCpfAluno()+"\n Relizou Matricula na Oferta - \n "+
+					lista.get(aux).toString());
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					System.out.println(e.getMessage());
 				}
+				
+				aux++;
 			}
 			
 		}else{
