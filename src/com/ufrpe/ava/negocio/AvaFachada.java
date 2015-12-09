@@ -130,6 +130,11 @@ public class AvaFachada implements IAvaFachada {
 		
 		controladorLogging.registrarPersistencia(registro);
 	}
+	
+	public void registrarAcoesProjeto(String registro){
+		
+		controladorLogging.registrarAcoesProjeto(registro);
+	}
 
     /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
     public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception {

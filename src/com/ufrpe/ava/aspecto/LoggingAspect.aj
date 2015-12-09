@@ -9,6 +9,7 @@ public aspect LoggingAspect {
 	pointcut registrarLogin(String registro) : call(* com.ufrpe.ava.negocio.controladores.ControladorLogging.registrarLogin(..)) && args(registro);
 	pointcut registrarMatricula(String registro) : call(* com.ufrpe.ava.negocio.controladores.ControladorLogging.registrarMatricula(..)) && args(registro);
 	pointcut registrarPersistencia(String registro) : call(* com.ufrpe.ava.negocio.controladores.ControladorLogging.registrarPersistencia(..)) && args(registro);
+	pointcut  registrarAcoesProjeto(String registro) : call(* com.ufrpe.ava.negocio.controladores.ControladorLogging.registrarAcoesProjeto(..)) && args(registro);
 	
      after(String registro) : registrarLogin(registro){
     	 
@@ -44,10 +45,10 @@ public aspect LoggingAspect {
     	 
      }
      
-     after(String registro) : registrarPersistencia(registro){
+     after(String registro) : registrarAcoesProjeto(registro){
     	 
     	 try{
-	    	 FileWriter fw = new FileWriter("persistencia.txt", true );
+	    	 FileWriter fw = new FileWriter("acoesProjeto.txt", true );
 	    	 BufferedWriter bw = new BufferedWriter( fw );
 	    	 bw.write( registro +"\n"+ new Date() );
 	    	 bw.newLine();

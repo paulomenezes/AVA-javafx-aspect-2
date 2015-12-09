@@ -150,6 +150,7 @@ public class PainelProjetoPesquisaInicio extends Tela {
         try {
             if (this.avaFachada.enviarSolicitacaoProjeto(tabela.getSelectionModel().getSelectedItem().getIdProjeto(), Tela.usuarioAtivo.getCPF()) != null) {
                 Alertas.sucesso("Solicitação de projeto enviada com sucesso, aguardando a resposta do professor responsável.");
+                avaFachada.registrarAcoesProjeto("A solicitação de participaçao no projeto - "+tabela.getSelectionModel().getSelectedItem().getIdProjeto() +" - do aluno "+Tela.usuarioAtivo.getCPF()+" Foi Efetuada " ) ;
                 Navegacao.carregarPainel("painelInicio");
             } else {
                 Alertas.falhaCadastro("solicitação do projeto.");

@@ -307,12 +307,14 @@ create trigger atualizarNVagasProjeto after update on participarprojeto for each
 	|
 --  ------------------------------------------------------FUNCTION-----------------------------------------
 
--- FUNÇÕES SECUNDÁRIAS
 
+-- FUNÇÕES SECUNDÁRIAS
 
 -- problema dessa função é que retorna somente o primeiro prof da tab, ou seja, somente ele receberá a 
 -- mensagem no fim
-create function buscarCpfProf (idP int) returns varchar(14) deterministic begin
+
+ 
+ create function AVA.buscarCpfProfessor (idP int) returns varchar(14) deterministic begin
 		declare done int default 0;
 		declare idProj int;
 		declare cpfProf varchar(14);

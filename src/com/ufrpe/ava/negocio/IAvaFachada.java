@@ -57,6 +57,7 @@ public interface IAvaFachada {
     void registrarLogin(String registro);
     void registrarMatricula(String registro);
     void registrarPersistencia(String registro);
+    public void registrarAcoesProjeto(String registro);
 
     /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
     Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception;

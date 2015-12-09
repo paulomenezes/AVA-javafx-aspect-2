@@ -1,0 +1,8 @@
+Usuario - gui Cpf -123 Foi Cadastrado no sistema
+Wed Dec 09 11:13:35 BRST 2015
+Usuario - Guilherme Cpf -123 Foi Cadastrado no sistema
+Wed Dec 09 11:19:58 BRST 2015
+Usuario - 123 Cpf -123 Foi Cadastrado no sistema
+Wed Dec 09 11:31:07 BRST 2015
+Usuario - gUI Cpf -1234 Foi Cadastrado no sistema
+Wed Dec 09 11:56:09 BRST 2015
