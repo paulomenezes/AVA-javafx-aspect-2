@@ -8,11 +8,13 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
 import com.ufrpe.ava.negocio.entidades.Matricular;
 import com.ufrpe.ava.util.Alertas;
 
+import com.ufrpe.ava.util.Navegacao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -125,17 +127,12 @@ public class PainelMatricula  extends Tela implements Initializable{
 				
 				aux++;
 			}
-			
+
+            Navegacao.carregarPainel("painelInicio");
 		}else{
 			
 			Alertas.selecaoOfertasIndevido();
 		}
 		
 	}
-	
-	
-	public void botaoRetornarAction(){
-		
-	}
-	
 }
