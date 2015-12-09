@@ -11,13 +11,11 @@ package com.ufrpe.ava.negocio.entidades;
 	    private String senha;
 	    private int grad;
 
-        private String tipo;
-
 		public Usuario() {
 
 		}
 
-	    public Usuario(String cpf, String nome, String email, String foto, String senha, int grad) {
+	    public Usuario(String cpf, String nome, String foto, String email, String senha, int grad) {
 			this.cpf = cpf;
 			this.nome = nome;
 			this.email = email;
@@ -75,17 +73,5 @@ package com.ufrpe.ava.negocio.entidades;
 	        this.senha = senha;
 	    }
 	
-        public String getTipo() {
-            if (grad == -1)
-                return "Coordenador";
-            else if (grad == 0)
-                return "Professor";
-            else if (grad == 1)
-                return "Aluno graduação";
-            else if (grad == 2)
-                return "Aluno pós-graduação";
-
-            return null;
-        }
 	}
 

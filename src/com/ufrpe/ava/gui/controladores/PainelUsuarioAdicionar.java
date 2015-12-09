@@ -110,13 +110,13 @@ public class PainelUsuarioAdicionar extends Tela {
                 Validacao.validarCPF(campoCPF.getText())) {
             try {
                 if (tipo == -1) {
-                    this.avaFachada.cadastrarUsuario(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText());
+                    this.avaFachada.cadastrarUsuario(campoCPF.getText(),campoNome.getText(), campoEmail.getText(), campoSenha.getText());
                     avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
                     
                     Navegacao.carregarPainel("painelUsuarioInicio");
                 } else if (tipo == 0) {
                     if (departamento.getValue() != null) {
-                        this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), departamento.getValue().getIdDepartamento(), 0);
+                        this.avaFachada.cadastrarProfessor(campoCPF.getText(),campoNome.getText(),null,campoEmail.getText(), campoSenha.getText(),0,departamento.getValue().getIdDepartamento());
                         avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
                         Navegacao.carregarPainel("painelUsuarioInicio");
                     } else {
@@ -125,11 +125,11 @@ public class PainelUsuarioAdicionar extends Tela {
                 } else if (tipo == 1) {
                     if (curso.getValue() != null) {
                         if (graduacaoCheck.isSelected()) {
-                            this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 1);
+                            this.avaFachada.cadastrarAluno(campoCPF.getText(),campoNome.getText(), null ,campoEmail.getText(), campoSenha.getText(),1, curso.getValue().getIdCurso());
                             avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
                             Navegacao.carregarPainel("painelUsuarioInicio");
                         } else if (posGradCheck.isSelected()) {
-                            this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(), campoSenha.getText(), curso.getValue().getIdCurso(), 1, 2);
+                            this.avaFachada.cadastrarAluno(campoCPF.getText(),campoNome.getText(), null ,campoEmail.getText(), campoSenha.getText(),1, curso.getValue().getIdCurso());
 
                             Navegacao.carregarPainel("painelUsuarioInicio");
                         } else {

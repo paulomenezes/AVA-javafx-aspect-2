@@ -44,19 +44,20 @@ public class AvaFachada implements IAvaFachada {
     }
 
     @Override
-    public void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, int tipo, int grad)
+    public void cadastrarAluno(String cpf,String nome,String foto, String email, String senha, int grad, int codCurso)
     		throws SQLException {
 
-        controladorUsuario.cadastrarAluno(nome, cpf, email, senha, codCurso, tipo, grad);
+        controladorUsuario.cadastrarAluno(nome, cpf,foto, email, senha,grad,codCurso);
     }
 
     @Override
-    public void cadastrarProfessor(String nome, String cpf, String email, String senha, int idDepartamento, int grad)
-    		throws SQLException {
-
-        controladorUsuario.cadastrarProfessor(nome, cpf, email, senha, idDepartamento, grad);
-    }
-
+	public void cadastrarProfessor(String cpf, String nome, String foto, String email, String senha, int grad,
+			int idDpto) throws SQLException {
+		
+    	controladorUsuario.cadastrarProfessor(cpf, nome, foto, email, senha, grad, idDpto);
+		
+	}
+    
     @Override
 	public void matricularAluno(Matricular m) throws SQLException {
     	controladorUsuario.matricularAluno(m);
@@ -191,4 +192,7 @@ public class AvaFachada implements IAvaFachada {
     public ArrayList<Aviso> selecionarAvisos(String cpf) throws SQLException, ListaCadastroVaziaExceptions {
         return controladorAviso.selecionarAvisos(cpf);
     }
+
+
+	
 }

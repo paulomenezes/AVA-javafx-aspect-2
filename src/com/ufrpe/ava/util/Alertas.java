@@ -69,4 +69,9 @@ public class Alertas {
     	
     	alerta("Atenção",s,Alert.AlertType.INFORMATION);
     }
+    
+    public static void naoPodeSerExcluido(){
+    	
+    	alerta("Atenção","Não pode ser Excluido",Alert.AlertType.INFORMATION);
+    }
 }

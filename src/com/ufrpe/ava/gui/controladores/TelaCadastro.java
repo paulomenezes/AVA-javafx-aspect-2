@@ -7,6 +7,8 @@ import com.ufrpe.ava.AVA;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Usuario;
+import com.ufrpe.ava.util.Alertas;
 import com.ufrpe.ava.util.Validacao;
 
 import javafx.fxml.FXML;
@@ -142,8 +144,15 @@ public class TelaCadastro extends Tela {
             	
                 if (professorCheck.isSelected()){
                     try {
-                        this.avaFachada.cadastrarProfessor(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
-                                campoSenha.getText(), departamento.getSelectionModel().getSelectedItem().getIdDepartamento(), 1);
+                        this.avaFachada.cadastrarProfessor(campoCPF.getText(),campoNome.getText(),null,campoEmail.getText(),
+                                campoSenha.getText(),0, departamento.getSelectionModel().getSelectedItem().getIdDepartamento());
+                        
+                        Usuario usuario = new Usuario(campoCPF.getText(), campoNome.getText(),null, campoEmail.getText(),
+                                campoSenha.getText(), 1);
+                        
+                        Tela.usuarioAtivo = usuario;
+                        
+                        Alertas.sucesso("Cadastro Realizado.");
                         
                         avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
 
@@ -152,16 +161,17 @@ public class TelaCadastro extends Tela {
                         System.out.println(e.getMessage());
                     }
                 } else {
-                    int tipoAluno;
-                    if (graduacaoCheck.isSelected()) {
-                        tipoAluno = 1;
-                    } else {
-                        tipoAluno = 2;
-                    }
 
                     try {
-                        this.avaFachada.cadastrarAluno(campoNome.getText(), campoCPF.getText(), campoEmail.getText(),
-                                campoSenha.getText(), curso.getSelectionModel().getSelectedItem().getIdCurso(), tipoAluno, 2);
+                        this.avaFachada.cadastrarAluno(campoCPF.getText(), campoNome.getText(),null, campoEmail.getText(),
+                                campoSenha.getText(), 1 ,curso.getSelectionModel().getSelectedItem().getIdCurso());
+                        
+                        Usuario usuario = new Usuario(campoCPF.getText(), campoNome.getText(),null, campoEmail.getText(),
+                                campoSenha.getText(), 1);
+                        
+                        Tela.usuarioAtivo = usuario;
+                        
+                        Alertas.sucesso("Cadastro Realizado.");
                         
                         avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
 

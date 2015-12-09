@@ -14,10 +14,10 @@ import com.ufrpe.ava.negocio.entidades.*;
 public interface IAvaFachada {
     /*FUNCOES USUARIOS ------------------------------------------------------------------------------------*/
 
-    void cadastrarAluno(String nome, String cpf, String email, String senha, int codCurso, int tipo, int grad)
+    void cadastrarAluno(String cpf,String nome,String foto, String email, String senha, int grad, int codCurso)
         throws SQLException;
 
-    void cadastrarProfessor(String nome, String cpf, String email, String senha, int idDepartamento, int grad)
+    void cadastrarProfessor(String cpf, String nome, String foto, String email,String senha, int grad, int idDepartamento)
         throws SQLException;
 
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;

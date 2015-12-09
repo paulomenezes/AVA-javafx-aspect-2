@@ -34,11 +34,16 @@ public aspect ExcecoesAspect {
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
-	after()throwing (SQLException e) : selecionarControladorCurso() || removerExcecao() || loginExcecao() || matriculaDisponivel() ||
+	after()throwing (SQLException e) : selecionarControladorCurso() || loginExcecao() || matriculaDisponivel() ||
 	  selecionarControladorUsuarios() || selecionarProjeto(){
 		
 		Alertas.falhaConexaoBanco();
 		
+	}
+	
+	after()throwing(SQLException e) : removerExcecao(){
+		
+		Alertas.naoPodeSerExcluido();
 	}
 	
 	

@@ -24,17 +24,17 @@ public class ControladorUsuario {
         return null;
     }
 
-    public void cadastrarAluno(String nome, String cpf,String email, String senha, int codCurso, int tipo, int grad)
+    public void cadastrarAluno(String cpf,String nome,String foto, String email,String senha,  int grad, int codCurso)
     		throws SQLException {
 
-        Aluno aluno = new Aluno(nome,cpf,email,senha,grad,tipo, codCurso);
+        Aluno aluno = new Aluno(cpf,nome,foto,email,senha,grad, codCurso);
         cadastrarUsuario(aluno);
     }
 
-    public void cadastrarProfessor(String nome, String cpf,String email, String senha, int idDpto, int grad)
+    public void cadastrarProfessor(String cpf,String nome,String foto, String email,String senha,  int grad, int idDpto)
             throws SQLException {
 
-        Professor professor = new Professor(nome, cpf,email,senha,grad,idDpto);
+        Professor professor = new Professor(cpf,nome,foto,email,senha,grad, idDpto);
         cadastrarUsuario(professor);
     }
 
@@ -50,7 +50,7 @@ public class ControladorUsuario {
 
     }
 
-    public void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException {
+    public void cadastrarUsuario(String cpf, String nome, String email, String senha) throws SQLException {
         Usuario usuario = new Usuario();
         usuario.setNome(nome);
         usuario.setCPF(cpf);

@@ -25,6 +25,7 @@ public aspect Autenticacao extends ConexaoMySQL {
 
     pointcut loginUsuario(String cpf, String senha):
             call(* ControladorUsuario.buscarLogin(String, String)) && args(cpf, senha);
+    
 
     Usuario around(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions: loginUsuario(cpf, senha) {
 
@@ -43,14 +44,15 @@ public aspect Autenticacao extends ConexaoMySQL {
                 usuario.setSenha(resultSet.getString("senha"));
                 usuario.setEmail(resultSet.getString("email"));
                 usuario.setFoto(resultSet.getString("foto"));
-
-                System.out.println(usuario.getNome());
+                usuario.setGrad(resultSet.getInt("tipo"));
+                
             }
 
-            if(usuario.getNome().isEmpty()){
-
+            if(usuario.getNome() == null){
+            
             	throw new ObjetoNaoExistenteExcepitions(cpf," ");
             }
+            
             return usuario;
     }
 
