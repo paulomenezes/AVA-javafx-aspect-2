@@ -69,18 +69,18 @@ create procedure calcularMediaDeCadaAlunoNaOferta(idOf int)
 						set mediaF = (notaFinal + mediaP)/2;
                         
 						if (mediaF >= 5) then -- média da final
-							set situacao = 'aprovado';
+							set situacao = '1';
 						else 
-							set situacao = 'reprovado';
+							set situacao = '0';
 						end if;
                         
 					else 
 						set mediaF = mediaP;
                         
 						if (mediaF >= 7) then -- média para passar de até 3ª va
-							set situacao = 'aprovado por média';
+							set situacao = '1';
 						else
-							set situacao = 'reprovado';
+							set situacao = '0';
 						end if;
                         
 					end if;

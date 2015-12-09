@@ -212,7 +212,7 @@ create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row
 -- de um aluno numa oferta de disciplina após inserido na nota
 	if (new.cpfAluno is not null and new.idOferta is not null) then
 		INSERT INTO historico(cpfAluno, idOferta, condicao, media)
-			VALUES(new.cpfAluno, new.idOferta, null, null);
+			VALUES(new.cpfAluno, new.idOferta, '1', null);
 	end if;
 end
 |
