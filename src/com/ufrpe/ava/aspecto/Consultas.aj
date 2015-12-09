@@ -28,10 +28,8 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
-            PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM ofertasPagas" +
-                    " AS A JOIN requisitos AS R ON A.idDisciplina = R.requisito WHERE A.cpfAluno = ? GROUP BY R.idOferta ");
+            PreparedStatement statement = connection.prepareStatement("SELECT  * FROM  requisitos ");
 
-            statement.setString(1, cpf);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
 

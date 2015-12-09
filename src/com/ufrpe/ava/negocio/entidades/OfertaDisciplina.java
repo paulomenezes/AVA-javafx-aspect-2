@@ -75,49 +75,5 @@ public class OfertaDisciplina {
 	public void setHorario(Map<String, Integer> horario) {
 		this.horario = horario;
 	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ano;
-		result = prime * result + ((curso == null) ? 0 : curso.hashCode());
-		result = prime * result + ((disciplina == null) ? 0 : disciplina.hashCode());
-		result = prime * result + quantAlunos;
-		result = prime * result + semestre;
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OfertaDisciplina other = (OfertaDisciplina) obj;
-		if (ano != other.ano)
-			return false;
-		if (curso == null) {
-			if (other.curso != null)
-				return false;
-		} else if (!curso.equals(other.curso))
-			return false;
-		if (disciplina == null) {
-			if (other.disciplina != null)
-				return false;
-		} else if (!disciplina.equals(other.disciplina))
-			return false;
-		if (quantAlunos != other.quantAlunos)
-			return false;
-		if (semestre != other.semestre)
-			return false;
-		if (horario == null) {
-			if (other.horario != null)
-				return false;
-		} else if (!horario.equals(other.horario))
-			return false;
-		return true;
-	}
-	
 	
 }

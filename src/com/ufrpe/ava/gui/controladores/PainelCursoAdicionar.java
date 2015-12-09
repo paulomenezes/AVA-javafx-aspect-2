@@ -79,8 +79,8 @@ public class PainelCursoAdicionar extends Tela {
 
                 Navegacao.carregarPainel("painelCursoInicio");
             } catch(Exception e) {
-                Alertas.falhaCadastro("curso.");
-                e.printStackTrace();
+            	System.out.println(e.getMessage());
+                Alertas.campoInvalido("Digite apenas números na quantidade de alunos.");
             }
         } else {
             Alertas.campoObrigatorio("Preencha todos os campos.");

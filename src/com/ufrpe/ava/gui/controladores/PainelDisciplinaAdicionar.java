@@ -67,7 +67,8 @@ public class PainelDisciplinaAdicionar extends Tela {
                 Navegacao.carregarPainel("painelDisciplinaInicio");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                Navegacao.carregarPainel("painelDisciplinaInicio");
+                Alertas.campoInvalido("Digite apenas números nos créditos e na carga horária");
+               // Navegacao.carregarPainel("painelDisciplinaInicio");
             }
         } else {
             Alertas.campoObrigatorio("Preencha todos os campos.");
