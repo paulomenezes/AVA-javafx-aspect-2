@@ -72,6 +72,19 @@ package com.ufrpe.ava.negocio.entidades;
 	    public void setSenha(String senha) {
 	        this.senha = senha;
 	    }
+	    
+	    public String getTipo() {
+	    	   if (grad == -1)
+	    	        return "Coordenador";
+	    	  else if (grad == 0)
+	    	       return "Professor";
+	    	  else if (grad == 1)
+	    	       return "Aluno graduação";
+	    	  else if (grad == 2)
+	    	      return "Aluno pós-graduação";
+	    	  return null;
+	    	}
+
 	
 	}
 
