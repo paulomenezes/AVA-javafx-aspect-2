@@ -47,7 +47,7 @@ public class AvaFachada implements IAvaFachada {
     public void cadastrarAluno(String cpf,String nome,String foto, String email, String senha, int grad, int codCurso)
     		throws SQLException {
 
-        controladorUsuario.cadastrarAluno(nome, cpf,foto, email, senha,grad,codCurso);
+        controladorUsuario.cadastrarAluno(cpf,nome,foto, email, senha,grad,codCurso);
     }
 
     @Override

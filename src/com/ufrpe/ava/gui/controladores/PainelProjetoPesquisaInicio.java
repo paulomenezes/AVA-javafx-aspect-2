@@ -155,7 +155,8 @@ public class PainelProjetoPesquisaInicio extends Tela {
                 Alertas.falhaCadastro("solicitação do projeto.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            
+        	System.out.println(e.getMessage());
             Alertas.falhaCadastro("solicitação do projeto.");
             botaoAtualizar.setDisable(true);
             botaoRemover.setDisable(true);
