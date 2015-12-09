@@ -50,13 +50,4 @@ public class ControladorUsuario {
 
     }
 
-    public void cadastrarUsuario(String cpf, String nome, String email, String senha) throws SQLException {
-        Usuario usuario = new Usuario();
-        usuario.setNome(nome);
-        usuario.setCPF(cpf);
-        usuario.setEmail(email);
-        usuario.setSenha(senha);
-
-        cadastrarUsuario(usuario);
-    }
 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?scenebuilder-stylesheet vista.css?>
 
-<VBox prefHeight="400" prefWidth="640" xmlns:fx="http://javafx.com/fxml" fx:controller="com.ufrpe.ava.gui.controladores.TelaInicio">
+<VBox prefHeight="400" prefWidth="640" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.ufrpe.ava.gui.controladores.TelaInicio">
   <children>
     <MenuBar prefHeight="29.0" prefWidth="597.0">
       <menus>
@@ -17,9 +18,9 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Cadastros">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#menuUsuarioAction" text="Usuários" />
-            <MenuItem mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
-            <MenuItem mnemonicParsing="false" onAction="#menuDisciplinaAction" text="Disciplinas" />
+            <MenuItem fx:id="menuUsuario" mnemonicParsing="false" onAction="#menuUsuarioAction" text="Usuários" />
+            <MenuItem fx:id="menuCursos" mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
+            <MenuItem fx:id="menuDisciplinas" mnemonicParsing="false" onAction="#menuDisciplinaAction" text="Disciplinas" />
             <MenuItem mnemonicParsing="false" onAction="#menuMatriculaAction" text="Matrículas" />
             <MenuItem mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
           </items>

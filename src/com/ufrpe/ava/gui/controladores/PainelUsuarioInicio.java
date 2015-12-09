@@ -66,11 +66,6 @@ public class PainelUsuarioInicio extends Tela {
         }
     }
 
-    public void botaoCoordenadorAction() {
-        PainelUsuarioAdicionar.tipo = -1;
-        PainelUsuarioAdicionar.usuario = null;
-        Navegacao.carregarPainel("painelUsuarioAdicionar");
-    }
 
     public void botaoProfessorAction() {
         PainelUsuarioAdicionar.tipo = 0;

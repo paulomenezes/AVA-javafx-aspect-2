@@ -5,13 +5,25 @@ import com.ufrpe.ava.util.Navegacao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 
 public class TelaInicio extends Tela {
 
     @FXML
     private StackPane vistaHolder;
+    
+    @FXML
+    private MenuItem menuUsuario;
+    
+    @FXML
+    private MenuItem menuCursos;
 
+
+    @FXML
+    private MenuItem menuDisciplinas;
+    
+    
     public void setVista(Node node) {
         vistaHolder.getChildren().setAll(node);
     }
@@ -49,5 +61,18 @@ public class TelaInicio extends Tela {
     @FXML
     void menuMatriculaAction(ActionEvent event) {
         Navegacao.carregarPainel("painelMatricular");
+    }
+    
+    @FXML
+    private void initialize(){
+    	
+    	if(Tela.usuarioAtivo.getGrad() != -1){
+    		
+    		menuUsuario.setDisable(true);
+    		menuDisciplinas.setDisable(true);
+    		menuCursos.setDisable(true);
+    		
+    	}
+    	
     }
 }

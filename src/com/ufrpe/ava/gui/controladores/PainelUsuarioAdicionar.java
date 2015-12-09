@@ -57,23 +57,20 @@ public class PainelUsuarioAdicionar extends Tela {
 
     public static Usuario usuario;
 
-    public static int tipo = 0;
+    public static int tipo;
 
     @FXML
     public void initialize() {
-        try {
+        
+    	
+    	try {
             List<Departamento> departamentos = this.avaFachada.selecionarDepartamentos();
             departamento.getItems().addAll(departamentos);
 
             List<Curso> cursos = this.avaFachada.selecionarCursos();
             curso.getItems().addAll(cursos);
 
-            if (tipo == -1) {
-                graduacaoCheck.setDisable(true);
-                posGradCheck.setDisable(true);
-                curso.setDisable(true);
-                departamento.setDisable(true);
-            } else if (tipo == 0) {
+           if (tipo == 0) {
                 graduacaoCheck.setDisable(true);
                 posGradCheck.setDisable(true);
                 curso.setDisable(true);
@@ -109,12 +106,8 @@ public class PainelUsuarioAdicionar extends Tela {
                 Validacao.validarEmail(campoEmail.getText()) &&
                 Validacao.validarCPF(campoCPF.getText())) {
             try {
-                if (tipo == -1) {
-                    this.avaFachada.cadastrarUsuario(campoCPF.getText(),campoNome.getText(), campoEmail.getText(), campoSenha.getText());
-                    avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
-                    
-                    Navegacao.carregarPainel("painelUsuarioInicio");
-                } else if (tipo == 0) {
+                
+            	if (tipo == 0) {
                     if (departamento.getValue() != null) {
                         this.avaFachada.cadastrarProfessor(campoCPF.getText(),campoNome.getText(),null,campoEmail.getText(), campoSenha.getText(),0,departamento.getValue().getIdDepartamento());
                         avaFachada.registrarPersistencia("Usuario - "+ campoNome.getText()+ " Cpf -"+campoCPF.getText() + " Foi Cadastrado no sistema") ;
@@ -140,11 +133,11 @@ public class PainelUsuarioAdicionar extends Tela {
                     }
                 }
             } catch (Exception e) {
-                Alertas.falhaCadastro("curso.");
-                e.printStackTrace();
+                Alertas.falhaCadastro("Usuario");
+                System.out.println(e.getMessage());
             }
         } else {
-            Alertas.campoObrigatorio("Preencha todos os campos.");
+            Alertas.campoObrigatorio("Preencha todos os campos corretamente.");
         }
     }
 }

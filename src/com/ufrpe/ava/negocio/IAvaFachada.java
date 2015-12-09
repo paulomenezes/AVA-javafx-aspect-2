@@ -28,7 +28,6 @@ public interface IAvaFachada {
 
     void removerUsuario(Usuario selectedItem) throws SQLException;
 
-    void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException;
 
     /* FUNCOES DEPARTAMENTOS ------------------------------------------------------------------------------------*/
     Departamento cadastrarDepartamento(String nome) throws SQLException;

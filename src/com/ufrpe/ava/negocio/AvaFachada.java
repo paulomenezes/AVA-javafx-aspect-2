@@ -67,10 +67,6 @@ public class AvaFachada implements IAvaFachada {
         controladorUsuario.removerUsuario(usuario);
     }
 
-    public void cadastrarUsuario(String nome, String cpf, String email, String senha) throws SQLException  {
-        controladorUsuario.cadastrarUsuario(nome, cpf, email, senha);
-    }
-    
     /*FUNCOES DEPARTAMENTO ------------------------------------------------------------------------------------*/
     
     @Override
