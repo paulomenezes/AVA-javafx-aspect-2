@@ -6,8 +6,7 @@ AS SELECT A.cpfAluno,H.idOferta,H.condicao,O.idDisciplina
 FROM aluno AS A JOIN historico AS H 
 	 ON A.cpfAluno = H.cpfAluno
      JOIN ofertaDisciplina O 
-     ON H.idOferta = O.idOferta
-     WHERE H.condicao = 1;
+     ON H.idOferta = O.idOferta;
  
 CREATE VIEW requisitos
 AS SELECT O.idOferta,R.requisito,D.nome,D.cargaHoraria,U.nome AS nome_professor
