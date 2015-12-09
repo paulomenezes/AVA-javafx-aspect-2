@@ -114,3 +114,4 @@
 356289457-36 - Realizou Login no Sistema - Tue Dec 08 22:06:55 BRT 2015
 345278459-19 - Realizou Login no Sistema - Tue Dec 08 22:16:55 BRT 2015
 893546244-12 - Realizou Login no Sistema - Tue Dec 08 22:23:29 BRT 2015
+356289457-36 - Realizou Login no Sistema - Tue Dec 08 22:43:58 BRT 2015

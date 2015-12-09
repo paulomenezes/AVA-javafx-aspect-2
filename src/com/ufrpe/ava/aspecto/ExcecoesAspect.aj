@@ -55,7 +55,6 @@ public aspect ExcecoesAspect {
 	
 	
 	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios(){
-		
 		Alertas.selecaoVazia(e.getMessage());
 	}
 

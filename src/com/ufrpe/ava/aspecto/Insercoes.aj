@@ -45,7 +45,6 @@ public aspect Insercoes extends ConexaoMySQL {
 	// IRSERCAO RELACIONADA  A USUARIOS --------------------------------------------------------------------------------------------------------//
 	
 	void around(Usuario usuario)throws SQLException: insercaoUsuario(usuario){
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO usuario (cpf, nome, foto, email, senha, tipo)VALUES(?,?,?,?,?,?)");
             statement.setString(1, usuario.getCPF());
@@ -74,14 +73,10 @@ public aspect Insercoes extends ConexaoMySQL {
                 statement.execute();
                 connection.commit();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 	}
 	
 	
 	void around(Matricular matricula) throws SQLException : matricularAluno(matricula){
-		try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
 
             statement.setString(1, matricula.getCpfAluno());
@@ -90,15 +85,11 @@ public aspect Insercoes extends ConexaoMySQL {
             statement.setString(4, matricula.getNumProtocolo());
 
             statement.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 	}
 
 	// IRSERCAO DEPARTAMENTO --------------------------------------------------------------------------------------------------------//
 
     Departamento around(String nome) throws SQLException: cadastrarDepartamento(nome) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO departamento (nome) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, nome);
@@ -117,14 +108,9 @@ public aspect Insercoes extends ConexaoMySQL {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 	Curso around(String nome, int quantidade, Departamento departamento, String tipo) throws SQLException: cadastrarCurso(nome, quantidade, departamento, tipo) {
-		try {
 			connection.setAutoCommit(false);
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO curso (nome, qtdAlunos, idDepartamento, tipo) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 			statement.setString(1, nome);
@@ -148,14 +134,9 @@ public aspect Insercoes extends ConexaoMySQL {
 			} else {
 				return null;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
     Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws SQLException: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO disciplina (nome, tipo, cargaHoraria, creditos) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, nome);
@@ -180,15 +161,10 @@ public aspect Insercoes extends ConexaoMySQL {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     ProjetoPesquisa around(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception:
         cadastrarProjetoPesquisa(nome, modalidade, organizacao, valorBolsa, nVagas) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO projetoPesquisa (nome, modalidade, organizacao, valorBolsa, nVagas) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, nome);
@@ -215,15 +191,10 @@ public aspect Insercoes extends ConexaoMySQL {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     SolicitacaoProjeto around(int idProjeto, String cpf) throws Exception:
             enviarSolicitacao(idProjeto, cpf) {
-        try {
             System.out.println(cpf);
             System.out.println(idProjeto);
 
@@ -248,15 +219,10 @@ public aspect Insercoes extends ConexaoMySQL {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     Aviso around(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws SQLException:
             cadastrarAviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO aviso (idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, idRemetente);
@@ -289,10 +255,6 @@ public aspect Insercoes extends ConexaoMySQL {
             } else {
                 return null;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
 }

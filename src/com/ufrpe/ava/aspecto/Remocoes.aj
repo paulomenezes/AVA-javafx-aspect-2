@@ -34,74 +34,50 @@ public aspect Remocoes extends ConexaoMySQL {
             call(* ControladorAviso.removerAviso(Aviso)) && args(aviso);
 
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
-         try {
              connection.setAutoCommit(false);
              PreparedStatement statement = connection.prepareStatement("DELETE FROM departamento WHERE idDepartamento = ?");
              statement.setInt(1, departamento.getIdDepartamento());
              statement.executeUpdate();
              connection.commit();
-         } catch (Exception e) {
-             e.printStackTrace();
-         }
     }
 
     void around(Curso curso) throws SQLException : removerCurso(curso) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM curso WHERE idCurso = ?");
             statement.setInt(1, curso.getIdCurso());
             statement.executeUpdate();
             connection.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     void around(Usuario usuario) throws SQLException : removerUsuario(usuario) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM usuario WHERE cpf = ?");
             statement.setString(1, usuario.getCPF());
             statement.executeUpdate();
             connection.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     void around(Disciplina disciplina) throws SQLException : removerDisciplina(disciplina) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM disciplina WHERE idDisciplina = ?");
             statement.setInt(1, disciplina.getIdDisciplina());
             statement.executeUpdate();
             connection.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     void around(ProjetoPesquisa projetoPesquisa) throws SQLException : removerProjetoPesquisa(projetoPesquisa) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM projetoPesquisa WHERE idProjeto = ?");
             statement.setInt(1, projetoPesquisa.getIdProjeto());
             statement.executeUpdate();
             connection.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     void around(Aviso aviso) throws SQLException : removerAviso(aviso) {
-        try {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("DELETE FROM aviso WHERE idAviso = ?");
             statement.setInt(1, aviso.getIdAviso());
             statement.executeUpdate();
             connection.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

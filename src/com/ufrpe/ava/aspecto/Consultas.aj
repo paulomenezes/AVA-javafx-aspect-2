@@ -28,7 +28,6 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
-    	try {
             PreparedStatement statement = connection.prepareStatement(" SELECT R.idOferta,R.nome, R.cargaHoraria,R.nome_professor FROM ofertasPagas" +
                     " AS A JOIN requisitos AS R ON A.idDisciplina = R.requisito WHERE A.cpfAluno = ? GROUP BY R.idOferta ");
 
@@ -55,16 +54,11 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return disciplinas;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     	
     }
     
     
     ArrayList<Departamento> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDepartamentos() {
-    	try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM departamento");
             ResultSet resultSet = statement.executeQuery();
 
@@ -83,14 +77,9 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     ArrayList<Curso> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarCursos() {
-        try {
             PreparedStatement statement = connection.prepareStatement("SELECT c.*, d.idDepartamento AS idDepto, d.nome AS NomeDepartamento FROM curso AS c INNER JOIN departamento AS d ON C.idDepartamento = d.idDepartamento");
             ResultSet resultSet = statement.executeQuery();
 
@@ -116,14 +105,9 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     ArrayList<Usuario> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarUsuarios() {
-        try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario");
             ResultSet resultSet = statement.executeQuery();
 
@@ -144,14 +128,9 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     ArrayList<Disciplina> around()throws SQLException,ListaCadastroVaziaExceptions: selecionarDisciplinas() {
-        try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM disciplina");
             ResultSet resultSet = statement.executeQuery();
 
@@ -172,14 +151,9 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     ArrayList<ProjetoPesquisa> around() throws SQLException, ListaCadastroVaziaExceptions: selecionarProjetoPesquisas() {
-        try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM projetoPesquisa");
             ResultSet resultSet = statement.executeQuery();
 
@@ -203,15 +177,9 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-
-        }
     }
 
     ArrayList<Aviso> around(String cpf) throws SQLException, ListaCadastroVaziaExceptions: selecionarAvisos(cpf) {
-        try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM aviso WHERE idDestinatarioU = ? or idDestinatarioU is null ORDER BY idAviso DESC LIMIT 20");
             statement.setString(1, cpf);
 
@@ -238,9 +206,5 @@ public aspect Consultas extends ConexaoMySQL {
             }
 
             return lista;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

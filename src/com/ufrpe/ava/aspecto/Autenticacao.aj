@@ -27,7 +27,7 @@ public aspect Autenticacao extends ConexaoMySQL {
             call(* ControladorUsuario.buscarLogin(String, String)) && args(cpf, senha);
 
     Usuario around(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions: loginUsuario(cpf, senha) {
-        try {
+
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE cpf = ? and senha = ?");
             statement.setString(1, cpf);
             statement.setString(2, senha);
@@ -47,15 +47,11 @@ public aspect Autenticacao extends ConexaoMySQL {
                 System.out.println(usuario.getNome());
             }
 
-            if (usuario.getNome().isEmpty()) {
+            if(usuario.getNome().isEmpty()){
 
-                throw new ObjetoNaoExistenteExcepitions(cpf, " ");
+            	throw new ObjetoNaoExistenteExcepitions(cpf," ");
             }
             return usuario;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     boolean around(ArrayList<String>campos): validarCampos(campos) {
