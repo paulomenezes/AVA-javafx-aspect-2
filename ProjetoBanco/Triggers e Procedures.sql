@@ -3,14 +3,30 @@
 use ava;
 delimiter |
 -- -----------------------------NOVAS TRIGGERS CRIADAS ----------------------------
+create trigger avisarAlunoNota after update on nota for each row begin
+	declare descr text;
+    declare nomeDisciplina text;
+	declare idDisc int;
+    
+    set idDisc = buscarIdDisciplina(new.idOferta);
+	set nomeDisciplina = buscarNomeDisciplina(idDisc);
+    set descr = concat('A nota de ', nomeDisciplina, 'já foi lançada.');
+    if (new.nota1 <> null) then
+	INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+        VALUES(NULL, 'Nota já se encontra no sistema', descr, 0, NULL, NULL, NULL, new.cpfAluno);
+	end if;
+end
+|
 create trigger inserirAvisoAposMatricula after insert on matricular for each row begin
-declare descr text;
-declare nomeDisciplina text;
-declare idDisc int;
+	declare descr text;
+	declare nomeDisciplina text;
+	declare idDisc int;
+    
 	set idDisc = buscarIdDisciplina(new.idOferta);
 	set nomeDisciplina = buscarNomeDisciplina(idDisc);
 	set descr = concat('Sua matrícula na disciplina de ', nomeDisciplina, ' (', idDisc,') na oferta ', new.idOferta, ' foi confirmada. O seu número de protocolo é ', new.numProtocolo);
-	INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+	
+    INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
         VALUES(NULL, 'Matrícula confirmada', descr, 0, NULL, NULL, NULL, new.cpfAluno);
 end
 |
