@@ -2,6 +2,62 @@
 
 use ava;
 delimiter |
+-- -----------------------------NOVAS TRIGGERS CRIADAS ----------------------------
+create trigger inserirAvisoAposMatricula after insert on matricular for each row begin
+declare descr text;
+declare nomeDisciplina text;
+declare idDisc int;
+	set idDisc = buscarIdDisciplina(new.idOferta);
+	set nomeDisciplina = buscarNomeDisciplina(idDisc);
+	set descr = concat('Sua matrícula na disciplina de ', nomeDisciplina, ' (', idDisc,') na oferta ', new.idOferta, ' foi confirmada. O seu número de protocolo é ', new.numProtocolo);
+	INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
+        VALUES(NULL, 'Matrícula confirmada', descr, 0, NULL, NULL, NULL, new.cpfAluno);
+end
+|
+
+create function buscarIdDisciplina (idOf int) returns int deterministic begin
+		declare done int default 0;
+		declare idDisc int;
+        declare idD int;
+        declare idO int;
+		declare ofertaCursor cursor for select idOferta, idDisciplina from ofertadisciplina; 
+		declare continue handler for not found set done = 1;
+
+		open ofertaCursor;
+		repeat
+			fetch ofertaCursor into idO, idD;
+			if (idO = idOf) then
+				set idDisc = idD;
+				set done = 1;
+            end if;
+			until done
+		end repeat;
+        close ofertaCursor;
+        return idDisc;
+end
+|
+
+create function buscarNomeDisciplina (idDisc int) returns varchar(35) deterministic begin
+declare done int default 0;
+		declare nomeDisciplina varchar(35) default null;
+        declare idD int;
+        declare nomeD varchar(35);
+		declare disciplinaCursor cursor for select idDisciplina, nome from disciplina; 
+		declare continue handler for not found set done = 1;
+
+		open disciplinaCursor;
+		repeat
+			fetch disciplinaCursor into idD, nomeD;
+				if (idD = idDisc) then
+					set nomeDisciplina = nomeD;
+                    set done = 1;
+                end if;
+			until done
+		end repeat;
+        close disciplinaCursor;
+        return nomeDisciplina;
+end
+|
 -- -------------------------------------------- PROCEDURE ----------------------------------------------------
 
 create procedure atualizarNAlunosCursoQuandoNull (in idC int) 
