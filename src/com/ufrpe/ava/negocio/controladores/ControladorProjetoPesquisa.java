@@ -45,7 +45,11 @@ public class ControladorProjetoPesquisa {
         return null;
     }
 
-    public void aceitarSolicitacaoProjeto(String cpf) throws Exception {
+    public void aceitarSolicitacaoProjeto(int id, int estado) throws Exception {
         
+    }
+    
+    public ArrayList<SolicitacaoProjeto> selecionarSolicitacoes(String cpf) throws Exception { 
+    	return null;
     }
 }

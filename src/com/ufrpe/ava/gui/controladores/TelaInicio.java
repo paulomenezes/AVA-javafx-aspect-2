@@ -66,8 +66,7 @@ public class TelaInicio extends Tela {
     }
    
     @FXML
-    void menuNotasAction(ActionEvent event){
-    	
+    void menuNotasAction() {
     	Navegacao.carregarPainel("PainelVisualizarNotas");
     }
     
@@ -135,6 +134,11 @@ public class TelaInicio extends Tela {
     @FXML
     void menuMatriculaAction(ActionEvent event) {
         Navegacao.carregarPainel("painelMatricular");
+    }
+    
+    @FXML
+    void menuAceitar() {
+    	Navegacao.carregarPainel("painelAceitarProjeto");
     }
     
     @FXML

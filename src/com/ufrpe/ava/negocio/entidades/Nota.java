@@ -9,7 +9,7 @@ public class Nota {
 	private double nota2;
 	private double nota3;
 	private double notaFinal;
-	
+	private String nomeDisciplina;
 	
 	public Nota(String cpfAluno, int idOferta, double nota1, double nota2, double nota3, double notaFinal) {
 		this.cpfAluno = cpfAluno;
@@ -24,6 +24,13 @@ public class Nota {
 		
 	}
 
+	public String getNomeDisciplina() {
+		return nomeDisciplina;
+	}
+	
+	public void setNomeDisciplina(String nome) {
+		this.nomeDisciplina = nome;
+	}
 	
 	public int getIdNota() {
 		return idNota;

@@ -278,17 +278,10 @@ end
 -- toda vez que tiver um update em solicitação, prof rejeita por exemplo
 CREATE TRIGGER ava.salvarAlunoProjetoAFTER after update ON solicitacaoprojeto FOR EACH ROW BEGIN
 	IF(new.estado = 1) THEN
-		
         INSERT INTO ava.participarprojeto(cpfAluno,idProjeto)VALUES(new.cpfAluno,new.idProjeto);
-        DELETE FROM ava.solicitacaoprojeto WHERE idSolicitacao = new.idSolicitacao;
-	ELSE IF (new.estado = 0) then -- quer dizer que respondeu e negou, pode excluir tb
-			delete from ava.solicitacaoprojeto where idSolicitacao = new.idSolicitacao;
-            end if;
-    END IF;
-		
+    END IF;		
 END
 |
-
 
 create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row begin
 -- cria um 'objeto' 'historico' para poder comportar a média e situação

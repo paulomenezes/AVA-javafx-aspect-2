@@ -79,7 +79,7 @@ public interface IAvaFachada {
     
     public ArrayList<OfertaAluno> ofertaAluno(int idOferta )throws SQLException,ListaCadastroVaziaExceptions;
     
-    public Nota buscarNota(String cpfAluno, int idOferta)throws SQLException,ListaCadastroVaziaExceptions;
+    public ArrayList<Nota> buscarNota(String cpfAluno)throws SQLException,ListaCadastroVaziaExceptions;
     
     public void alterarNota(Nota notaNova)throws SQLException;
 
@@ -93,8 +93,10 @@ public interface IAvaFachada {
     List<ProjetoPesquisa> selecionarProjetoPesquisas() throws SQLException, ListaCadastroVaziaExceptions;
 
     SolicitacaoProjeto enviarSolicitacaoProjeto(int idProjeto, String cpf) throws Exception;
+    
+    ArrayList<SolicitacaoProjeto> selecionarSolicitacoes(String cpf) throws Exception;
 
-    void aceitarSolicitacaoProjeto(String cpf) throws Exception;
+    void aceitarSolicitacaoProjeto(int id, int estado) throws Exception;
 
     /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
     Aviso cadastrarAviso(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws Exception;

@@ -69,7 +69,7 @@ public class ControladorDisciplina {
     	return null;
     } 
     
-    public Nota buscarNota(String cpfAluno, int idOferta)throws SQLException,ListaCadastroVaziaExceptions{
+    public ArrayList<Nota> buscarNota(String cpfAluno)throws SQLException,ListaCadastroVaziaExceptions{
     	
     	return null;
     }

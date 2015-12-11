@@ -37,7 +37,7 @@
             <Menu fx:id="menuProfessor" mnemonicParsing="false" text="Professor">
               <items>
                 <MenuItem fx:id="menuCadastrarProjeto" mnemonicParsing="false" onAction="#menuCadastrarProjetoAction" text="Cadastrar Projeto" />
-                  <MenuItem fx:id="menuAceitarAlunos" mnemonicParsing="false" text="Aceitar Alunos" />
+                  <MenuItem fx:id="menuAceitarAlunos" mnemonicParsing="false" onAction="#menuAceitar" text="Aceitar Alunos" />
                   <MenuItem fx:id="menuAplicarNotas" mnemonicParsing="false" onAction="#menuAplicarNotasAction" text="Aplicar Notas" />
               </items>
             </Menu>

@@ -5,8 +5,27 @@ public class SolicitacaoProjeto {
 	private String cpfAluno;
 	private int idProjeto;
 	private int estado;
+	
+	private String aluno;
+	private String projeto;
 
-    public int getIdSolicitacao() {
+    public String getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(String aluno) {
+		this.aluno = aluno;
+	}
+
+	public String getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(String projeto) {
+		this.projeto = projeto;
+	}
+
+	public int getIdSolicitacao() {
         return idSolicitacao;
     }
 

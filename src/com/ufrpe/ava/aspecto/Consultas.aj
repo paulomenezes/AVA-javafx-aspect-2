@@ -28,25 +28,25 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarProjetoPesquisas(): execution(* ControladorProjetoPesquisa.selecionarProjetoPesquisas());
     pointcut selecionarAvisos(String cpf): execution(* ControladorAviso.selecionarAvisos(String)) && args(cpf);
 
+    pointcut selecionarSolicitacoes(String cpf): execution(* ControladorProjetoPesquisa.selecionarSolicitacoes(String)) && args(cpf);
+
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
     pointcut ofertaProfessor(String cpf) : call(* ControladorDisciplina.ofertaProfessor(..)) && args(cpf);
     pointcut ofertaAluno(int idOferta) : call(* ControladorDisciplina.ofertaAluno(..)) && args(idOferta);
-    pointcut buscarNota(String cpfAluno, int idOferta) : call(* ControladorDisciplina.buscarNota(..)) && args(cpfAluno, idOferta);
+    pointcut buscarNota(String cpfAluno) : call(* ControladorDisciplina.buscarNota(..)) && args(cpfAluno);
     
     //ADVICES------------------------------------------------------------------------------------------------------------------------
     
-    Nota around(String cpfAluno, int idOferta) throws SQLException,ListaCadastroVaziaExceptions : buscarNota(cpfAluno,idOferta){
+    ArrayList<Nota> around(String cpfAluno) throws SQLException,ListaCadastroVaziaExceptions : buscarNota(cpfAluno){
     	
-    	PreparedStatement statement = connection.prepareStatement(" SELECT * FROM ava.nota WHERE cpfAluno = ? AND idOferta = ? ");
+    	PreparedStatement statement = connection.prepareStatement("SELECT n.*, d.nome as NomeDisciplina FROM ava.nota AS n INNER JOIN ofertadisciplina AS od ON n.idOferta = od.idOferta INNER JOIN disciplina AS d ON od.idDisciplina = d.idDisciplina WHERE n.cpfAluno = ?");
     	statement.setString(1, cpfAluno);
-    	statement.setInt(2, idOferta);
     	
     	ResultSet resultSet = statement.executeQuery();
     	
-    	Nota nota = new Nota();
-    	
-    	if(resultSet.next()){
-    		
+    	ArrayList<Nota> notas = new ArrayList<Nota>();
+    	while (resultSet.next()) {
+        	Nota nota = new Nota();    		
     		nota.setIdNota(resultSet.getInt("idNota"));
     		nota.setCpfAluno(resultSet.getString("cpfAluno"));
     		nota.setIdOferta(resultSet.getInt("idOferta"));
@@ -55,14 +55,16 @@ public aspect Consultas extends ConexaoMySQL {
     		nota.setNota3(resultSet.getDouble("nota3"));
     		nota.setNota1(resultSet.getDouble("nota1"));
     		nota.setNotaFinal(resultSet.getDouble("notaFinal"));
+    		nota.setNomeDisciplina(resultSet.getString("NomeDisciplina"));
+    		
+    		notas.add(nota);
     	}
     	
-    	if(nota.getCpfAluno() == null){
-    		
+    	if (notas.isEmpty()) {
     		throw new ListaCadastroVaziaExceptions("consulta notas");
     	}
     	
-    	return nota;
+    	return notas;
     }
     
     
@@ -81,6 +83,33 @@ public aspect Consultas extends ConexaoMySQL {
     		o.setIdOferta(resultSet.getInt("idOferta"));
     		o.setNomeDisciplina(resultSet.getString("nome"));
     		o.setCpfProfessor(resultSet.getString("cpfProfessor")) ;
+    		
+    		ofertas.add(o);
+    	}
+    	
+    	if(ofertas.isEmpty()){
+    		
+    		throw new ListaCadastroVaziaExceptions("consulta ofertas");
+    	}
+    	
+    	return ofertas;
+    	
+    }
+    
+    ArrayList<SolicitacaoProjeto> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions : selecionarSolicitacoes(cpf){
+    	PreparedStatement statement = connection.prepareStatement("SELECT s.idSolicitacao as id, u.nome as Aluno, pp.nome as Projeto FROM ava.solicitacaoprojeto as s inner join projetoprofessor as p on s.idProjeto = p.idProjeto inner join usuario as u on s.cpfAluno = u.cpf inner join projetopesquisa as pp on s.idProjeto = pp.idProjeto where p.cpfProfessor = ? and s.estado is null");
+    	statement.setString(1, cpf);
+    	ResultSet resultSet = statement.executeQuery();
+    	
+    	ArrayList<SolicitacaoProjeto> ofertas = new ArrayList<>();
+    	
+    	while(resultSet.next()){
+    		
+    		SolicitacaoProjeto o = new SolicitacaoProjeto();
+    		
+    		o.setIdSolicitacao(resultSet.getInt("id"));
+    		o.setAluno(resultSet.getString("Aluno"));
+    		o.setProjeto(resultSet.getString("Projeto"));
     		
     		ofertas.add(o);
     	}

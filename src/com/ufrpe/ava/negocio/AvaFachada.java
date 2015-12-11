@@ -6,8 +6,26 @@ import java.util.List;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.excecoes.ObjetoNaoExistenteExcepitions;
-import com.ufrpe.ava.negocio.controladores.*;
-import com.ufrpe.ava.negocio.entidades.*;
+import com.ufrpe.ava.negocio.controladores.ControladorAviso;
+import com.ufrpe.ava.negocio.controladores.ControladorCurso;
+import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
+import com.ufrpe.ava.negocio.controladores.ControladorLogging;
+import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
+import com.ufrpe.ava.negocio.controladores.ControladorUsuario;
+import com.ufrpe.ava.negocio.entidades.Aviso;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Disciplina;
+import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
+import com.ufrpe.ava.negocio.entidades.Matricular;
+import com.ufrpe.ava.negocio.entidades.MinistrarOferta;
+import com.ufrpe.ava.negocio.entidades.Nota;
+import com.ufrpe.ava.negocio.entidades.OfertaAluno;
+import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
+import com.ufrpe.ava.negocio.entidades.OfertaProfessor;
+import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.SolicitacaoProjeto;
+import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -191,8 +209,8 @@ public class AvaFachada implements IAvaFachada {
 
 
 	@Override
-	public Nota buscarNota(String cpfAluno, int idOferta) throws SQLException, ListaCadastroVaziaExceptions {
-		return controladorDiscilpina.buscarNota(cpfAluno, idOferta);
+	public ArrayList<Nota> buscarNota(String cpfAluno) throws SQLException, ListaCadastroVaziaExceptions {
+		return controladorDiscilpina.buscarNota(cpfAluno);
 	}
 
 	
@@ -222,8 +240,8 @@ public class AvaFachada implements IAvaFachada {
         return controladorProjetoPesquisa.enviarSolicitacao(idProjeto, cpf);
     }
 
-    public void aceitarSolicitacaoProjeto(String cpf) throws Exception {
-         controladorProjetoPesquisa.aceitarSolicitacaoProjeto(cpf);
+    public void aceitarSolicitacaoProjeto(int id, int estado) throws Exception {
+         controladorProjetoPesquisa.aceitarSolicitacaoProjeto(id, estado);
     }
 
     /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
@@ -245,5 +263,7 @@ public class AvaFachada implements IAvaFachada {
 
 
 	
-	
+	public ArrayList<SolicitacaoProjeto> selecionarSolicitacoes(String cpf) throws Exception {
+		return controladorProjetoPesquisa.selecionarSolicitacoes(cpf);
+	}
 }
