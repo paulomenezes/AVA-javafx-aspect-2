@@ -4,12 +4,12 @@ SET foreign_key_checks = 0;
 
 INSERT INTO usuario(cpf,nome,foto,email,senha, tipo)VALUES('190564714-73','Rogério Duarte',NULL,'rogerio.duarte@gmail.com','1234',1),
 ('134676398-09','Silvia Poppovick',NULL,'silviapoppovick@gmail.com','1234',0),('898929087-61','Guilherme Melo',NULL,'guilherme.beberibe@gmail.com','1234',1),
-('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234',2),('237812134-89','Maria José',NULL,'maria@gmail.com','1234',0), 
+('345278459-19','Roger Flores',NULL,'roger_flores@gmail.com','1234',0),('237812134-89','Maria José',NULL,'maria@gmail.com','1234',0), 
 ('237453713-89','Eliel José dos Santos',NULL,'eliel.santos1@hotmail.com','1234',0), ('563812908-89','Josefina Câmara',NULL,'josy.camara@gmail.com','1234',0),
 ('153672890-03','Paulo Leonardo',NULL,'paulo.leonado@gmail.com','1234',0),
-('893546244-12','Miguel Falabem',NULL,'miguel.calado_eh_um_poeta@gmail.com','1234',1),('782451173-93','Cristina Rocha',NULL,'crisitna.rocha@casosdefamilia.com','1234',2), 
-('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234',2), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234',0),
-('357832989-36','Bileu do Nascimento Pedrosa',NULL,'bileu.perronha@hotmail.com','1234',3);
+('893546244-12','Miguel Falabem',NULL,'miguel.calado_eh_um_poeta@gmail.com','1234',1),('782451173-93','Cristina Rocha',NULL,'crisitna.rocha@casosdefamilia.com','1234',1), 
+('356289457-36','César Tom Cruizzy Pereira',NULL,'cesar.cruizzy@hotmail.com','1234',1), ('124673424-09','Ramón Ramayo',NULL,'ramonmayo@gmail.com','1234',0),
+('357832989-36','Bileu do Nascimento Pedrosa',NULL,'bileu.perronha@hotmail.com','1234',1);
 
 INSERT INTO  departamento(nome,idDepartamento)VALUES('DQ',1),('DF',2),('DM',3),('DEINFO',4),('DLin',5), 
 ('DEdF', 6);
@@ -92,12 +92,12 @@ INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)VALUES('1905
 ('356289457-36',4,3.5,4.5,7.0, 7),('893546244-12',45,7,7,NULL,NULL),('893546244-12',4,5,6.5,8.5, NULL),
 ('356289457-36',33, 7,6,7, NULL),('356289457-36',6,5.0,3.5,9.5, NULL);
 
-INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',1,NULL,NULL),('190564714-73',4,NULL,NULL),
-('190564714-73',5,NULL,NULL),('190564714-73',6,NULL,NULL),('898929087-61',5,NULL,NULL),('898929087-61',4,NULL,NULL),
-('898929087-61',45,NULL,NULL),
-('345278459-19',4,NULL,NULL),('345278459-19',13,NULL,NULL),('345278459-19',5,NULL,NULL),
-('893546244-12',8,NULL,NULL),('356289457-36',8,NULL,NULL),('898929087-61',9,NULL,NULL),('356289457-36',4,NULL,NULL),
-('893546244-12',45,NULL,NULL),('893546244-12',4,NULL,NULL),('356289457-36',33,NULL,35),('356289457-36',6,NULL,NULL);
+INSERT INTO historico(cpfAluno, idOferta, condicao, media)VALUES('190564714-73',1,'1',NULL),('190564714-73',4,'1',NULL),
+('190564714-73',5,'1',NULL),('190564714-73',6,'1',NULL),('898929087-61',5,'1',NULL),('898929087-61',4,'1',NULL),
+('898929087-61',45,'1',NULL),
+('345278459-19',4,'1',NULL),('345278459-19',13,'1',NULL),('345278459-19',5,'1',NULL),
+('893546244-12',8,'1',NULL),('356289457-36',8,'1',NULL),('898929087-61',9,'1',NULL),('356289457-36',4,'1',NULL),
+('893546244-12',45,'1',NULL),('893546244-12',4,'1',NULL),('356289457-36',33,'1',35),('356289457-36',6,'1',NULL);
 
 
 INSERT INTO projetopesquisa(nome, modalidade, organizacao, valorBolsa, nVagas)VALUES('proj1','PIBIC', 'CNPq',400.00,3),

@@ -16,7 +16,7 @@
             <MenuItem mnemonicParsing="false" onAction="#menuSairAction" text="Sair" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Cadastros">
+        <Menu fx:id="menuCadastros" mnemonicParsing="false" text="Cadastros">
           <items>
             <MenuItem fx:id="menuUsuario" mnemonicParsing="false" onAction="#menuUsuarioAction" text="Usuários" />
             <MenuItem fx:id="menuCursos" mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
@@ -26,7 +26,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#menuOfertaProfessorAction" text="Oferta - Professor" />
           </items>
         </Menu>
-            <Menu mnemonicParsing="false" text=" Aluno">
+            <Menu fx:id="menuAluno" mnemonicParsing="false" text=" Aluno">
               <items>
             <MenuItem fx:id="menuMatricula" mnemonicParsing="false" onAction="#menuMatriculaAction" text="Matricular" />
             <MenuItem fx:id="menuPesquisa" mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
@@ -34,7 +34,7 @@
                   <MenuItem fx:id="menuSolicitarProjeto" mnemonicParsing="false" onAction="#menuSolicitarProjetoAction" text="Solicitar Projeto" />
               </items>
             </Menu>
-            <Menu mnemonicParsing="false" text="Professor">
+            <Menu fx:id="menuProfessor" mnemonicParsing="false" text="Professor">
               <items>
                 <MenuItem fx:id="menuCadastrarProjeto" mnemonicParsing="false" onAction="#menuCadastrarProjetoAction" text="Cadastrar Projeto" />
                   <MenuItem fx:id="menuAceitarAlunos" mnemonicParsing="false" text="Aceitar Alunos" />

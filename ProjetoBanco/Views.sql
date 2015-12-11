@@ -45,11 +45,3 @@ FROM historico AS H JOIN aluno AS A
 	 ON H.cpfAluno = A.cpfAluno
      JOIN usuario AS U
      ON A.cpfAluno = U.cpf;
-
-SELECT * FROM OfertaAluno WHERE idOferta = 45;	
-    
--- TESTES------------------------------------------------------------------------------------------------------------------------------------
-
-SELECT  I.idOferta,I.nome,I.cargaHoraria FROM ofertasPagas AS O JOIN infoOfertas AS I ON O.idDisciplina =  I.requisito WHERE O.cpfAluno = '190564714-73';
-SELECT * FROM DisciplinaOferta;
-SELECT * FROM infoOfertas WHERE requisito = 0;

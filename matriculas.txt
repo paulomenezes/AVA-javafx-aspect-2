@@ -16,3 +16,8 @@ Aluno com Cpf - 777
 CargaHoraria : 12 horas
  Nome do professor : null
 Fri Dec 11 01:02:34 BRST 2015
+Aluno com Cpf - 321
+ Relizou Matricula na Oferta - 
+ Cod - 104 - Nome da Disciplina : Poo
+CargaHoraria : 2 horas
+Fri Dec 11 14:54:05 BRST 2015

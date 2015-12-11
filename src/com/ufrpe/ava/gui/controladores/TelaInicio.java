@@ -5,6 +5,7 @@ import com.ufrpe.ava.util.Navegacao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.StackPane;
 
@@ -43,6 +44,15 @@ public class TelaInicio extends Tela {
     
     @FXML
     private MenuItem menuAplicarNotas;
+    
+    @FXML
+    private Menu menuCadastros;
+    
+    @FXML
+    private Menu menuAluno;
+    
+    @FXML
+    private Menu menuProfessor;
     
     
     public void setVista(Node node) {
@@ -130,12 +140,19 @@ public class TelaInicio extends Tela {
     @FXML
     private void initialize(){
     	
-    	if(Tela.usuarioAtivo.getGrad() != -1){
+    	if(Tela.usuarioAtivo.getGrad() == -1){
     		
-    		menuUsuario.setDisable(true);
-    		menuDisciplinas.setDisable(true);
-    		menuCursos.setDisable(true);
+    		menuAluno.setDisable(true);
+    		menuProfessor.setDisable(true);
+    	
+    	}else if(Tela.usuarioAtivo.getGrad() == 0){
     		
+    		menuAluno.setDisable(true);
+    		menuCadastros.setDisable(true);
+    	}else{
+    		
+    		menuProfessor.setDisable(true);
+    		menuCadastros.setDisable(true);
     	}
     	
     }

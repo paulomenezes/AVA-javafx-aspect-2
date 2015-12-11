@@ -53,7 +53,7 @@ public class PainelNotasAlterar extends Tela{
 
     
 	 public void botaoCancelarAction() {
-	        AVA.carregar("login");
+	        AVA.carregar("inicio");
 	 }
 	 
 	 public void choiceOfertasClick(){
@@ -105,6 +105,7 @@ public class PainelNotasAlterar extends Tela{
 					 
 						this.avaFachada.alterarNota(notaNova);
 						Alertas.sucesso("Notas Atualizadas com Sucesso.") ;
+						 AVA.carregar("inicio");
 					 
 				 }else{
 					 

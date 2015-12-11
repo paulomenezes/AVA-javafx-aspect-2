@@ -468,6 +468,3 @@ end
 
 
 delimiter ;
-call atualizarAlunosCurso();
-call atualizarAlunosOferta();
-call atualizarHistorico();

@@ -83,7 +83,7 @@ public class PainelOfertasAdicionar extends Tela{
 	  
 					this.avaFachada.cadastrarOferta(oferta);
 					 Alertas.sucesso("Cadastro  de Oferta Realizado.");
-					 Navegacao.carregarPainel("painelInicio");
+					 Navegacao.carregarPainel("PainelOfertasInicio");
 					 
 				
 	        }else{

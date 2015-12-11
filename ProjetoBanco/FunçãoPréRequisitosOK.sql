@@ -1,4 +1,5 @@
 -- FUNÇÕES DE MYSQL --
+USE AVA;
 
 delimiter |
 create function verificarSePreRequisitoCumprido (idDisciplina int, cpfAluno varchar(14)) returns boolean not deterministic
