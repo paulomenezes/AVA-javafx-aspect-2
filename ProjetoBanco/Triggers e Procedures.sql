@@ -1,10 +1,16 @@
 -- fazer uma procedure que verifica após confirmar o botão de matrícula, verifica se tem ao mínimo 3 matérias e no máximo 10
 
 use ava;
-
 delimiter |
--- -----------------------------NOVAS TRIGGERS CRIADAS ----------------------------
-create trigger avisarAlunoNota after update on nota for each row begin
+
+-- -----------------------------NOVAS TRIGGERS CRIADAS ----------------------------------------------------
+-- toda vez que alterar alguma coisa na tabela nota, as notas, logicamente, ele chama o procedimento de 
+-- calcular...Média (outro arquivo) que calcula a média para todos os alunos daquela oferta, consequentemente
+-- a do cara com a nota alterada 
+-- põe lá em histórico ()
+
+-- OBS: o controle de fluxo é feito no procedimento 
+create trigger avisarAlunoNotaECalcularMedia after update on nota for each row begin
 	declare descr text;
     declare nomeDisciplina text;
 	declare idDisc int;
@@ -16,19 +22,32 @@ create trigger avisarAlunoNota after update on nota for each row begin
 	INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
         VALUES(NULL, 'Nota já se encontra no sistema', descr, 0, NULL, NULL, NULL, new.cpfAluno);
 	end if;
+    
+    if (new.idOferta is not null and new.cpfAluno is not null) then
+		call calcularMediaAluno(new.idOferta, new.cpfAluno);
+	end if;
 end
 |
-create trigger inserirAvisoAposMatricula after insert on matricular for each row begin
+
+-- insere aviso que foi feita a matrícula
+-- cria um 'objeto' nota para poder comportar as notas do aluno numa 
+-- oferta de disciplina após confirmado(matriculado)
+create trigger inserirAvisoAposMatriculaEInserirNotaNaTabela after insert on matricular for each row begin
 	declare descr text;
 	declare nomeDisciplina text;
 	declare idDisc int;
     
 	set idDisc = buscarIdDisciplina(new.idOferta);
 	set nomeDisciplina = buscarNomeDisciplina(idDisc);
-	set descr = concat('Sua matrícula na disciplina de ', nomeDisciplina, ' (', idDisc,') na oferta ', new.idOferta, ' foi confirmada. O seu número de protocolo é ', new.numProtocolo);
+	set descr = concat('Sua matrícula na disciplina de ', nomeDisciplina, ' (', idDisc,') na oferta ', new.idOferta, ' foi confirmada. O seu número de protocolo é ', new.numeroProtocolo);
 	
     INSERT INTO aviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU)
         VALUES(NULL, 'Matrícula confirmada', descr, 0, NULL, NULL, NULL, new.cpfAluno);
+	
+    if (new.cpfAluno is not null and new.idOferta is not null) then
+		INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)
+			VALUES(new.cpfAluno, new.idOferta, null, null, null, null);
+	end if;
 end
 |
 
@@ -55,7 +74,7 @@ end
 |
 
 create function buscarNomeDisciplina (idDisc int) returns varchar(35) deterministic begin
-declare done int default 0;
+		declare done int default 0;
 		declare nomeDisciplina varchar(35) default null;
         declare idD int;
         declare nomeD varchar(35);
@@ -122,25 +141,40 @@ create procedure atualizarNAlunosOfertaQuandoNull (in idO int)
 		update ofertadisciplina
 			set qtdAlunos = nAlunos
 			where (idO = idOferta);
+		close ofertaCursor;
 	end
 	|
     
 
 -- deve ser usado uma vez somente para preencher o banco, atualiza o n° de alunos antes de começar
 -- a inserir coisas no banco
-create procedure atualizarAlunos () 
+create procedure atualizarAlunosCurso () 
 begin
 	declare done int default 0;
-    declare nOfertaCurso int default 1;
+    declare nCurso int default 1;
     declare continue handler for not found set done = 1;
     
 	repeat
-    -- lembrar de trocar onde tem 'Curso' no nome do procedimento na chamada abaixo por 'Oferta'
-    -- depois de tê-lo chamado uma vez, agora, depois de trocado, será chamado para preencher
-    -- a coluna qtdAlunos na tabela ofertadisciplina
-		call atualizarNAlunosCursoQuandoNull(nOfertaCurso);
-        set nOfertaCurso = nOfertaCurso + 1;
-        if nOfertaCurso = 200 then 
+		call atualizarNAlunosCursoQuandoNull(nCurso);
+        set nCurso = nCurso + 1;
+        if nCurso = 200 then 
+			set done = 1;
+        end if;
+        until done
+	end repeat;
+end
+|
+
+create procedure atualizarAlunosOferta () 
+begin
+	declare done int default 0;
+    declare nOferta int default 1;
+    declare continue handler for not found set done = 1;
+    
+	repeat
+		call atualizarNAlunosOfertaQuandoNull(nOferta);
+        set nOferta = nOferta + 1;
+        if nOferta = 200 then 
 			set done = 1;
         end if;
         until done
@@ -169,7 +203,7 @@ end
 
 
 -- matrícula do aluno
-create procedure adicionarAlunoAOferta(in cpfAl varchar(14), in idO int, in dataMatr date, in numProt int) begin
+create procedure adicionarAlunoAOferta(in cpfAl varchar(14), in idO int, in dataMatr date, in numProt varchar(20)) begin
 -- numProt pode ser gerado aleatoriamente com até 20 caraceteres alfanuméricos lá no java
 	if (cpfAl is not null and idO is not null and idO <> 0) then
 		INSERT INTO matricular(cpfAluno, idOferta, dataMatricula, numeroProtocolo)
@@ -258,34 +292,13 @@ BEGIN
 END
 |
 
--- cria um 'objeto' nota para poder comportar as notas do aluno numa 
--- oferta de disciplina após confirmado(matriculado)
-create trigger inserirNotaAposMatricularAluno after insert on matricular for each row begin
-	if (new.cpfAluno is not null and new.idOferta is not null) then
-		INSERT INTO nota(cpfAluno, idOferta, nota1, nota2, nota3, notaFinal)
-			VALUES(new.cpfAluno, new.idOferta, null, null, null, null);
-	end if;
-	end
-|
 
--- toda vez que alterar alguma coisa na tabela nota, as notas, logicamente, ele chama o procedimento de 
--- calcular...Média (outro arquivo) que calcula a média para todos os alunos daquela oferta, consequentemente
--- a do cara com a nota alterada 
--- põe lá em histórico ()
-
--- OBS: o controle de fluxo é feito no procedimento 
-create trigger calcularMedia after update on nota for each row begin
-	if (new.idOferta is not null and new.cpfAluno is not null) then
-		call calcularMediaAluno(new.idOferta, new.cpfAluno);
-	end if;
-end
-|
 create trigger inserirAlunoNaOfertaEmHistorico after insert on nota for each row begin
 -- cria um 'objeto' 'historico' para poder comportar a média e situação
 -- de um aluno numa oferta de disciplina após inserido na nota
 	if (new.cpfAluno is not null and new.idOferta is not null) then
 		INSERT INTO historico(cpfAluno, idOferta, condicao, media)
-			VALUES(new.cpfAluno, new.idOferta, '1', null);
+			VALUES(new.cpfAluno, new.idOferta, '1', null); -- URGENTE: SABER O QUE É ISSO
 	end if;
 end
 |
@@ -453,6 +466,8 @@ create function buscarNomeUsuario (cpfU varchar(14)) returns varchar(35) determi
 end
 |
 
+
 delimiter ;
-call atualizarAlunos();
+call atualizarAlunosCurso();
+call atualizarAlunosOferta();
 call atualizarHistorico();
