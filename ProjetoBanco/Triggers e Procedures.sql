@@ -224,7 +224,7 @@ end
 create procedure adicionarSolicitacaoDeProjetoDeUmAluno(in cpfAl varchar(14), in idP int) begin
 -- numProt pode ser gerado aleatoriamente com até 20 caraceteres alfanuméricos lá no java
 	if (cpfAl is not null and idP is not null and idP <> 0) then
-		INSERT INTO solicitacaoprojeto(cpfAluno, idProjeto, estado)
+		INSERT INTO solicitacaoProjeto(cpfAluno, idProjeto, estado)
 			VALUES(cpfAl, idP, NULL);
 	end if;
 end
@@ -233,7 +233,7 @@ end
 -- para aluno estar vinculado a um projeto, após aprovada sua solicitação
 create procedure adicionarAlunoAoProjeto (in cpfAl varchar(14), in idP int) begin
 	if (cpfAl is not null and idP is not null and idP <> 0) then
-		INSERT INTO projetopesquisa(cpfAluno, idProjeto)
+		INSERT INTO participarprojeto(cpfAluno, idProjeto)
 			VALUES(cpfAl, idP);
 	end if;
 end
@@ -276,10 +276,7 @@ end
 
 -- -------------------------------------------- TRIGGERS ----------------------------------------------------
 -- toda vez que tiver um update em solicitação, prof rejeita por exemplo
-CREATE TRIGGER ava.salvarAlunoProjeto
-AFTER update ON solicitacaoprojeto
-FOR EACH ROW
-BEGIN
+CREATE TRIGGER ava.salvarAlunoProjetoAFTER after update ON solicitacaoprojeto FOR EACH ROW BEGIN
 	IF(new.estado = 1) THEN
 		
         INSERT INTO ava.participarprojeto(cpfAluno,idProjeto)VALUES(new.cpfAluno,new.idProjeto);
@@ -447,7 +444,7 @@ end
 create function buscarNomeUsuario (cpfU varchar(14)) returns varchar(35) deterministic begin
 		declare done int default 0;
 		declare nomeUsuario varchar(35) default null;
-		declare cpfUser int;
+		declare cpfUser varchar(14);
 		declare nomeUser varchar(35);
 		declare usuarioCursor cursor for select cpf, nome from usuario; 
 		declare continue handler for not found set done = 1;
