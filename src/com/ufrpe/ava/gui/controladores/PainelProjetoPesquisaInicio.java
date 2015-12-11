@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class PainelProjetoPesquisaInicio extends Tela {
     @FXML
-    private Button botaoAdicionar;
+    private Button botaoInserir;
 
     @FXML
     private Button botaoAtualizar;
@@ -81,16 +81,35 @@ public class PainelProjetoPesquisaInicio extends Tela {
             tabela.getColumns().addAll(id, nome, modalidade, organizacao, valorBolsa, nVagas);
 
             tabela.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
-                if (tabela.getSelectionModel().getSelectedItem() != null) {
-                    botaoAtualizar.setDisable(false);
-                    botaoRemover.setDisable(false);
-                    botaoEnviarSolicitacao.setDisable(false);
-                } else {
-                    botaoAtualizar.setDisable(true);
-                    botaoRemover.setDisable(true);
-                    botaoEnviarSolicitacao.setDisable(true);
-                }
-            });
+                
+            	
+            		if(Tela.usuarioAtivo.getGrad() == 1){
+            			 
+            			 botaoInserir.setDisable(true);
+            			 botaoAtualizar.setDisable(true);
+ 	                     botaoRemover.setDisable(true);
+            			 
+    	            	if (tabela.getSelectionModel().getSelectedItem() != null) {
+    	                    botaoEnviarSolicitacao.setDisable(false);
+    	                } else {
+    	                    botaoEnviarSolicitacao.setDisable(true);
+    	                }
+            			
+            		}else{
+            			 
+            			botaoEnviarSolicitacao.setDisable(true);
+            	
+		            	if (tabela.getSelectionModel().getSelectedItem() != null) {
+		                    botaoAtualizar.setDisable(false);
+		                    botaoRemover.setDisable(false);
+		                } else {
+		                    botaoAtualizar.setDisable(true);
+		                    botaoRemover.setDisable(true);
+		                }
+		            	
+            		}
+	       });
+            
         }catch(ListaCadastroVaziaExceptions e){
             System.out.println(e.getMessage());
         }catch (SQLException e) {

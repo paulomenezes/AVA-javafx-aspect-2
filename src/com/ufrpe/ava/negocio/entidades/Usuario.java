@@ -83,8 +83,14 @@ package com.ufrpe.ava.negocio.entidades;
 	    	  else if (grad == 2)
 	    	      return "Aluno pós-graduação";
 	    	  return null;
-	    	}
+	    }
 
+		@Override
+		public String toString() {
+			return this.nome;
+		}
+	    
+	    
 	
 	}
 

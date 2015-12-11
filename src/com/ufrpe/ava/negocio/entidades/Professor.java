@@ -6,6 +6,7 @@ public class Professor extends Usuario{
 	
 	public Professor(){
 		
+		super();
 	}
 	
 	public Professor(String cpf,String nome ,String foto,String email, String senha,int grad,int idDpto) {
@@ -21,6 +22,11 @@ public class Professor extends Usuario{
 
 	public void setIdDpto(int idDpto) {
 		this.idDpto = idDpto;
+	}
+
+	@Override
+	public String toString() {
+		return super.getNome();
 	}
 	
 	

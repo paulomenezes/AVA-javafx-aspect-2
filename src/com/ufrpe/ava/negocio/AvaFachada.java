@@ -173,6 +173,10 @@ public class AvaFachada implements IAvaFachada {
 		 return controladorDiscilpina.selecionarOfertas();
 	 }
 
+	 public void cadastrarMinistrarOferta(MinistrarOferta ministra)throws SQLException{
+		 
+		 controladorDiscilpina.cadastrarMinistrarOferta(ministra);
+	 }
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception {

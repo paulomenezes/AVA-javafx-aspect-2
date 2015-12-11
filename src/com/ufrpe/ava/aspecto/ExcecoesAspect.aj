@@ -32,6 +32,7 @@ public aspect ExcecoesAspect {
 	pointcut cadastrarDisciplina(): call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarDisciplina(..));
 	pointcut cadastrarCurso(): call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarCurso(..));
 	pointcut cadastrarProjeto(): call(* com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa.cadastrarProjetoPesquisa(..));
+	pointcut ministrarOferta() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarMinistrarOferta(..));
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
@@ -78,6 +79,11 @@ public aspect ExcecoesAspect {
 	after(String nome)throwing(SQLException e) : cadastrarDepartamento(nome){
 		
 		Alertas.ObjetoJaExiste("Departamento já Existe no sistema");
+	}
+	
+	after()throwing(SQLException e) : ministrarOferta(){
+		
+		Alertas.ObjetoJaExiste("Ministrar Oferta Já Existe no Sistema");
 	}
 	
 	after()throwing(Exception e) : cadastrarDisciplina(){

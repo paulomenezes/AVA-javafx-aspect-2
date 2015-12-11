@@ -16,6 +16,7 @@ import com.ufrpe.ava.negocio.entidades.Curso;
 import com.ufrpe.ava.negocio.entidades.Departamento;
 import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.Matricular;
+import com.ufrpe.ava.negocio.entidades.MinistrarOferta;
 import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
 import com.ufrpe.ava.negocio.entidades.Professor;
 import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
@@ -52,10 +53,23 @@ public aspect Insercoes extends ConexaoMySQL {
     pointcut inserirOferta(OfertaDisciplina oferta): execution(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarOferta(..)) && args(oferta);
 	
 	pointcut matricularAluno(Matricular matricula) : 
-		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..))&& args(matricula)  ;
+		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..))&& args(matricula);
+	
+	pointcut cadastrarMinistrarOferta(MinistrarOferta ministrar) : execution(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarMinistrarOferta(..)) && args(ministrar);
     
 	
 	// IRSERCAO RELACIONADA  A USUARIOS --------------------------------------------------------------------------------------------------------//
+	
+	void around(MinistrarOferta ministrar)throws SQLException : cadastrarMinistrarOferta(ministrar){
+		
+		connection.setAutoCommit(false);
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO ministraroferta(idOferta, cpfProfessor)VALUES(?,?)");
+		statement.setInt(1, ministrar.getIdOferta());
+		statement.setString(2, ministrar.getCpfProfessor());
+		statement.execute();
+		connection.commit();
+		
+	} 
 	
 	void around(Usuario usuario)throws SQLException: insercaoUsuario(usuario){
             connection.setAutoCommit(false);

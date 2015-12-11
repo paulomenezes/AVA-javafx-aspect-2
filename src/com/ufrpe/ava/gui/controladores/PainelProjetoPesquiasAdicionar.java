@@ -51,7 +51,7 @@ public class PainelProjetoPesquiasAdicionar extends Tela {
                 !campoValorBolsa.getText().isEmpty() && !campoNVagas.getText().isEmpty()) {
             try {
                 if (projetoPesquisa == null) {
-                    this.avaFachada.cadastrarProjetoPesquisa(campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
+                    this.avaFachada.cadastrarProjetoPesquisa(campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText()), Integer.parseInt(campoNVagas.getText()));
                     this.avaFachada.registrarLogin("Projeto"+ campoNome.getText()+" - Foi Cadastrado no Sistema" ) ;
                 } else {
                     this.avaFachada.editarProjetoPesquisa(projetoPesquisa.getIdProjeto(), campoNome.getText(), campoModalidade.getText(), campoOrganizacao.getText(), Double.parseDouble(campoValorBolsa.getText().toString()), Integer.parseInt(campoNVagas.getText().toString()));
@@ -64,7 +64,12 @@ public class PainelProjetoPesquiasAdicionar extends Tela {
                 Navegacao.carregarPainel("painelProjetoPesquisaInicio");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
-                Navegacao.carregarPainel("painelProjetoPesquisaInicio");
+                Alertas.campoInvalido("Campos Preenchidos de forma Incorreta por favor siga o padrão:\n"
+                		+ "Nome Projeto Perquisa = Só Letras\n"
+                		+ "Modalidade = Só Letras\n"
+                		+ "Organização = Só Letras\n"
+                		+ "Valor Bolsa = Número Fracionário\n"
+                		+ "Vagas = Número Inteiro\n");
             }
         } else {
             Alertas.campoObrigatorio("Preencha todos os campos.");

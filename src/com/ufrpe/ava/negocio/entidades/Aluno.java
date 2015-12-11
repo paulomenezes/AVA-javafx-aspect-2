@@ -7,6 +7,7 @@ public class Aluno extends Usuario{
 
 	public Aluno(){
 		
+		super();
 	}
 	
 	public Aluno(String cpf,String nome,String foto, String email, String senha,int grad, int curso) {

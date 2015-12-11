@@ -46,8 +46,7 @@ public class DisciplinaDisponivel {
 	@Override
 	public String toString() {
 		
-		return "Cod - "+ idOferta + " - Nome da Disciplina : " + nome + "\n"+  "CargaHoraria : " + cargaHoraria +" horas"+ "\n Nome do professor : "
-				+ nomeProfessor;
+		return "Cod - "+ idOferta + " - Nome da Disciplina : " + nome + "\n"+  "CargaHoraria : " + cargaHoraria +" horas";
 	}
 
 	public int getIdOferta() {

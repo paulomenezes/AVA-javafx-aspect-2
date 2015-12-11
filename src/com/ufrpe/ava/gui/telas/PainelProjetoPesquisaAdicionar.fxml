@@ -15,15 +15,15 @@
             <children>
                 <Button fx:id="botaoCancelar" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#botaoCancelarAction" text="Cancelar" />
                 <Label layoutX="14.0" layoutY="73.0" text="Nome projeto de pesquisa" />
-                <TextField fx:id="campoNome" layoutX="14.0" layoutY="96.0" prefHeight="26.0" prefWidth="267.0" />
-                <TextField fx:id="campoModalidade" layoutX="14.0" layoutY="163.0" prefHeight="26.0" prefWidth="267.0" />
+                <TextField fx:id="campoNome" layoutX="14.0" layoutY="96.0" prefHeight="26.0" prefWidth="267.0" promptText="Ex. Projeto 1" />
+                <TextField fx:id="campoModalidade" layoutX="14.0" layoutY="163.0" prefHeight="26.0" prefWidth="267.0" promptText="Ex. PIBIC" />
                 <Label layoutX="14.0" layoutY="202.0" text="Organização" />
-                <TextField fx:id="campoOrganizacao" layoutX="14.0" layoutY="227.0" prefHeight="26.0" prefWidth="267.0" />
+                <TextField fx:id="campoOrganizacao" layoutX="14.0" layoutY="227.0" prefHeight="26.0" prefWidth="267.0" promptText="Ex. CNPq" />
                 <Label fx:id="Tipo" layoutX="14.0" layoutY="271.0" text="Valor Bolsa" />
                 <Button fx:id="botaoSalvar" layoutX="14.0" layoutY="335.0" mnemonicParsing="false" onAction="#botaoSalvarAction" text="Salvar" />
                 <Label layoutX="14.0" layoutY="138.0" text="Modalidade" />
-            <TextField fx:id="campoValorBolsa" layoutX="14.0" layoutY="295.0" prefHeight="26.0" prefWidth="129.0" />
-            <TextField fx:id="campoNVagas" layoutX="152.0" layoutY="294.0" prefHeight="26.0" prefWidth="129.0" />
+            <TextField fx:id="campoValorBolsa" layoutX="13.0" layoutY="295.0" prefHeight="26.0" prefWidth="129.0" promptText="Ex. 00,00" />
+            <TextField fx:id="campoNVagas" layoutX="152.0" layoutY="294.0" prefHeight="26.0" prefWidth="129.0" promptText="Ex. 5" />
             <Label fx:id="Tipo1" layoutX="152.0" layoutY="270.0" text="Nº Vagas" />
             </children>
         </Pane>

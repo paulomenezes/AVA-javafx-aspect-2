@@ -22,7 +22,7 @@ public interface IAvaFachada {
 
     Usuario buscarLogin(String cpf, String senha) throws SQLException, ObjetoNaoExistenteExcepitions;
 
-    List<Usuario> selecionarUsuarios() throws SQLException,ListaCadastroVaziaExceptions;
+    ArrayList<Usuario> selecionarUsuarios() throws SQLException,ListaCadastroVaziaExceptions;
 
     void matricularAluno(Matricular m) throws SQLException;
 
@@ -72,6 +72,8 @@ public interface IAvaFachada {
     void cadastrarOferta(OfertaDisciplina oferta)throws SQLException;
     
     public ArrayList<OfertaDisciplina> selecionarOfertas()throws SQLException,ListaCadastroVaziaExceptions;
+    
+    void cadastrarMinistrarOferta(MinistrarOferta ministra)throws SQLException;
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;

@@ -92,8 +92,6 @@ public class OfertaDisciplina {
 
 	@Override
 	public String toString() {
-		return "OfertaDisciplina [idOferta=" + idOferta + ", idDisciplina=" + idDisciplina + ", idCurso=" + idCurso
-				+ ", qtdAlunos=" + qtdAlunos + ", ano=" + ano + ", semestre=" + semestre + ", nomeDisciplina="
-				+ nomeDisciplina + ", nomeCurso=" + nomeCurso + "]";
+		return idOferta +"-"+  this.nomeDisciplina;
 	}
 }

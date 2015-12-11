@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Disciplina;
+import com.ufrpe.ava.negocio.entidades.MinistrarOferta;
 import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
 
 /**
@@ -48,6 +49,10 @@ public class ControladorDisciplina {
     }
     
     public void cadastrarOferta(OfertaDisciplina oferta) throws SQLException{
+    	//OPERAÇÃO PELO ASPECTO INSERÇÕES
+    }
+    
+    public void cadastrarMinistrarOferta(MinistrarOferta ministra)throws SQLException{
     	//OPERAÇÃO PELO ASPECTO INSERÇÕES
     }
 }
