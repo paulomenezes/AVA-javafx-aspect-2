@@ -33,14 +33,24 @@ public aspect ExcecoesAspect {
 	pointcut cadastrarCurso(): call(* com.ufrpe.ava.negocio.controladores.ControladorCurso.cadastrarCurso(..));
 	pointcut cadastrarProjeto(): call(* com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa.cadastrarProjetoPesquisa(..));
 	pointcut ministrarOferta() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarMinistrarOferta(..));
+	pointcut ofertaProfessor() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.ofertaProfessor(..));
+	pointcut ofertaAluno() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.ofertaAluno(..));
+	pointcut buscarNota() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.buscarNota(..));
+	pointcut alterarNota() : call(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.alterarNota(..));
 	
 	//ADVICES ---------------------------------------------------------------------------------------------------------------------
 	
 	after()throwing (SQLException e) : selecionarControladorCurso() || loginExcecao() || matriculaDisponivel() ||
-	  selecionarControladorUsuarios() || selecionarProjeto() || selecionarOfertas(){
+	  selecionarControladorUsuarios() || selecionarProjeto() || selecionarOfertas() ||  alterarNota(){
 		
 		Alertas.falhaConexaoBanco();
 		
+	}
+	
+	
+	after()throwing(SQLException e) : ofertaProfessor() || ofertaAluno() || buscarNota() {
+		
+		Alertas.falhaConexaoBanco();
 	}
 	
 	after()throwing(SQLException e) : removerExcecao(){
@@ -60,6 +70,16 @@ public aspect ExcecoesAspect {
 		Alertas.tabelaVazia();
 	}
 	
+	after()throwing(ListaCadastroVaziaExceptions e) : ofertaProfessor() || ofertaAluno(){
+	
+		Alertas.selecaoVazia(e.getMessage());
+	}
+	
+	
+	after()throwing(ListaCadastroVaziaExceptions e) : buscarNota(){
+		
+		Alertas.selecaoVazia(e.getMessage());
+	}
 	
 	after()throwing(ListaCadastroVaziaExceptions e): matriculaDisponivel() || selecionarControladorUsuarios() || selecionarOfertas(){
 		Alertas.selecaoVazia(e.getMessage());

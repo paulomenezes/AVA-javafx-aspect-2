@@ -17,6 +17,8 @@
                 <Button fx:id="botaoSalvar" layoutX="517.0" layoutY="341.0" mnemonicParsing="false" onAction="#botaoSalvarAction" prefHeight="25.0" prefWidth="78.0" text="Salvar" />
             <ChoiceBox fx:id="choiceOferta" layoutX="34.0" layoutY="69.0" prefHeight="25.0" prefWidth="207.0" />
             <ChoiceBox fx:id="choiceProfessor" layoutX="269.0" layoutY="69.0" prefHeight="25.0" prefWidth="207.0" />
+            <Label layoutX="34.0" layoutY="41.0" text="OFERTAS DISCIPLINAS" />
+            <Label layoutX="269.0" layoutY="41.0" prefHeight="17.0" prefWidth="122.0" text="PROFESSORES" />
             </children>
         </Pane>
     </children>

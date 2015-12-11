@@ -49,7 +49,17 @@ public class TelaInicio extends Tela {
         vistaHolder.getChildren().setAll(node);
     }
 
+    @FXML
+    void menuAplicarNotasAction(ActionEvent event){
+    	
+    	Navegacao.carregarPainel("PainelAlterarNotas");
+    }
    
+    @FXML
+    void menuNotasAction(ActionEvent event){
+    	
+    	Navegacao.carregarPainel("PainelVisualizarNotas");
+    }
     
     @FXML
     void menuOfertaProfessorAction(ActionEvent event){

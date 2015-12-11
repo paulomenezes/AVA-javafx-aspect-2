@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
 import com.ufrpe.ava.negocio.entidades.Disciplina;
 import com.ufrpe.ava.negocio.entidades.MinistrarOferta;
+import com.ufrpe.ava.negocio.entidades.Nota;
+import com.ufrpe.ava.negocio.entidades.OfertaAluno;
 import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
+import com.ufrpe.ava.negocio.entidades.OfertaProfessor;
 
 /**
  * Created by paulomenezes on 08/12/15.
@@ -55,5 +58,25 @@ public class ControladorDisciplina {
     public void cadastrarMinistrarOferta(MinistrarOferta ministra)throws SQLException{
     	//OPERAÇÃO PELO ASPECTO INSERÇÕES
     }
+    
+    public ArrayList<OfertaProfessor> ofertaProfessor(String cpf) throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return null;
+    }
+    
+    public ArrayList<OfertaAluno> ofertaAluno(int idOferta)throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return null;
+    } 
+    
+    public Nota buscarNota(String cpfAluno, int idOferta)throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return null;
+    }
+    
+    public void alterarNota(Nota notaNova)throws SQLException{
+    	//OPERAÇÃO PELO ASPECTO ALTERAÇÕES
+    }
+    
 }
 

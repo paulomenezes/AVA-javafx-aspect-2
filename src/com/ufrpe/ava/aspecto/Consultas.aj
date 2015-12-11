@@ -29,10 +29,99 @@ public aspect Consultas extends ConexaoMySQL {
     pointcut selecionarAvisos(String cpf): execution(* ControladorAviso.selecionarAvisos(String)) && args(cpf);
 
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
-
-    
+    pointcut ofertaProfessor(String cpf) : call(* ControladorDisciplina.ofertaProfessor(..)) && args(cpf);
+    pointcut ofertaAluno(int idOferta) : call(* ControladorDisciplina.ofertaAluno(..)) && args(idOferta);
+    pointcut buscarNota(String cpfAluno, int idOferta) : call(* ControladorDisciplina.buscarNota(..)) && args(cpfAluno, idOferta);
     
     //ADVICES------------------------------------------------------------------------------------------------------------------------
+    
+    Nota around(String cpfAluno, int idOferta) throws SQLException,ListaCadastroVaziaExceptions : buscarNota(cpfAluno,idOferta){
+    	
+    	PreparedStatement statement = connection.prepareStatement(" SELECT * FROM ava.nota WHERE cpfAluno = ? AND idOferta = ? ");
+    	statement.setString(1, cpfAluno);
+    	statement.setInt(2, idOferta);
+    	
+    	ResultSet resultSet = statement.executeQuery();
+    	
+    	Nota nota = new Nota();
+    	
+    	if(resultSet.next()){
+    		
+    		nota.setIdNota(resultSet.getInt("idNota"));
+    		nota.setCpfAluno(resultSet.getString("cpfAluno"));
+    		nota.setIdOferta(resultSet.getInt("idOferta"));
+    		nota.setNota1(resultSet.getDouble("nota1"));
+    		nota.setNota2(resultSet.getDouble("nota2"));
+    		nota.setNota3(resultSet.getDouble("nota3"));
+    		nota.setNota1(resultSet.getDouble("nota1"));
+    		nota.setNotaFinal(resultSet.getDouble("notaFinal"));
+    	}
+    	
+    	if(nota.getCpfAluno() == null){
+    		
+    		throw new ListaCadastroVaziaExceptions("consulta notas");
+    	}
+    	
+    	return nota;
+    }
+    
+    
+    ArrayList<OfertaProfessor> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions : ofertaProfessor(cpf){
+    	
+    	PreparedStatement statement = connection.prepareStatement("SELECT * FROM OfertaProfessor WHERE cpfProfessor = ?");
+    	statement.setString(1, cpf);
+    	ResultSet resultSet = statement.executeQuery();
+    	
+    	ArrayList<OfertaProfessor> ofertas = new ArrayList<>();
+    	
+    	while(resultSet.next()){
+    		
+    		OfertaProfessor o = new OfertaProfessor();
+    		
+    		o.setIdOferta(resultSet.getInt("idOferta"));
+    		o.setNomeDisciplina(resultSet.getString("nome"));
+    		o.setCpfProfessor(resultSet.getString("cpfProfessor")) ;
+    		
+    		ofertas.add(o);
+    	}
+    	
+    	if(ofertas.isEmpty()){
+    		
+    		throw new ListaCadastroVaziaExceptions("consulta ofertas");
+    	}
+    	
+    	return ofertas;
+    	
+    }
+    
+    
+    ArrayList<OfertaAluno>  around(int idOferta) throws SQLException,ListaCadastroVaziaExceptions : ofertaAluno(idOferta){
+    	
+    	PreparedStatement statement = connection.prepareStatement(" SELECT * FROM OfertaAluno WHERE idOferta = ?");
+    	statement.setInt(1,idOferta);
+    	ResultSet resultSet = statement.executeQuery();
+    	
+    	ArrayList<OfertaAluno> ofertas = new ArrayList<>();
+    	
+    	while(resultSet.next()){
+    		
+    		OfertaAluno oferta = new OfertaAluno();
+    		
+    		oferta.setIdOferta(resultSet.getInt("idOferta"));
+    		oferta.setNome(resultSet.getString("nome"));
+    		oferta.setCpfAluno(resultSet.getString("cpf")) ;
+    		
+    		ofertas.add(oferta);
+    	}
+    	
+    	if(ofertas.isEmpty()){
+    		
+    		throw new ListaCadastroVaziaExceptions("consulta ofertas");
+    	}
+    	
+    	return ofertas;
+    	
+    }
     
     
     ArrayList<OfertaDisciplina> around() throws SQLException,ListaCadastroVaziaExceptions : selecionarOfertas(){

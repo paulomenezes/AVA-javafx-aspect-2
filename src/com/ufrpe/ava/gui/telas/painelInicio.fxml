@@ -21,7 +21,6 @@
 
               </columns>
           </TableView>
-          <Button fx:id="botaoInserir" layoutX="500.0" layoutY="29" mnemonicParsing="false" onAction="#botaoAceitar" text="Inserir" />
         <Label fx:id="textoProfessores" alignment="CENTER" layoutX="29.0" layoutY="20.0" prefHeight="36.0" prefWidth="80.0" text="0">
           <font>
             <Font size="30.0" />
@@ -47,7 +46,7 @@
           </font>
         </Label>
         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="503.0" layoutY="63.0" prefHeight="16.0" prefWidth="80.0" text="Disciplinas" textAlignment="CENTER" />
-        <Label fx:id="textoDisciplinas" alignment="CENTER" layoutX="503.0" layoutY="19.0" prefHeight="36.0" prefWidth="80.0" text="0">
+        <Label fx:id="textoDisciplinas" alignment="CENTER" layoutX="519.0" layoutY="19.0" prefHeight="45.0" prefWidth="49.0" text="0">
           <font>
             <Font size="30.0" />
           </font>

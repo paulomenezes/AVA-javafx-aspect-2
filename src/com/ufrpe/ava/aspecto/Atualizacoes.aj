@@ -7,10 +7,13 @@ import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
 import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Nota;
 
 /**
  * Created by paulomenezes on 03/12/15.
+ *
  */
+//POINT CUTS -------------------------------------------------------------------------------------------------------------------
 public aspect Atualizacoes extends ConexaoMySQL {
     pointcut editarDepartamento(int id, String nome):
             call(* ControladorCurso.editarDepartamento(int, String)) && args(id, nome);
@@ -27,14 +30,36 @@ public aspect Atualizacoes extends ConexaoMySQL {
     pointcut aceitarSolicitacaoProjeto(String cpf):
             call(* ControladorProjetoPesquisa.aceitarSolicitacaoProjeto(String)) && args(cpf);            
 
+    
+    pointcut alterarNota(Nota notaNova) : 
+    		call(* ControladorDisciplina.alterarNota(..))&& args(notaNova);
+    
+  //ADVICES ----------------------------------------------------------------------------------------------------------------------   
+    
+    
+    void around(Nota notaNova)throws SQLException : alterarNota(notaNova){
+    	
+    	connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("UPDATE nota SET nota1 = ?, nota2 = ?, nota3 = ?,notaFinal = ? WHERE cpfAluno = ? AND idOferta = ?");
+        statement.setDouble(1,notaNova.getNota1());
+        statement.setDouble(2,notaNova.getNota2());
+        statement.setDouble(3,notaNova.getNota3());
+        statement.setDouble(4,notaNova.getNotaFinal());
+        statement.setString(5,notaNova.getCpfAluno());
+        statement.setInt(6, notaNova.getIdOferta());
+    
+        statement.executeUpdate();
+
+        connection.commit();
+    	
+    }
+    
+    
     void around(String cpf) throws SQLException: aceitarSolicitacaoProjeto(cpf) {
         connection.setAutoCommit(false);
         PreparedStatement statement = connection.prepareStatement("UPDATE solicitacaoprojeto SET estado = 1 WHERE cpfAluno = ?");
         statement.setString(1, cpf);
         statement.executeUpdate();
-
-        System.out.println(id + "");
-        System.out.println(nome);
 
         connection.commit();
     }            

@@ -30,7 +30,7 @@
               <items>
             <MenuItem fx:id="menuMatricula" mnemonicParsing="false" onAction="#menuMatriculaAction" text="Matricular" />
             <MenuItem fx:id="menuPesquisa" mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
-                <MenuItem fx:id="menuNotas" mnemonicParsing="false" text="Notas" />
+                <MenuItem fx:id="menuNotas" mnemonicParsing="false" onAction="#menuNotasAction" text="Notas" />
                   <MenuItem fx:id="menuSolicitarProjeto" mnemonicParsing="false" onAction="#menuSolicitarProjetoAction" text="Solicitar Projeto" />
               </items>
             </Menu>
@@ -38,7 +38,7 @@
               <items>
                 <MenuItem fx:id="menuCadastrarProjeto" mnemonicParsing="false" onAction="#menuCadastrarProjetoAction" text="Cadastrar Projeto" />
                   <MenuItem fx:id="menuAceitarAlunos" mnemonicParsing="false" text="Aceitar Alunos" />
-                  <MenuItem fx:id="menuAplicarNotas" mnemonicParsing="false" text="Aplicar Notas" />
+                  <MenuItem fx:id="menuAplicarNotas" mnemonicParsing="false" onAction="#menuAplicarNotasAction" text="Aplicar Notas" />
               </items>
             </Menu>
       </menus>

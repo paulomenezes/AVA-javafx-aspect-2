@@ -74,6 +74,14 @@ public interface IAvaFachada {
     public ArrayList<OfertaDisciplina> selecionarOfertas()throws SQLException,ListaCadastroVaziaExceptions;
     
     void cadastrarMinistrarOferta(MinistrarOferta ministra)throws SQLException;
+    
+    public ArrayList<OfertaProfessor> ofertaProfessor(String cpf) throws SQLException,ListaCadastroVaziaExceptions;
+    
+    public ArrayList<OfertaAluno> ofertaAluno(int idOferta )throws SQLException,ListaCadastroVaziaExceptions;
+    
+    public Nota buscarNota(String cpfAluno, int idOferta)throws SQLException,ListaCadastroVaziaExceptions;
+    
+    public void alterarNota(Nota notaNova)throws SQLException;
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;

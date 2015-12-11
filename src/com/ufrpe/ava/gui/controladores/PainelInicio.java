@@ -87,22 +87,9 @@ public class PainelInicio extends Tela {
 
             tabela.getColumns().addAll(titulo, descricao);
 
-            tabela.getSelectionModel().selectedItemProperty().addListener((value, oldValue, newValue) -> {
-                if (tabela.getSelectionModel().getSelectedItem() != null) {
-                    if (tabela.getSelectionModel().getSelectedItem().equals('Alguém está interessado em seu projeto')) {
-                        botaoAceitar.setDisable(false);
-                    }
-                } else {
-                    botaoAceitar.setDisable(true);
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void botaoAceitar() {
-        this.avaFachada.aceitarSolicitacaoProjeto(this.usuarioAtivo.getCPF());
-        botaoAceitar.setDisable(false);
-    }
 }

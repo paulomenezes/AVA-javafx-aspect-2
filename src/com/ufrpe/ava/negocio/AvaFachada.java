@@ -177,7 +177,30 @@ public class AvaFachada implements IAvaFachada {
 		 
 		 controladorDiscilpina.cadastrarMinistrarOferta(ministra);
 	 }
+	 
+	 @Override
+	 public ArrayList<OfertaProfessor> ofertaProfessor(String cpf) throws SQLException, ListaCadastroVaziaExceptions {
+		return controladorDiscilpina.ofertaProfessor(cpf);
+	}
 
+
+	@Override
+	public ArrayList<OfertaAluno> ofertaAluno(int idOferta) throws SQLException, ListaCadastroVaziaExceptions {
+		return controladorDiscilpina.ofertaAluno(idOferta);
+	}
+
+
+	@Override
+	public Nota buscarNota(String cpfAluno, int idOferta) throws SQLException, ListaCadastroVaziaExceptions {
+		return controladorDiscilpina.buscarNota(cpfAluno, idOferta);
+	}
+
+	
+	@Override
+	public void alterarNota(Nota notaNova) throws SQLException {
+		
+		controladorDiscilpina.alterarNota(notaNova);
+	}
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception {
         return controladorProjetoPesquisa.cadastrarProjetoPesquisa(nome, modalidade, organizacao, valorBolsa, nVagas);
@@ -200,7 +223,7 @@ public class AvaFachada implements IAvaFachada {
     }
 
     public void aceitarSolicitacaoProjeto(String cpf) throws Exception {
-        return controladorProjetoPesquisa.aceitarSolicitacaoProjeto(cpf);
+         controladorProjetoPesquisa.aceitarSolicitacaoProjeto(cpf);
     }
 
     /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
@@ -222,6 +245,5 @@ public class AvaFachada implements IAvaFachada {
 
 
 	
-
 	
 }
