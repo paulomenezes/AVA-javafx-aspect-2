@@ -86,6 +86,8 @@ public interface IAvaFachada {
 
     SolicitacaoProjeto enviarSolicitacaoProjeto(int idProjeto, String cpf) throws Exception;
 
+    void aceitarSolicitacaoProjeto(String cpf) throws Exception;
+
     /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
     Aviso cadastrarAviso(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws Exception;
 

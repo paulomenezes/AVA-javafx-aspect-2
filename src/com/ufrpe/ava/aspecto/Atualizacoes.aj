@@ -24,6 +24,21 @@ public aspect Atualizacoes extends ConexaoMySQL {
     pointcut editarProjetoPesquisa(int id, String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
             call(* ControladorProjetoPesquisa.editarProjetoPesquisa(int, String, String, String, double, int)) && args(id, nome, modalidade, organizacao, valorBolsa, nVagas);
 
+    pointcut aceitarSolicitacaoProjeto(String cpf):
+            call(* ControladorProjetoPesquisa.aceitarSolicitacaoProjeto(String)) && args(cpf);            
+
+    void around(String cpf) throws SQLException: aceitarSolicitacaoProjeto(cpf) {
+        connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("UPDATE solicitacaoprojeto SET estado = 1 WHERE cpfAluno = ?");
+        statement.setString(1, cpf);
+        statement.executeUpdate();
+
+        System.out.println(id + "");
+        System.out.println(nome);
+
+        connection.commit();
+    }            
+
     void around(int id, String nome) throws SQLException: editarDepartamento(id, nome) {
         connection.setAutoCommit(false);
         PreparedStatement statement = connection.prepareStatement("UPDATE departamento SET nome = ? WHERE idDepartamento = ?");

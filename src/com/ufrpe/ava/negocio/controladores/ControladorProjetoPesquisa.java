@@ -44,4 +44,8 @@ public class ControladorProjetoPesquisa {
     public SolicitacaoProjeto enviarSolicitacao(int idProjeto, String cpf) throws Exception {
         return null;
     }
+
+    public void aceitarSolicitacaoProjeto(String cpf) throws Exception {
+        
+    }
 }
