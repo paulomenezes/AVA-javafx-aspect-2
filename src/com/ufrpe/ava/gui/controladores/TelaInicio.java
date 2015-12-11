@@ -23,9 +23,35 @@ public class TelaInicio extends Tela {
     @FXML
     private MenuItem menuDisciplinas;
     
+    @FXML
+    private MenuItem menuOfertas;
+    
+    @FXML
+    private MenuItem menuMatricula;
+    
+    @FXML
+    private MenuItem menuPesquisa;
+    
+    @FXML
+    private MenuItem menuNotas;
+    
+    @FXML
+    private MenuItem menuCadastrarProjeto;
+    
+    @FXML
+    private MenuItem menuAceitarAlunos;
+    
+    @FXML
+    private MenuItem menuAplicarNotas;
     
     public void setVista(Node node) {
         vistaHolder.getChildren().setAll(node);
+    }
+    
+    @FXML
+    void menuOfertasAction(ActionEvent event){
+    	
+    	Navegacao.carregarPainel("PainelOfertasInicio");
     }
 
     @FXML

@@ -1,79 +1,99 @@
 package com.ufrpe.ava.negocio.entidades;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class OfertaDisciplina {
 	private int idOferta;
-	private int quantAlunos;
-	private Disciplina disciplina;
+	private int idDisciplina;
+	private int idCurso;
+	private int qtdAlunos;
 	private int ano;
 	private int semestre;
-	private Professor professor; // que ministra a disciplina
-	//private Map<Aluno, Nota> alunosMatriculados_Situacao = new HashMap<Aluno, Nota>();
-	private Curso curso; //uma oferta disciplina pode ser criada em diferentes cursos com o mesmo parametro
-	//facilita na pesquisa por hist�rico
-	private Map<String, Integer> horario = new HashMap<String, Integer>();
+	private String nomeDisciplina;
+	private String nomeCurso;
 	
+
+	public OfertaDisciplina(int idDisciplina, int idCurso, int qtdAlunos, int ano, int semestre) {
+		super();
+		this.idDisciplina = idDisciplina;
+		this.idCurso = idCurso;
+		this.qtdAlunos = qtdAlunos;
+		this.ano = ano;
+		this.semestre = semestre;
+	}
 	
-	
-	public int getCodOferta() {
+	public OfertaDisciplina(){
+		
+		
+	}
+
+
+	public int getIdOferta() {
 		return idOferta;
 	}
-	public void setCodOferta(int idOferta) {
+
+	public void setIdOferta(int idOferta) {
 		this.idOferta = idOferta;
 	}
-	public int getQuantAlunos() {
-		return quantAlunos;
+
+	public int getIdDisciplina() {
+		return idDisciplina;
 	}
-	public void setQuantAlunos(int quantAlunos) {
-		this.quantAlunos = quantAlunos;
+
+	public void setIdDisciplina(int idDisciplina) {
+		this.idDisciplina = idDisciplina;
 	}
-	public Disciplina getDisciplina() {
-		return disciplina;
+
+	public int getIdCurso() {
+		return idCurso;
 	}
-	public void setDisciplina(Disciplina disciplina) {
-		this.disciplina = disciplina;
+
+	public void setIdCurso(int idCurso) {
+		this.idCurso = idCurso;
 	}
-	//provavelmente n�o � necess�rio, a confirmar
-	/*
-	public Map<Aluno, Nota> getAlunosMatriculados_Situacao() {
-		return alunosMatriculados_Situacao;
+
+	public int getQtdAlunos() {
+		return qtdAlunos;
 	}
-	public void setAlunosMatriculados_Situacao(Map<Aluno, Nota> alunosMatriculados_Situacao) {
-		this.alunosMatriculados_Situacao = alunosMatriculados_Situacao;
+
+	public void setQtdAlunos(int qtdAlunos) {
+		this.qtdAlunos = qtdAlunos;
 	}
-	*/
+
 	public int getAno() {
 		return ano;
 	}
+
 	public void setAno(int ano) {
 		this.ano = ano;
 	}
+
 	public int getSemestre() {
 		return semestre;
 	}
+
 	public void setSemestre(int semestre) {
 		this.semestre = semestre;
 	}
-	public Professor getProfessor() {
-		return professor;
-	}
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
-	}
-	public Curso getCurso() {
-		return curso;
-	}
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	
+	public String getNomeDisciplina() {
+		return nomeDisciplina;
 	}
 
-	public Map<String, Integer> getHorario() {
-		return horario;
+	public void setNomeDisciplina(String nomeDisciplina) {
+		this.nomeDisciplina = nomeDisciplina;
 	}
-	public void setHorario(Map<String, Integer> horario) {
-		this.horario = horario;
+
+	public String getNomeCurso() {
+		return nomeCurso;
 	}
-	
+
+	public void setNomeCurso(String nomeCurso) {
+		this.nomeCurso = nomeCurso;
+	}
+
+	@Override
+	public String toString() {
+		return "OfertaDisciplina [idOferta=" + idOferta + ", idDisciplina=" + idDisciplina + ", idCurso=" + idCurso
+				+ ", qtdAlunos=" + qtdAlunos + ", ano=" + ano + ", semestre=" + semestre + ", nomeDisciplina="
+				+ nomeDisciplina + ", nomeCurso=" + nomeCurso + "]";
+	}
 }

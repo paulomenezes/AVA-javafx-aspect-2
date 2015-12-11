@@ -144,6 +144,7 @@ public class TelaCadastro extends Tela {
             	
                 if (professorCheck.isSelected()){
                     try {
+                    	
                         this.avaFachada.cadastrarProfessor(campoCPF.getText(),campoNome.getText(),null,campoEmail.getText(),
                                 campoSenha.getText(),0, departamento.getSelectionModel().getSelectedItem().getIdDepartamento());
                         

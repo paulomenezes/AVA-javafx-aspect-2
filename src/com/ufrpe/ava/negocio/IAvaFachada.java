@@ -40,7 +40,7 @@ public interface IAvaFachada {
 
 
     /* FUNCOES CURSOS ------------------------------------------------------------------------------------*/
-    List<Curso> selecionarCursos() throws SQLException, ListaCadastroVaziaExceptions;
+    ArrayList<Curso> selecionarCursos() throws SQLException, ListaCadastroVaziaExceptions;
 
     Curso cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo) throws Exception;
 
@@ -59,13 +59,19 @@ public interface IAvaFachada {
     public void registrarAcoesProjeto(String registro);
 
     /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
-    Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception;
+    Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos,ArrayList<String> prerequisito) throws Exception;
 
     void editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException;
 
     void removerDisciplina(Disciplina disciplina) throws SQLException;
 
-    List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
+    ArrayList<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions;
+    
+    void removerOferta(OfertaDisciplina oferta)throws SQLException;
+    
+    void cadastrarOferta(OfertaDisciplina oferta)throws SQLException;
+    
+    public ArrayList<OfertaDisciplina> selecionarOfertas()throws SQLException,ListaCadastroVaziaExceptions;
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception;

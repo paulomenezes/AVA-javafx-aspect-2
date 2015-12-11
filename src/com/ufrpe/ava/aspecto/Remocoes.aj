@@ -15,6 +15,7 @@ import com.ufrpe.ava.negocio.entidades.*;
  */
 public aspect Remocoes extends ConexaoMySQL {
 	
+    //POINT CUTS ----------------------------------------------------------------------------------------------------------------------	
     pointcut removerDepartamento(Departamento departamento):
             call(* ControladorCurso.removerDepartamento(Departamento)) && args(departamento);
 
@@ -32,7 +33,21 @@ public aspect Remocoes extends ConexaoMySQL {
 
     pointcut removerAviso(Aviso aviso):
             call(* ControladorAviso.removerAviso(Aviso)) && args(aviso);
+    
+    pointcut removerOferta(OfertaDisciplina oferta): call(* ControladorDisciplina.removerOferta(..)) && args(oferta);
 
+    //ADVICES -----------------------------------------------------------------------------------------------------------------------
+    
+    
+    void around(OfertaDisciplina oferta) throws SQLException : removerOferta(oferta){
+    	connection.setAutoCommit(false);
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM ofertadisciplina WHERE idOferta = ?");
+        statement.setInt(1, oferta.getIdOferta());
+        statement.execute();
+        connection.commit();
+    	
+    }
+    
      void around(Departamento departamento) throws SQLException : removerDepartamento(departamento) {
              connection.setAutoCommit(false);
              PreparedStatement statement = connection.prepareStatement("DELETE FROM departamento WHERE idDepartamento = ?");

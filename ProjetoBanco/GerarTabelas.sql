@@ -469,13 +469,9 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ava`.`prerequisito` (
   `dependente` INT NOT NULL COMMENT '',
-  `requisito` INT DEFAULT NULL COMMENT '',
+  `requisito` INT ,
 	PRIMARY KEY (`dependente`, `requisito`),
     FOREIGN KEY (`dependente`)
-    REFERENCES `ava`.`disciplina` (`idDisciplina`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-    FOREIGN KEY (`requisito`)
     REFERENCES `ava`.`disciplina` (`idDisciplina`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)

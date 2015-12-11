@@ -133,8 +133,8 @@ public class AvaFachada implements IAvaFachada {
 	}
 
     /* FUNCOES DISCIPLINAS ------------------------------------------------------------------------------------*/
-    public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception {
-        return controladorDiscilpina.cadastrarDisciplina(nome, tipo, cargaHoraria, creditos);
+    public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos,ArrayList<String> prerequisito) throws Exception {
+        return controladorDiscilpina.cadastrarDisciplina(nome, tipo, cargaHoraria, creditos,prerequisito);
     }
 
     public void editarDisciplina(int id, String nome, String tipo, int cargaHoraria, int creditos) throws SQLException {
@@ -145,7 +145,7 @@ public class AvaFachada implements IAvaFachada {
         controladorDiscilpina.removerDisciplina(disciplina);
     }
 
-    public List<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {
+    public ArrayList<Disciplina> selecionarDisciplinas() throws SQLException, ListaCadastroVaziaExceptions {
         return controladorDiscilpina.selecionarDisciplinas();
         
     }
@@ -155,6 +155,24 @@ public class AvaFachada implements IAvaFachada {
     	return controladorCurso.disciplinasDisponiveis(cpf);
     	
     }
+    
+	@Override
+	public void removerOferta(OfertaDisciplina oferta) throws SQLException {
+		
+		controladorDiscilpina.removerOferta(oferta);
+	}
+	
+	@Override
+	public void cadastrarOferta(OfertaDisciplina oferta) throws SQLException {
+		
+		controladorDiscilpina.cadastrarOferta(oferta);
+	}
+	
+	 public ArrayList<OfertaDisciplina> selecionarOfertas()throws SQLException,ListaCadastroVaziaExceptions{
+		 
+		 return controladorDiscilpina.selecionarOfertas();
+	 }
+
 
     /* FUNCOES PROJETO PESQUISA ------------------------------------------------------------------------------------*/
     public ProjetoPesquisa cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas) throws Exception {
@@ -194,6 +212,8 @@ public class AvaFachada implements IAvaFachada {
         return controladorAviso.selecionarAvisos(cpf);
     }
 
+
+	
 
 	
 }

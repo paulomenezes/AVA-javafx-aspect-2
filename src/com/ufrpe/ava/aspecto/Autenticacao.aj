@@ -29,11 +29,13 @@ public aspect Autenticacao extends ConexaoMySQL {
 
     Usuario around(String cpf, String senha) throws SQLException,ObjetoNaoExistenteExcepitions: loginUsuario(cpf, senha) {
 
+    	   connection.setAutoCommit(false) ;
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM usuario WHERE cpf = ? and senha = ?");
             statement.setString(1, cpf);
             statement.setString(2, senha);
 
             ResultSet resultSet = statement.executeQuery();
+            connection.commit();
             Usuario usuario = new Usuario();
 
             while (resultSet.next()) {

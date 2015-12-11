@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?scenebuilder-stylesheet vista.css?>
 
-<VBox prefHeight="400" prefWidth="640" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.ufrpe.ava.gui.controladores.TelaInicio">
+<VBox prefHeight="400" prefWidth="640" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.TelaInicio">
   <children>
     <MenuBar prefHeight="29.0" prefWidth="597.0">
       <menus>
@@ -21,10 +21,23 @@
             <MenuItem fx:id="menuUsuario" mnemonicParsing="false" onAction="#menuUsuarioAction" text="Usuários" />
             <MenuItem fx:id="menuCursos" mnemonicParsing="false" onAction="#menuCursoAction" text="Cursos" />
             <MenuItem fx:id="menuDisciplinas" mnemonicParsing="false" onAction="#menuDisciplinaAction" text="Disciplinas" />
-            <MenuItem mnemonicParsing="false" onAction="#menuMatriculaAction" text="Matrículas" />
-            <MenuItem mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
+                  <MenuItem fx:id="menuOfertas" mnemonicParsing="false" onAction="#menuOfertasAction" text="Ofertas" />
           </items>
         </Menu>
+            <Menu mnemonicParsing="false" text=" Aluno">
+              <items>
+            <MenuItem fx:id="menuMatricula" mnemonicParsing="false" onAction="#menuMatriculaAction" text="Matricular" />
+            <MenuItem fx:id="menuPesquisa" mnemonicParsing="false" onAction="#menuProjetoPesquisaAction" text="Pesquisa" />
+                <MenuItem fx:id="menuNotas" mnemonicParsing="false" text="Notas" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Professor">
+              <items>
+                <MenuItem fx:id="menuCadastrarProjeto" mnemonicParsing="false" text="Cadastrar Projeto" />
+                  <MenuItem fx:id="menuAceitarAlunos" mnemonicParsing="false" text="Aceitar Alunos" />
+                  <MenuItem fx:id="menuAplicarNotas" mnemonicParsing="false" text="Aplicar Notas" />
+              </items>
+            </Menu>
       </menus>
     </MenuBar>
     <StackPane fx:id="vistaHolder" VBox.vgrow="ALWAYS" />

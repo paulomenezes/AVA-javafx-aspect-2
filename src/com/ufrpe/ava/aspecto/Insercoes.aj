@@ -4,12 +4,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import com.ufrpe.ava.negocio.controladores.ControladorAviso;
 import com.ufrpe.ava.negocio.controladores.ControladorCurso;
 import com.ufrpe.ava.negocio.controladores.ControladorDisciplina;
 import com.ufrpe.ava.negocio.controladores.ControladorProjetoPesquisa;
-import com.ufrpe.ava.negocio.entidades.*;
+import com.ufrpe.ava.negocio.entidades.Aluno;
+import com.ufrpe.ava.negocio.entidades.Aviso;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Departamento;
+import com.ufrpe.ava.negocio.entidades.Disciplina;
+import com.ufrpe.ava.negocio.entidades.Matricular;
+import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
+import com.ufrpe.ava.negocio.entidades.Professor;
+import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.SolicitacaoProjeto;
+import com.ufrpe.ava.negocio.entidades.Usuario;
 
 /**
  * Created by paulomenezes on 01/12/15.
@@ -24,8 +35,8 @@ public aspect Insercoes extends ConexaoMySQL {
 	pointcut cadastrarCurso(String nome, int quantidade, Departamento departamento, String tipo):
 			call(* ControladorCurso.cadastrarCurso(String, int, Departamento, String)) && args(nome, quantidade, departamento, tipo);
 
-    pointcut cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos):
-            call(* ControladorDisciplina.cadastrarDisciplina(String, String, int, int)) && args(nome, tipo, cargaHoraria, creditos);
+    pointcut cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos, ArrayList<String>prerequisito ):
+            call(* ControladorDisciplina.cadastrarDisciplina(String, String, int, int,ArrayList<String>)) && args(nome, tipo, cargaHoraria, creditos, prerequisito);
 
     pointcut cadastrarProjetoPesquisa(String nome, String modalidade, String organizacao, double valorBolsa, int nVagas):
             call(* ControladorProjetoPesquisa.cadastrarProjetoPesquisa(String, String, String, double, int)) && args(nome, modalidade, organizacao, valorBolsa, nVagas);
@@ -37,6 +48,8 @@ public aspect Insercoes extends ConexaoMySQL {
             call(* ControladorProjetoPesquisa.enviarSolicitacao(int, String)) && args(idProjeto, cpf);
 
     pointcut insercaoUsuario(Usuario usuario): call(* *.cadastrarUsuario(..))&& args(usuario);
+    
+    pointcut inserirOferta(OfertaDisciplina oferta): execution(* com.ufrpe.ava.negocio.controladores.ControladorDisciplina.cadastrarOferta(..)) && args(oferta);
 	
 	pointcut matricularAluno(Matricular matricula) : 
 		call(* com.ufrpe.ava.negocio.controladores.ControladorUsuario.matricularAluno(..))&& args(matricula)  ;
@@ -78,7 +91,9 @@ public aspect Insercoes extends ConexaoMySQL {
 	
 	
 	void around(Matricular matricula) throws SQLException : matricularAluno(matricula){
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
+            
+			connection.setAutoCommit(false);
+			PreparedStatement statement = connection.prepareStatement("INSERT INTO matricular(cpfAluno,idOferta,dataMatricula,numeroProtocolo)VALUES(?,?,?,?)");
 
             statement.setString(1, matricula.getCpfAluno());
             statement.setInt(2, matricula.getIdOferta());
@@ -86,6 +101,25 @@ public aspect Insercoes extends ConexaoMySQL {
             statement.setString(4, matricula.getNumProtocolo());
 
             statement.execute();
+            connection.commit();
+	}
+	
+	
+   void around(OfertaDisciplina oferta)  throws SQLException : inserirOferta(oferta){
+		
+	   connection.setAutoCommit(false);
+		PreparedStatement statement = connection.prepareStatement("INSERT INTO ofertadisciplina(idOferta,idDisciplina,idCurso,qtdAlunos,ano,semestre)VALUES(?,?,?,?,?,?)");
+
+        statement.setInt(1,oferta.getIdOferta());
+        statement.setInt(2,oferta.getIdDisciplina());
+        statement.setInt(3,oferta.getIdCurso());
+        statement.setInt(4,oferta.getQtdAlunos());
+        statement.setInt(5,oferta.getAno());
+        statement.setInt(6,oferta.getSemestre());
+        
+        statement.execute();
+        connection.commit();
+		
 	}
 
 	// IRSERCAO DEPARTAMENTO --------------------------------------------------------------------------------------------------------//
@@ -137,7 +171,7 @@ public aspect Insercoes extends ConexaoMySQL {
 			}
 	}
 
-    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos) throws SQLException: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos) {
+    Disciplina around(String nome, String tipo, int cargaHoraria, int creditos , ArrayList<String>prerequisito) throws SQLException: cadastrarDisciplina(nome, tipo, cargaHoraria, creditos,prerequisito) {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement("INSERT INTO disciplina (nome, tipo, cargaHoraria, creditos) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             statement.setString(1, nome);
@@ -145,12 +179,35 @@ public aspect Insercoes extends ConexaoMySQL {
             statement.setInt(3, cargaHoraria);
             statement.setInt(4, creditos);
             statement.executeUpdate();
-
+            
             ResultSet resultSet = statement.getGeneratedKeys();
+      
 
             if (resultSet.next()) {
+            	
+            	int aux = resultSet.getInt(1);
+            	
+            	if(prerequisito != null){
+            	
+	            	for (String string : prerequisito) {
+						
+	            		statement = connection.prepareStatement("INSERT INTO prerequisito(dependente,requisito)VALUES (?,?)");
+	            		statement.setInt(1, aux);
+	            		statement.setInt(2, Integer.parseInt(string));
+	            		statement.execute();
+	            		
+					}
+	            	
+	            }else{
+	            	
+	            	statement.close();
+	            	statement = connection.prepareStatement("INSERT INTO prerequisito(dependente,requisito)VALUES (?,?)");
+            		statement.setInt(1,aux);
+            		statement.setInt(2, 0);
+            		statement.execute();
+            		
+	            }
                 Disciplina disciplina = new Disciplina();
-                disciplina.setIdDisciplina(resultSet.getInt(1));
                 disciplina.setNome(nome);
                 disciplina.setTipo(tipo);
                 disciplina.setCreditos(creditos);

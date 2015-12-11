@@ -1,18 +1,21 @@
 package com.ufrpe.ava.gui.controladores;
 
-import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
-import com.ufrpe.ava.negocio.entidades.*;
-import com.ufrpe.ava.util.Navegacao;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
+import com.ufrpe.ava.negocio.entidades.Aviso;
+import com.ufrpe.ava.negocio.entidades.Curso;
+import com.ufrpe.ava.negocio.entidades.Disciplina;
+import com.ufrpe.ava.negocio.entidades.ProjetoPesquisa;
+import com.ufrpe.ava.negocio.entidades.Usuario;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PainelInicio extends Tela {
     @FXML

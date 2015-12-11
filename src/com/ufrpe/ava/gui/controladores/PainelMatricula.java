@@ -59,11 +59,11 @@ public class PainelMatricula  extends Tela implements Initializable{
 					box.setId(Integer.toString(d.getIdOferta()));
 					
 					data.add(box);
+					
 				}
 			
 			
 			listaMatricula.setItems(data);
-			
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
@@ -134,5 +134,11 @@ public class PainelMatricula  extends Tela implements Initializable{
 			Alertas.selecaoOfertasIndevido();
 		}
 		
+	}
+	
+	
+	public void botaoRetornarAction(){
+		
+		 Navegacao.carregarPainel("painelInicio");
 	}
 }

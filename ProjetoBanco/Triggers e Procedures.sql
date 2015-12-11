@@ -1,6 +1,7 @@
 -- fazer uma procedure que verifica após confirmar o botão de matrícula, verifica se tem ao mínimo 3 matérias e no máximo 10
 
 use ava;
+
 delimiter |
 -- -----------------------------NOVAS TRIGGERS CRIADAS ----------------------------
 create trigger avisarAlunoNota after update on nota for each row begin

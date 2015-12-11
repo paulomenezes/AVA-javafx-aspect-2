@@ -17,19 +17,58 @@ import com.ufrpe.ava.negocio.entidades.*;
  * Created by paulomenezes on 01/12/15.
  */
 public aspect Consultas extends ConexaoMySQL {
-	
+
+	 // POINT CUTS------------------------------------------------------------------------------------------------------------------------
+    
     pointcut selecionarDepartamentos(): execution(* ControladorCurso.selecionarDepartamentos());
     pointcut selecionarCursos(): execution(* ControladorCurso.selecionarCursos());
     pointcut selecionarUsuarios(): execution(* ControladorUsuario.selecionarTudo());
     pointcut selecionarDisciplinas(): execution(* ControladorDisciplina.selecionarDisciplinas());
+    pointcut selecionarOfertas(): execution(* ControladorDisciplina.selecionarOfertas());
     pointcut selecionarProjetoPesquisas(): execution(* ControladorProjetoPesquisa.selecionarProjetoPesquisas());
     pointcut selecionarAvisos(String cpf): execution(* ControladorAviso.selecionarAvisos(String)) && args(cpf);
 
     pointcut disciplinasDisponiveis(String cpf) : call(* ControladorCurso.disciplinasDisponiveis(..)) && args(cpf);
 
+    
+    
+    //ADVICES------------------------------------------------------------------------------------------------------------------------
+    
+    
+    ArrayList<OfertaDisciplina> around() throws SQLException,ListaCadastroVaziaExceptions : selecionarOfertas(){
+    	
+    	PreparedStatement statement = connection.prepareStatement("SELECT * FROM DisciplinaOferta");
+    	ResultSet resultSet = statement.executeQuery();
+    	
+    	ArrayList<OfertaDisciplina> ofertas = new ArrayList<>();
+    	
+    	while (resultSet.next()){
+    		
+    		OfertaDisciplina o = new OfertaDisciplina();
+    		
+    		o.setIdOferta(resultSet.getInt("idOferta"));
+    		o.setNomeDisciplina(resultSet.getString("nome"));
+    		o.setNomeCurso(resultSet.getString("nome_curso"));
+    		o.setQtdAlunos(resultSet.getInt("qtdAlunos"));
+    		o.setAno(resultSet.getInt("ano"));
+    		o.setSemestre(resultSet.getInt("semestre"));
+    		
+    		ofertas.add(o);
+    	}
+    	
+    	if(ofertas.isEmpty()){
+    		
+    		throw new ListaCadastroVaziaExceptions("consulta ofertas");
+    	}
+    	
+    	return ofertas;
+    	
+    }
+    
+    
     ArrayList<DisciplinaDisponivel> around(String cpf) throws SQLException,ListaCadastroVaziaExceptions: disciplinasDisponiveis(cpf){
-            PreparedStatement statement = connection.prepareStatement("SELECT  * FROM  requisitos ");
-
+            PreparedStatement statement = connection.prepareStatement("SELECT  I.idOferta,I.nome,I.cargaHoraria FROM ofertasPagas AS O JOIN infoOfertas AS I ON O.idDisciplina =  I.requisito WHERE O.cpfAluno = ? ");
+            statement.setString(1, cpf);
             ResultSet resultSet = statement.executeQuery();
             ArrayList<DisciplinaDisponivel> disciplinas = new ArrayList<>();
 
@@ -40,8 +79,21 @@ public aspect Consultas extends ConexaoMySQL {
                 d.setIdOferta(resultSet.getInt("idOferta"));
                 d.setNome(resultSet.getString("nome"));
                 d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
-                d.setNomeProfessor(resultSet.getString("nome_professor"));
 
+                disciplinas.add(d);
+            }
+
+            
+            statement = connection.prepareStatement("SELECT * FROM infoOfertas WHERE requisito = 0");
+            resultSet = statement.executeQuery();
+            
+            while (resultSet.next()) {
+
+                DisciplinaDisponivel d = new DisciplinaDisponivel();
+                d.setIdOferta(resultSet.getInt("idOferta"));
+                d.setNome(resultSet.getString("nome"));
+                d.setCargaHoraria(resultSet.getInt("cargaHoraria"));
+                
                 disciplinas.add(d);
             }
 

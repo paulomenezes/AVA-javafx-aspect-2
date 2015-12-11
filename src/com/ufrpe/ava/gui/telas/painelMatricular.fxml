@@ -5,9 +5,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="324.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.PainelMatricula">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ufrpe.ava.gui.controladores.PainelMatricula">
    <children>
-      <ListView fx:id="listaMatricula" blendMode="BLUE" layoutX="8.0" layoutY="14.0" prefHeight="246.0" prefWidth="472.0" />
-      <Button fx:id="botaoMatricular" layoutX="391.0" layoutY="277.0" mnemonicParsing="false" onAction="#botaoMatricularAction" text="Matricular" />
+      <ListView fx:id="listaMatricula" layoutX="17.0" layoutY="36.0" prefHeight="271.0" prefWidth="544.0" />
+      <Button fx:id="botaoMatricular" layoutX="438.0" layoutY="323.0" mnemonicParsing="false" onAction="#botaoMatricularAction" prefHeight="31.0" prefWidth="92.0" text="Matricular" />
+      <Button fx:id="botaoRetornar" layoutX="49.0" layoutY="323.0" mnemonicParsing="false" onAction="#botaoRetornarAction" prefHeight="31.0" prefWidth="92.0" text="Retornar" />
    </children>
 </Pane>

@@ -1,23 +1,22 @@
 package com.ufrpe.ava.negocio.controladores;
 
-import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
-import com.ufrpe.ava.negocio.entidades.Curso;
-import com.ufrpe.ava.negocio.entidades.Departamento;
-import com.ufrpe.ava.negocio.entidades.Disciplina;
-import com.ufrpe.ava.negocio.entidades.DisciplinaDisponivel;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import com.ufrpe.ava.excecoes.ListaCadastroVaziaExceptions;
+import com.ufrpe.ava.negocio.entidades.Disciplina;
+import com.ufrpe.ava.negocio.entidades.OfertaDisciplina;
 
 /**
  * Created by paulomenezes on 08/12/15.
  */
 public class ControladorDisciplina {
-    public ArrayList<Disciplina> selecionarDisciplinas()throws SQLException,ListaCadastroVaziaExceptions {
+    
+	public ArrayList<Disciplina> selecionarDisciplinas()throws SQLException,ListaCadastroVaziaExceptions {
         return null;
     }
 
-    public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos) throws Exception  {
+    public Disciplina cadastrarDisciplina(String nome, String tipo, int cargaHoraria, int creditos, ArrayList<String>prerequisito) throws Exception  {
         Disciplina disciplina = new Disciplina();
         disciplina.setNome(nome);
         disciplina.setTipo(tipo);
@@ -36,7 +35,20 @@ public class ControladorDisciplina {
     }
 
     public void removerDisciplina(Disciplina disciplina) throws SQLException {
-
+    	//OPERAÇÃO PELO ASPECTO REMOÇÕES
+    }
+    
+    public ArrayList<OfertaDisciplina> selecionarOfertas()throws SQLException,ListaCadastroVaziaExceptions{
+    	
+    	return null;
+    }
+    
+    public void removerOferta(OfertaDisciplina oferta)throws SQLException{	
+    	//OPERAÇÃO PELO ASPECTO REMOÇÕES
+    }
+    
+    public void cadastrarOferta(OfertaDisciplina oferta) throws SQLException{
+    	//OPERAÇÃO PELO ASPECTO INSERÇÕES
     }
 }
 
