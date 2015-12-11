@@ -449,10 +449,10 @@ CREATE TABLE IF NOT EXISTS `ava`.`nota` (
   `idNota` INT NOT NULL AUTO_INCREMENT COMMENT '',
   `cpfAluno` VARCHAR(14) NOT NULL,
   `idOferta` INT(4) NOT NULL COMMENT '',
-  `nota1` INT(2) DEFAULT NULL COMMENT '',
-  `nota2` INT(2) DEFAULT NULL COMMENT '',
-  `nota3` INT(2) DEFAULT NULL COMMENT '',
-  `notaFinal` INT(2) DEFAULT NULL COMMENT '', -- nota da prova final
+  `nota1` DOUBLE DEFAULT NULL COMMENT '',
+  `nota2` DOUBLE DEFAULT NULL COMMENT '',
+  `nota3` DOUBLE DEFAULT NULL COMMENT '',
+  `notaFinal` DOUBLE DEFAULT NULL COMMENT '', -- nota da prova final
   
   PRIMARY KEY (`idNota`),
   CONSTRAINT `nota_ibfk_1`
