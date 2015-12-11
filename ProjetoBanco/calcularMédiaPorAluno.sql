@@ -1,7 +1,7 @@
 use ava;
 -- enviar de novo
 delimiter |
-create procedure calcularMediaAluno(idOf int, cpfAl int)
+create procedure calcularMediaAluno(idOf int, cpfAl varchar(14))
 	begin
 	-- parte dos cursores
 		declare done int default 0;
@@ -67,18 +67,18 @@ create procedure calcularMediaAluno(idOf int, cpfAl int)
 						set mediaF = (notaFinal + mediaP)/2;
                         
 						if (mediaF >= 5) then -- média da final
-							set situacao = 'aprovado';
+							set situacao = '1';
 						else 
-							set situacao = 'reprovado';
+							set situacao = '0';
 						end if;
                         
 					else 
 						set mediaF = mediaP;
                         
 						if (mediaF >= 7) then -- média para passar de até 3ª va
-							set situacao = 'aprovado por média';
+							set situacao = '1';
 						else
-							set situacao = 'reprovado';
+							set situacao = '0';
 						end if;
                         
 					end if;
