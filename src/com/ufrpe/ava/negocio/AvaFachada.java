@@ -199,6 +199,10 @@ public class AvaFachada implements IAvaFachada {
         return controladorProjetoPesquisa.enviarSolicitacao(idProjeto, cpf);
     }
 
+    public void aceitarSolicitacaoProjeto(String cpf) throws Exception {
+        return controladorProjetoPesquisa.aceitarSolicitacaoProjeto(cpf);
+    }
+
     /* FUNCOES AVISOS ------------------------------------------------------------------------------------*/
     public Aviso cadastrarAviso(String idRemetente, String titulo, String descricao, int prioridade, String dataEnvio, String horaEnvio, int idDestinatarioO, String idDestinatarioU) throws Exception {
         return controladorAviso.cadastrarAviso(idRemetente, titulo, descricao, prioridade, dataEnvio, horaEnvio, idDestinatarioO, idDestinatarioU);
